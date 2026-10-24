@@ -212,11 +212,33 @@ button:focus-visible, select:focus-visible, input:focus-visible { outline: 2px s
 .status { display: flex; align-items: center; gap: 10px; border: 1px solid var(--line); border-radius: 8px; padding: 8px 12px; background: linear-gradient(90deg, rgba(56,216,240,.07), transparent 60%); min-height: 38px; }
 .status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--pa); box-shadow: 0 0 10px var(--pa); flex: none; }
 .grid { display: grid; grid-template-columns: 300px minmax(0, 1fr) 290px; gap: 12px; align-items: start; }
+.lv-top { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: 10px; height: max(340px, calc(100vh - 230px)); max-height: 640px; }
+.lv-top .slot-livre { position: relative; top: 0; height: 100%; }
+.lv-chart { display: grid; grid-template-rows: auto minmax(0, 1fr); min-height: 0; }
+.lv-chart .chart-box { height: auto; min-height: 0; }
+.lv-bottom { display: grid; grid-template-columns: 270px minmax(0, 1fr) minmax(0, 1.15fr); gap: 10px; align-items: start; }
+.lv-tabs, .lv-strip { display: none; }
+.rt { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+.rt th { text-align: right; font-size: 11.5px; font-weight: 600; color: var(--muted); padding: 2px 4px 6px; cursor: help; text-decoration: underline dotted #3A4E5C; text-underline-offset: 3px; }
+.rt th:first-child { text-align: left; text-decoration: none; cursor: default; }
+.rt td { text-align: right; padding: 6px 4px; border-top: 1px solid var(--line); font-family: var(--f-mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.rt td:first-child { text-align: left; font-family: var(--f-body); white-space: normal; }
+.rt td:first-child .who-c { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.rt td:first-child small { display: block; color: var(--muted); font-size: 11.5px; line-height: 1.3; }
+.rt td.bom { color: var(--good); } .rt td.atencao { color: var(--warn); } .rt td.ruim { color: var(--bad); }
+.rt tr.ref td { color: var(--muted); }
+.rt-now { font-family: var(--f-mono); font-size: 12px; color: var(--muted); margin: 8px 0 0; }
+.bottom-nav { display: none; }
+.lv-view button { padding: 3px 10px; font-size: 12.5px; }
+.rt tr.grp td { font-family: var(--f-display); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--pa); border-top: 1px solid #2C3E4C; padding-top: 10px; }
+.rt td.best { font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
+.rt th.c-ref, .rt td.c-ref { color: var(--muted); }
+.rt td.metric { font-family: var(--f-body); color: var(--fg); cursor: help; }
 .panel { border: 1px solid var(--line); background: var(--panel); border-radius: 10px; min-width: 0; }
 .panel-sec { padding: 12px 14px; display: grid; gap: 10px; }
 .panel-sec + .panel-sec { border-top: 1px solid var(--line); }
 .sec-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-.slot-livre { position: sticky; top: 12px; height: 560px; }
+.slot-livre { position: relative; height: 560px; }
 .slider { display: grid; grid-template-columns: 1fr auto; gap: 2px 8px; align-items: center; min-width: 0; }
 .slider label { font-size: 12.5px; }
 .slider output { font-family: var(--f-mono); font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
@@ -272,16 +294,28 @@ details.panel-sec[open] > summary .tech::after { content: "fechar"; }
   .d-text { grid-column: 1 / -1; }
   .grid { grid-template-columns: 280px minmax(0, 1fr); }
   .side-right { grid-column: 1 / -1; }
+  .lv-bottom { grid-template-columns: 260px minmax(0, 1fr); }
 }
 @media (max-width: 800px) {
-  .stage { grid-template-columns: minmax(0, 1fr); grid-template-rows: 300px auto; height: auto; }
-  .viewsig { grid-template-rows: auto 170px auto; }
+  .stage { grid-template-columns: minmax(0, 1fr); grid-template-rows: 250px auto; height: auto; }
+  .viewsig { grid-template-rows: auto 132px auto; }
+  .sig-head { padding: 6px 10px 0; gap: 2px 8px; }
+  .sig-title { font-size: 12.5px; }
+  .sig-head .legend { font-size: 11px; gap: 4px 8px; }
+  .dock { padding: 8px 12px; gap: 6px; }
+  .dock h2 { font-size: 15.5px; }
+  .ctrl { padding: 6px 10px; }
+  .challenge { padding: 6px 9px; }
+  .challenge .note { display: none; }
+  .scn-btn { display: flex; justify-content: space-between; align-items: center; width: 100%; min-height: 44px; text-align: left; }
+  body:not(.scn-open) .top-controls { display: none; }
+  .help-pop { left: 8px !important; right: 8px; bottom: calc(70px + env(safe-area-inset-bottom, 0px)); top: auto !important; width: auto; }
   .instr { grid-template-columns: minmax(0, 1fr); }
   .mt th:first-child, .mt td:first-child { width: 86px; }
   .cell { grid-template-columns: 50px minmax(0, 1fr); }
   .stage .hud-tl { display: none; }
   .link { display: none; }
-  .top { padding: 6px 10px; gap: 8px; flex-wrap: nowrap; }
+  .top { padding: 6px 10px; gap: 8px; flex-wrap: wrap; }
   .brand p { display: none; }
   .brand h1 { font-size: 15px; }
   .brand-mark { width: 24px; height: 24px; }
@@ -306,6 +340,41 @@ details.panel-sec[open] > summary .tech::after { content: "fechar"; }
   .hud-br { bottom: 66px; }
   .grid { grid-template-columns: minmax(0, 1fr); }
   .slot-livre { order: -1; height: 380px; position: relative; top: 0; }
+  .app { padding-bottom: calc(76px + env(safe-area-inset-bottom, 0px)); }
+  .top-controls > .seg { display: none; }
+  .top-controls { width: 100%; margin-left: 0; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 6px 8px; }
+  .top-controls:not(:has(.field:not([hidden]))) { display: none; }
+  .top-controls .field { display: grid; gap: 2px; min-width: 0; }
+  .top-controls .field .sel { width: 100%; min-width: 0; }
+  .top-controls #seedField { grid-column: 1 / -1; display: flex; }
+  .top-controls #seedField[hidden] { display: none; }
+  .lv-tabs { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  #estado { overflow-x: auto; }
+  .rt td:first-child small { max-width: 120px; }
+  .bottom-nav { display: grid; grid-template-columns: repeat(3, 1fr); position: fixed; left: 0; right: 0; bottom: 0; z-index: 40; background: rgba(11,17,23,.97); border-top: 1px solid var(--line); padding: 6px max(10px, env(safe-area-inset-left, 0px)) calc(6px + env(safe-area-inset-bottom, 0px)); backdrop-filter: blur(6px); }
+  .bottom-nav button { display: grid; justify-items: center; gap: 2px; background: none; border: 0; padding: 4px 0; color: var(--muted); font-size: 11.5px; cursor: pointer; border-radius: 8px; }
+  .bottom-nav button svg { width: 24px; height: 24px; }
+  .bottom-nav button[aria-pressed="true"] { color: var(--pa); background: rgba(56,216,240,.08); }
+  .bottom-nav button[data-mode="camera"][aria-pressed="true"] { color: var(--warn); background: rgba(232,197,71,.08); }
+  .dock { bottom: calc(62px + env(safe-area-inset-bottom, 0px)); }
+  .overlay { position: fixed; inset: 0; z-index: 60; border-radius: 0; overflow: auto; align-items: start; padding: 24px 16px 100px; }
+  .ov-card { padding: 18px; }
+  .lv-tabs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; position: sticky; top: 0; z-index: 15; background: var(--bg); padding: 4px 0; }
+  .lv-tabs button { border: 1px solid var(--line); background: var(--panel-2); border-radius: 8px; padding: 8px 0; color: var(--muted); font-size: 13px; cursor: pointer; }
+  .lv-tabs button[aria-pressed="true"] { color: var(--fg); background: #1A2833; border-color: #3A4E5C; }
+  .lv-tabs[hidden] { display: none !important; }
+  .lv-top { grid-template-columns: minmax(0, 1fr); height: auto; max-height: none; }
+  .lv-top .slot-livre { height: 400px; }
+  .lv-chart .chart-box { height: 300px; }
+  .lv-bottom { grid-template-columns: minmax(0, 1fr); }
+  body[data-lv] [data-lvtab] { display: none; }
+  body[data-lv="mao"] [data-lvtab~="mao"], body[data-lv="grafico"] [data-lvtab~="grafico"], body[data-lv="filtros"] [data-lvtab~="filtros"], body[data-lv="resultados"] [data-lvtab~="resultados"] { display: block; }
+  body[data-lv="mao"] .timeline[data-lvtab], body[data-lv="grafico"] .timeline[data-lvtab] { display: flex; }
+  body[data-lv="grafico"] .lv-chart { display: grid; }
+  .lv-strip { display: block; position: fixed; left: 0; right: 0; bottom: calc(62px + env(safe-area-inset-bottom, 0px)); z-index: 30; padding: 7px 14px; background: rgba(14,22,29,.97); border-top: 1px solid var(--line); font-size: 12.5px; }
+  .lv-strip[hidden], body[data-lv="resultados"] .lv-strip { display: none; }
+  .lv-strip b { font-family: var(--f-mono); font-weight: 500; }
+  body[data-lv] .app { padding-bottom: calc(112px + env(safe-area-inset-bottom, 0px)); }
   .hud-tl { top: 44px; }
   .top-controls { margin-left: 0; }
   .readout { min-width: 0; text-align: left; }
@@ -313,14 +382,30 @@ details.panel-sec[open] > summary .tech::after { content: "fechar"; }
   .ov-card h2 { font-size: 24px; }
 }
 
-/* ===== Câmera ao vivo (teste) ===== */
+/* ===== Câmera ao vivo ===== */
 .seg button.test-btn { color: var(--warn); }
 .seg button.test-btn[aria-pressed="true"] { color: #061117; background: var(--warn); box-shadow: none; }
 .cam { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(320px, 1fr); gap: 10px; align-items: start; }
 .cam-stage { position: relative; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: #05090C; aspect-ratio: 4 / 3; max-height: calc(100vh - 110px); width: 100%; }
-.cam-stage video, .cam-stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
-.cam-stage.mirror video, .cam-stage.mirror canvas { transform: scaleX(-1); }
-.cam-msg { position: absolute; inset: 0; display: grid; place-items: center; padding: 20px; text-align: center; z-index: 2; }
+.cam-feed { position: absolute; inset: 0; }
+.cam-feed video, .cam-feed canvas { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
+.cam-feed.mirror video, .cam-feed.mirror canvas { transform: scaleX(-1); }
+.cam-hints { position: absolute; left: 10px; right: 10px; top: 40px; display: flex; flex-wrap: wrap; gap: 6px; z-index: 3; pointer-events: none; }
+.hint-chip { font-size: 12.5px; padding: 3px 9px; border-radius: 999px; background: rgba(5,9,12,.86); border: 1px solid rgba(232,197,71,.6); color: var(--warn); }
+.hint-chip.ok { border-color: rgba(76,195,138,.6); color: var(--good); }
+.slot-cam { position: absolute; z-index: 2; display: none; }
+.cam-stage.v-both .slot-cam { display: block; right: 10px; bottom: 10px; width: 42%; aspect-ratio: 4 / 3; border-radius: 10px; overflow: hidden; box-shadow: 0 6px 20px rgba(0,0,0,.6); }
+.cam-stage.v-3d .slot-cam { display: block; inset: 0; }
+.cam-stage.v-3d .cam-feed { opacity: 0; }
+.cam-stage.v-both .cam-big { bottom: auto; top: 76px; }
+.arena-wrap.in-cam .hud-tl, .arena-wrap.in-cam .stage-status, .arena-wrap.in-cam .hud-bl, .arena-wrap.in-cam .flag, .arena-wrap.in-cam .chainbar,
+.arena-wrap.in-cam #liveBtn, .arena-wrap.in-cam #camLessonBtn, .arena-wrap.in-cam .bend, .arena-wrap.in-cam .hud-br, .arena-wrap.in-cam .drag-hint,
+.arena-wrap.in-cam .lens-frame, .arena-wrap.in-cam .ev-card, .arena-wrap.in-cam .cam-pip, .arena-wrap.in-cam .cam-toast { display: none !important; }
+.cam-stage.v-both .arena-wrap .hud-tr { display: none; }
+.cam-pip { position: absolute; right: 10px; top: 44px; width: 32%; max-width: 240px; aspect-ratio: 4 / 3; z-index: 4; border-radius: 8px; overflow: hidden; border: 1px solid rgba(56,216,240,.5); background: #05090C; pointer-events: none; }
+.cam-pip .cam-hints { display: none; }
+.cam-toast { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 7; max-width: 340px; padding: 12px 14px; border-radius: 10px; background: rgba(16,10,12,.95); border: 1px solid rgba(229,83,75,.7); font-size: 13.5px; }
+.cam-msg { position: absolute; inset: 0; display: grid; place-items: center; padding: 20px; text-align: center; z-index: 5; background: #05090C; }
 .cam-msg > div { max-width: 440px; display: grid; gap: 12px; justify-items: center; }
 .cam-msg h2 { margin: 0; font-family: var(--f-display); font-size: 22px; }
 .cam-msg p { margin: 0; color: #C9D5DE; font-size: 14px; }
@@ -344,10 +429,82 @@ details.panel-sec[open] > summary .tech::after { content: "fechar"; }
 .btn.rec-btn { background: var(--bad); border-color: var(--bad); color: #fff; font-weight: 600; }
 .cam-sum { display: grid; gap: 6px; border: 1px solid rgba(76,195,138,.5); background: rgba(76,195,138,.06); border-radius: 8px; padding: 10px 12px; }
 .cam-sum p { margin: 0; font-size: 13px; }
+.rec-note { border: 1px solid rgba(232,197,71,.5); background: rgba(232,197,71,.06); border-radius: 8px; padding: 8px 10px; font-size: 12.5px; color: #E9DDA8; }
 @media (max-width: 800px) {
   .cam { grid-template-columns: minmax(0, 1fr); }
-  .cam-stage { max-height: 56vh; }
+  .cam-stage { max-height: 62vh; }
   .cam-big b { font-size: 24px; }
+  .cam-stage.v-both .slot-cam { width: 46%; }
+  .cam-pip { width: 38%; }
+}
+
+/* ajuda, menu da vista 3D, placar e câmera desligada */
+.qhelp { display: inline-grid; place-items: center; width: 22px; height: 22px; margin-left: 6px; border-radius: 50%; border: 1px solid #3A4E5C; background: var(--panel-2); color: var(--pa); font: 600 12px var(--f-body); cursor: pointer; vertical-align: middle; flex: none; position: relative; }
+.qhelp::after { content: ""; position: absolute; inset: -11px; }
+.qhelp:hover { border-color: var(--pa); }
+.help-pop { position: fixed; z-index: 90; width: 300px; max-width: calc(100vw - 16px); background: #101B23; border: 1px solid #3A4E5C; border-radius: 10px; padding: 12px 14px; box-shadow: 0 12px 30px rgba(0,0,0,.6); display: grid; gap: 6px; }
+.help-pop p { margin: 0; font-size: 13.5px; color: #C9D5DE; }
+.help-pop .hp-good { color: var(--good); }
+.hp-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.hp-x { background: none; border: 0; color: var(--muted); font-size: 20px; cursor: pointer; min-width: 32px; min-height: 32px; }
+.view-btn { min-height: 30px; }
+.menu-btn { display: none; }
+.hud-items { display: flex; gap: 4px; flex-wrap: wrap; justify-content: flex-end; }
+.view-read { margin: 4px 0 0; font-size: 12.5px; color: #C9D5DE; flex-basis: 100%; }
+.res-toggle button { padding: 3px 10px; font-size: 12.5px; }
+.placar { display: grid; gap: 10px; }
+.verdict { border: 1px solid rgba(76,195,138,.5); background: rgba(76,195,138,.07); border-radius: 10px; padding: 10px 12px; font-size: 14px; }
+.verdict b { color: var(--fg); }
+.sc-card { border: 1px solid var(--line); border-radius: 10px; background: var(--panel-2); padding: 10px 12px; display: grid; gap: 6px; }
+.sc-card.win { border-color: rgba(76,195,138,.6); }
+.sc-card.ref { opacity: .85; }
+.sc-head { display: flex; align-items: center; gap: 8px; font-size: 13px; min-width: 0; }
+.sc-head span:last-child { color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sc-row { display: grid; grid-template-columns: 92px 14px minmax(0, 1fr) auto; align-items: center; gap: 8px; font-size: 13.5px; }
+.sc-row i { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+.sc-row .w { font-weight: 600; }
+.sc-row small { color: var(--muted); font-family: var(--f-mono); font-size: 12px; }
+.g-bom { background: var(--good); } .g-atencao { background: var(--warn); } .g-ruim { background: var(--bad); } .g-ref { background: #3A4E5C; }
+.scn-btn { display: none; }
+.block-head .btn.small { min-height: 30px; padding: 2px 9px; }
+.block-head .btn.small[aria-pressed="false"] { color: var(--muted); }
+.cam.off .cam-live { display: none !important; }
+.cam:not(.off) .cam-off-only { display: none !important; }
+.cam-steps { margin: 0; padding-left: 20px; display: grid; gap: 6px; font-size: 14px; color: #C9D5DE; }
+.overlay { display: flex; overflow: auto; position: fixed; inset: 0; z-index: 60; border-radius: 0; padding: 24px 16px; }
+.hud-tr.open { z-index: 12; }
+.ov-card { margin: auto; }
+.cards4 { grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); }
+.stage .hud-tl { display: none !important; }
+@media (max-width: 800px) {
+  .stage { grid-template-rows: 232px auto; }
+  .sig-title { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+  .sig-head .legend { flex-wrap: nowrap; overflow-x: auto; white-space: nowrap; scrollbar-width: none; max-width: 100%; }
+  .sig-head .legend::-webkit-scrollbar { display: none; }
+  .progress { flex-wrap: nowrap; gap: 3px; }
+  .progress .step { width: 22px; height: 22px; font-size: 11px; flex: none; }
+  .navmini .btn.small { min-height: 34px; }
+  .challenge p { font-size: 12px; }
+  .menu-btn { display: grid; place-items: center; width: 44px; height: 44px; font-size: 20px; padding: 0; }
+  .hud-items { display: none; position: absolute; right: 0; top: 50px; z-index: 9; flex-direction: column; align-items: stretch; background: rgba(11,17,23,.97); border: 1px solid #2C3E4C; border-radius: 10px; padding: 6px; min-width: 210px; }
+  .hud-tr.open .hud-items { display: flex; }
+  .hud-items .view-btn { min-height: 44px; text-align: left; padding: 0 12px; font-size: 12.5px; }
+  .hud-items .view-btn[hidden] { display: none; }
+  .sc-row { grid-template-columns: 84px 12px minmax(0, 1fr) auto; }
+  .ctrl > .tech { display: none; }
+  .ctrl .seg button { padding: 4px 6px; font-size: 12px; }
+  .ctrl:has(.seg) .ctrl-top { display: none; }
+  .challenge p { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+}
+@media (max-width: 800px) and (max-height: 780px) {
+  .stage { grid-template-rows: 190px auto; }
+  .viewsig { grid-template-rows: auto 104px auto; }
+  .challenge-head { display: none; }
+  .ends, .ctrl-foot { display: none; }
+}
+@media (max-width: 800px) and (max-height: 700px) {
+  body:not([data-lv]) .top { display: none; }
+  .stage { grid-template-rows: 176px auto; }
 }
 @media (pointer: coarse) { #arena { touch-action: pan-y; } }
 @media (prefers-reduced-motion: reduce) {
@@ -373,7 +530,7 @@ details.panel-sec[open] > summary .tech::after { content: "fechar"; }
       <div class="seg" role="group" aria-label="Modo">
         <button type="button" id="modeAula" aria-pressed="true">Aula<span class="d-label"> guiada</span></button>
         <button type="button" id="modeLivre" aria-pressed="false"><span class="d-label">Laboratório </span>livre</button>
-        <button type="button" id="modeCam" class="test-btn" aria-pressed="false" title="Teste: usar a câmera deste aparelho">Câmera<span class="d-label"> ao vivo</span> · teste</button>
+        <button type="button" id="modeCam" class="test-btn" aria-pressed="false" title="Teste: usar a câmera deste aparelho">Câmera<span class="d-label"> ao vivo</span></button>
       </div>
       <div class="field livre-only" hidden>
         <span class="label" id="lblMov">Movimento</span>
@@ -381,16 +538,18 @@ details.panel-sec[open] > summary .tech::after { content: "fechar"; }
           <option value="flexao">Flexão dos dedos</option>
           <option value="oposicao">Oposição polegar-mínimo</option>
           <option value="pinca">Pinça polegar-indicador</option>
+          <option value="leque">Abrir em leque (abdução)</option>
+          <option value="degrau">Degrau (teste de resposta)</option>
         </select>
       </div>
       <div class="field livre-only" hidden>
         <span class="label" id="lblSer">Articulação</span>
         <select class="sel" id="series" aria-labelledby="lblSer"></select>
       </div>
-      <div class="field livre-only" hidden>
-        <span class="label" id="lblSeed">Semente</span>
+      <div class="field livre-only" id="seedField" hidden>
+        <span class="label" id="lblSeed">Sorteio</span><button type="button" class="qhelp" data-help="sorteio" aria-label="O que é isto?" style="margin-left:-2px">?</button>
         <input class="num" id="seed" type="number" min="1" max="999999" step="1" value="2604" aria-labelledby="lblSeed">
-        <button class="btn" id="newSeed" type="button">Nova semente</button>
+        <button class="btn" id="newSeed" type="button">Novo sorteio</button>
       </div>
     </div>
   </header>
@@ -409,19 +568,22 @@ details.panel-sec[open] > summary .tech::after { content: "fechar"; }
         <div class="kicker">Hand Filter Lab</div>
         <h2>Uma câmera mede sua mão. Ela erra um pouco o tempo todo.</h2>
         <p>Um filtro é uma regra que limpa esse erro antes de virar número. Só que todo filtro cobra um preço.</p>
-        <p>Em 7 etapas curtas você vai ver o erro da câmera, quatro filtros diferentes e como combiná-los. Em cada etapa há um único controle para mexer.</p>
+        <p>Em 8 etapas curtas você vai ver o erro da câmera, sete filtros diferentes e como combiná-los. Em cada etapa há um único controle para mexer.</p>
         <div class="nav"><span class="note">Dica: aperte a barra de espaço para pausar a qualquer momento.</span><button type="button" class="btn primary" id="introGo">Começar a aula</button></div>
       </div>
     </div>
     <div class="overlay" id="summary" hidden>
       <div class="ov-card" style="max-width:760px">
         <div class="kicker">Resumo</div>
-        <h2>Quatro filtros, quatro ideias</h2>
+        <h2>Sete filtros, sete ideias</h2>
         <div class="cards4">
           <div class="fcard"><svg viewBox="0 0 200 46" aria-hidden="true"><polyline points="0,30 12,18 24,34 36,22 48,30 60,16 72,32 84,20 96,28 108,18 120,30 132,22 144,28 156,20 168,30 180,22 200,26" fill="none" stroke="#6B7A86" stroke-width="1.2"/><path d="M0 26 C 50 26, 90 25, 200 25" fill="none" stroke="#38D8F0" stroke-width="2.4"/></svg><b>Média exponencial</b><p class="note">Mistura a medição de agora com o passado. Menos tremor, mais atraso.</p></div>
           <div class="fcard"><svg viewBox="0 0 200 46" aria-hidden="true"><path d="M0 38 L60 38 C 90 38, 100 8, 130 8 L200 8" fill="none" stroke="#F2F5F7" stroke-dasharray="4 3" stroke-width="1.3"/><path d="M0 37 L62 37 C 92 37, 104 9, 134 9 L200 9" fill="none" stroke="#38D8F0" stroke-width="2.4"/></svg><b>One Euro</b><p class="note">Suaviza muito com a mão parada e solta quando ela se move.</p></div>
           <div class="fcard"><svg viewBox="0 0 200 46" aria-hidden="true"><polyline points="0,28 40,28 48,4 56,28 120,27 128,44 136,27 200,26" fill="none" stroke="#6B7A86" stroke-width="1.2"/><path d="M0 28 L200 26" fill="none" stroke="#F05AA8" stroke-width="2.4"/></svg><b>Mediana</b><p class="note">Ordena os últimos valores e fica com o do meio. Ignora saltos isolados.</p></div>
           <div class="fcard"><svg viewBox="0 0 200 46" aria-hidden="true"><rect x="0" y="16" width="54" height="14" rx="3" fill="#38D8F0"/><rect x="54" y="16" width="146" height="14" rx="3" fill="#22323D"/></svg><b>Kalman</b><p class="note">Calcula o peso da medição nova a partir da confiança na câmera. Aqui, equivale a uma média.</p></div>
+          <div class="fcard"><svg viewBox="0 0 200 46" aria-hidden="true"><polyline points="0,26 6,18 12,32 18,20 24,30 30,16 36,30 42,22 48,28 200,26" fill="none" stroke="#6B7A86" stroke-width="1.2"/><path d="M0 26 C 60 26, 120 25, 200 25" fill="none" stroke="#F2B23A" stroke-width="2.4"/></svg><b>Butterworth</b><p class="note">Corta os ritmos rápidos, como o tremor, e deixa passar os lentos.</p></div>
+          <div class="fcard"><svg viewBox="0 0 200 46" aria-hidden="true"><path d="M0 40 C 50 40, 70 8, 100 8 C 130 8, 150 40, 200 40" fill="none" stroke="#F2F5F7" stroke-dasharray="4 3" stroke-width="1.3"/><path d="M0 40 C 48 40, 68 2, 102 4 C 134 6, 150 44, 200 41" fill="none" stroke="#38D8F0" stroke-width="2.4"/></svg><b>Kalman de velocidade</b><p class="note">Prevê para onde o dedo vai: quase não atrasa, mas pode passar do ponto.</p></div>
+          <div class="fcard"><svg viewBox="0 0 200 46" aria-hidden="true"><path d="M0 40 L60 40 L110 8 L200 8" fill="none" stroke="#F2F5F7" stroke-dasharray="4 3" stroke-width="1.3"/><path d="M0 40 L62 40 C 80 34, 100 18, 118 10 L200 9" fill="none" stroke="#38D8F0" stroke-width="2.4"/></svg><b>UKF</b><p class="note">Um Kalman para modelos curvos; aqui, ele sabe que o dedo tem uma velocidade máxima.</p></div>
         </div>
         <p>Na câmera real, o melhor resultado veio da <b>cadeia</b>: primeiro tirar os saltos, depois suavizar. É exatamente o que o estudo compara em 24 combinações.</p>
         <div class="nav"><button type="button" class="btn" id="sumClose">Voltar à aula</button><button type="button" class="btn primary" id="sumLab">Abrir o laboratório livre</button></div>
@@ -431,15 +593,19 @@ details.panel-sec[open] > summary .tech::after { content: "fechar"; }
   <section class="dock aula-only" id="dock" aria-label="Etapa da aula"></section>
 
 
-  <!-- ===================== CÂMERA AO VIVO (TESTE) ===================== -->
-  <section class="cam cam-only" id="camView" aria-label="Câmera ao vivo" hidden>
-    <div class="cam-stage mirror" id="camStage">
-      <video id="camVideo" playsinline muted></video>
-      <canvas id="camCanvas"></canvas>
-      <div class="cam-hud"><span id="camInfo">câmera desligada</span><span id="camRec" hidden></span></div>
+  <!-- ===================== CÂMERA AO VIVO ===================== -->
+  <section class="cam cam-only off" id="camView" aria-label="Câmera ao vivo" hidden>
+    <div class="cam-stage v-both" id="camStage">
+      <div class="cam-feed mirror" id="camFeed">
+        <video id="camVideo" playsinline muted></video>
+        <canvas id="camCanvas"></canvas>
+        <div class="cam-hints" id="camHints"></div>
+      </div>
+      <div class="slot-cam" id="slotCam"></div>
+      <div class="cam-hud"><span id="camInfo">câmera desligada</span><span class="rec" id="camRec" hidden></span></div>
       <div class="cam-big" id="camBig" hidden><b id="camBigV">–</b><span id="camBigN"></span></div>
       <div class="cam-msg" id="camMsg"><div>
-        <div class="kicker">Teste · nada é instalado</div>
+        <div class="kicker">Nada é instalado</div>
         <h2>Medir a sua mão com a câmera deste aparelho</h2>
         <p>O navegador vai pedir permissão para usar a câmera. O vídeo é processado aqui mesmo, no aparelho, e não é enviado a lugar nenhum.</p>
         <button type="button" class="btn primary" id="camStart">Permitir câmera e começar</button>
@@ -448,84 +614,70 @@ details.panel-sec[open] > summary .tech::after { content: "fechar"; }
     </div>
     <aside class="panel cam-side">
       <section class="panel-sec">
-        <div class="sec-head"><span class="label">Sessão ao vivo</span><span class="tech" id="camModel">modelo não carregado</span></div>
-        <div class="cam-row">
+        <div class="cam-off-only" style="display:grid;gap:10px">
+          <span class="label">Como funciona</span>
+          <ol class="cam-steps"><li>Toque em "Permitir câmera e começar" e aceite o pedido do navegador.</li><li>Mostre a mão de lado, a uns 40 cm, e abra e feche os dedos.</li><li>Veja os ângulos e o filtro ao vivo e, se quiser, grave a sessão.</li></ol>
+          <p class="note">Nada é instalado e o vídeo não sai do aparelho.</p>
+        </div>
+        <div class="sec-head cam-live"><span class="label">Sessão ao vivo</span><span class="tech" id="camModel">modelo não carregado</span></div>
+        <p class="tech cam-live" id="camLat" title="Detecção: tempo do MediaPipe por quadro. Entre quadros: intervalo da câmera. Filtro: atraso do filtro em relação à medida bruta, nos últimos 5 s.">latência: –</p>
+        <div class="cam-row cam-live">
           <button type="button" class="btn rec-btn" id="camRecBtn" disabled>Gravar sessão</button>
           <button type="button" class="btn" id="camFlip" hidden>Trocar câmera</button>
           <button type="button" class="btn" id="camStop" disabled>Desligar</button>
         </div>
-        <div class="cam-row"><span class="label" id="lblCamF">Filtro</span>
+        <div class="cam-row cam-live"><span class="label" id="lblCamV">Ver</span>
+          <div class="seg" role="group" aria-labelledby="lblCamV" id="camViewSeg">
+            <button type="button" data-v="video" aria-pressed="false">Vídeo</button>
+            <button type="button" data-v="both" aria-pressed="true">Vídeo + mão 3D</button>
+            <button type="button" data-v="3d" aria-pressed="false">Mão 3D</button>
+          </div></div>
+        <div class="cam-row cam-live"><span class="label" id="lblCamF">Filtro</span>
           <div class="seg" role="group" aria-labelledby="lblCamF" id="camFilter">
             <button type="button" data-f="none" aria-pressed="false">Sem filtro</button>
             <button type="button" data-f="oe" aria-pressed="false">One Euro</button>
             <button type="button" data-f="med_oe" aria-pressed="true">Mediana → One Euro</button>
           </div></div>
-        <p class="note">Mostre a palma ou o lado da mão para a câmera, a uns 40 cm, e abra e feche os dedos. Toque numa linha da tabela para escolher a articulação do gráfico.</p>
+        <div class="cam-row cam-live"><span class="label">Mão</span><button type="button" class="btn small" id="camSideBtn" title="Trocar entre detecção automática e escolha manual">Esquerda · detectada</button></div>
+        <p class="note cam-live">Mão a uns 40 cm da câmera, de lado, abrindo e fechando os dedos. Na mão 3D, a cinza é o que a câmera mede e a azul é o resultado do filtro. Toque numa linha da tabela para escolher a articulação.</p>
       </section>
-      <section class="panel-sec">
+      <section class="panel-sec cam-live">
         <table class="cam-tbl" id="camTbl"></table>
       </section>
-      <section class="panel-sec">
+      <section class="panel-sec cam-live">
         <span class="label" id="camChartT">Últimos 5 s</span>
         <div class="cam-chart"><canvas id="camChart" role="img" aria-label="Ângulo nos últimos segundos"></canvas></div>
         <div class="legend"><span><i class="dot" style="background:#A0AEBA"></i>medida da câmera</span><span><i style="background:#38D8F0"></i>com filtro</span></div>
       </section>
       <section class="panel-sec" id="camSumBox" hidden></section>
-      <section class="panel-sec"><p class="note">Detecção da mão: MediaPipe Hand Landmarker (Google, licença Apache 2.0), modelo float16 versão 1, rodando no navegador. Os ângulos usam o mesmo goniômetro do estudo, em valor absoluto. Esta tela é um teste e não substitui o sistema validado.</p></section>
+      <section class="panel-sec"><p class="note">Detecção da mão: MediaPipe Hand Landmarker (Google, licença Apache 2.0), modelo float16 versão 1, rodando no navegador. Os ângulos usam o mesmo goniômetro do estudo, com a flexão positiva nas duas mãos. Esta tela é um teste e não substitui o sistema validado.</p></section>
     </aside>
   </section>
   <!-- ===================== LIVRE ===================== -->
+  <button type="button" class="btn scn-btn livre-only" id="scnBtn" aria-expanded="false" hidden><span id="scnTxt">Cenário</span><span aria-hidden="true">▾</span></button>
   <div class="status livre-only" role="status" aria-live="polite" hidden><span class="status-dot"></span><span id="statusText"></span></div>
-  <main class="grid livre-only" hidden>
-    <aside class="panel" aria-label="Controle">
-      <section class="panel-sec"><p class="note">Monte até três cadeias de filtros e compare cada uma com a mão real. Mude um controle de cada vez e observe a mão e o gráfico.</p></section>
-      <details class="panel-sec">
-        <summary class="sec-head"><span class="label">Problemas da câmera</span><span class="tech"></span></summary>
-        <div class="probs">
-        <div class="slider"><label for="sSpeed">Velocidade do movimento</label><output id="oSpeed"></output><input id="sSpeed" type="range" min="0.5" max="2" step="0.05" value="1"></div>
-        <div class="slider"><label for="sJit">Ruído da câmera <span class="tech">σ por ponto</span></label><output id="oJit"></output><input id="sJit" type="range" min="0" max="0.4" step="0.01" value="0.1"></div>
-        <div class="slider"><label for="sTremA">Tremor da mão, força</label><output id="oTremA"></output><input id="sTremA" type="range" min="0" max="6" step="0.25" value="0"></div>
-        <div class="slider"><label for="sTremF">Tremor da mão, ritmo</label><output id="oTremF"></output><input id="sTremF" type="range" min="3" max="12" step="0.5" value="6"></div>
-        <div class="slider"><label for="sOut">Saltos de ponto <span class="tech">outliers</span></label><output id="oOut"></output><input id="sOut" type="range" min="0" max="0.1" step="0.005" value="0.01"></div>
-        <div class="slider"><label for="sDrop">Mão perdida pela câmera</label><output id="oDrop"></output><input id="sDrop" type="range" min="0" max="0.2" step="0.01" value="0.03"></div>
+  <nav class="lv-tabs livre-only" id="lvTabs" aria-label="Partes do laboratório" hidden>
+    <button type="button" data-lv="mao" aria-pressed="true">Mão</button>
+    <button type="button" data-lv="grafico" aria-pressed="false">Gráfico</button>
+    <button type="button" data-lv="filtros" aria-pressed="false">Filtros</button>
+    <button type="button" data-lv="resultados" aria-pressed="false">Resultados</button>
+  </nav>
+  <section class="lv-top livre-only" hidden>
+    <div class="slot-livre" id="slotLivre" data-lvtab="mao"></div>
+    <section class="panel lv-chart" aria-label="Sinal" data-lvtab="grafico">
+      <div class="ana-head"><span class="label" id="chartTitle">Sinal</span>
+        <div class="seg lv-view" role="group" aria-label="Vista do gráfico" id="lvView">
+          <button type="button" data-v="sinal" aria-pressed="true">Sinal</button>
+          <button type="button" data-v="freq" aria-pressed="false">Frequência</button>
+          <button type="button" data-v="pareto" aria-pressed="false">Pareto</button>
+          <button type="button" data-v="ba" aria-pressed="false">Bland-Altman</button>
         </div>
-      </details>
-      <section class="panel-sec">
-        <div class="sec-head"><span class="label">Cadeias de filtros</span><button class="btn small" id="resetPipes" type="button">Padrões do estudo</button></div>
-        <div id="pipes" style="display:grid; gap:10px"></div>
-      </section>
-    </aside>
-    <div class="slot-livre" id="slotLivre"></div>
-    <aside class="panel side-right" aria-label="Resultados"><section class="panel-sec" id="estado"></section></aside>
-  </main>
-  <section class="panel livre-only" aria-label="Sinal" hidden>
-    <div class="ana-head"><span class="label" id="chartTitle">Sinal</span><div class="legend" id="chartLegend"></div></div>
-    <div class="chart-box"><canvas id="chart" role="img" aria-label="Ângulo da articulação ao longo do tempo"></canvas></div>
+        <div class="legend" id="chartLegend" style="flex-basis:100%"></div>
+        <p class="view-read" id="viewRead"></p></div>
+      <div class="chart-box"><canvas id="chart" role="img" aria-label="Ângulo da articulação ao longo do tempo"></canvas></div>
+    </section>
   </section>
-
-  <!-- Arena 3D: movida entre a aula e o laboratório livre -->
-  <section class="arena-wrap" id="arenaWrap" aria-label="Mão em 3D">
-    <div id="arena"></div>
-    <div class="hud hud-tl" id="hudTl"></div>
-    <div class="hud hud-tr">
-      <button class="view-btn live-btn" id="liveBtn" type="button" aria-pressed="false" hidden>Mover a mão<span class="d-label"> eu mesmo</span></button>
-      <button class="view-btn" id="skinBtn" type="button" hidden>Ver esqueleto</button>
-      <button class="view-btn" id="viewBtn" type="button" title="Trocar o ângulo da câmera">Vista: mão</button>
-    </div>
-    <div class="chainbar" id="chainbar" hidden></div>
-    <div class="flag drop" id="flagDrop" hidden>Mão perdida pela câmera</div>
-    <div class="stage-status" id="stageStatus"></div>
-    <div class="hud hud-bl" id="layers"></div>
-    <div class="ev-card" id="evCard" hidden></div>
-    <div class="drag-hint" id="dragHint" hidden><svg viewBox="0 0 34 46" aria-hidden="true"><path d="M17 3 L17 43 M9 11 L17 3 L25 11 M9 35 L17 43 L25 35" fill="none" stroke="#E8C547" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Arraste a alça para dobrar o dedo<span class="d-only"> (ou arraste sobre a mão)</span>.</span></div>
-    <div class="bend" id="bend" hidden aria-label="Dobrar o dedo"><span>abrir</span><div class="bend-track" id="bendTrack"><i id="bendThumb" style="top:0%"></i></div><span>fechar</span></div>
-    <div class="hud hud-br" id="miniPlay" hidden><button class="play" id="play2" type="button" aria-label="Pausar"></button><select class="sel" id="rate2" aria-label="Velocidade de reprodução"><option value="0.1">0,1x</option><option value="0.25">0,25x</option><option value="0.5" selected>0,5x</option><option value="1">1x</option></select></div>
-    <div class="lens-frame" id="lensFrame" hidden><span>lente · ponta do indicador</span></div>
-    <div id="labels"></div>
-  </section>
-
-  <p class="note credit">Modelo 3D da mão: <a href="https://github.com/immersive-web/webxr-input-profiles" target="_blank" rel="noopener" style="color:inherit">WebXR Input Profiles</a>, © 2019 Amazon, licença MIT. A mão, o ruído e os filtros são simulados; o goniômetro e os filtros seguem o estudo.</p>
-  <footer class="timeline" id="timeline">
+  <footer class="timeline" id="timeline" data-lvtab="mao grafico">
     <button class="play" id="play" type="button" aria-label="Pausar"></button>
     <select class="sel" id="rate" aria-label="Velocidade de reprodução">
       <option value="0.1">0,1x</option>
@@ -536,6 +688,73 @@ details.panel-sec[open] > summary .tech::after { content: "fechar"; }
     <input id="scrub" type="range" min="0" max="100" step="1" value="0" aria-label="Quadro">
     <span class="readout" id="readout"></span>
   </footer>
+  <main class="lv-bottom livre-only" hidden>
+    <aside class="panel" aria-label="Problemas da câmera" data-lvtab="filtros">
+      <section class="panel-sec"><p class="note">Monte até três cadeias de filtros e compare cada uma com a mão real. Mude um controle de cada vez e observe a mão e o gráfico.</p>
+        <div class="cam-row"><button type="button" class="btn small" id="gonioBtn">Conferir o goniômetro</button><button type="button" class="qhelp" data-help="gonio" aria-label="O que é isto?">?</button></div></section>
+      <section class="panel-sec" id="recNote" hidden><p class="rec-note">Você está vendo uma <b>gravação real</b> da câmera. Não existe mão real conhecida, então a comparação é com uma <b>referência</b>: a média centrada de 9 quadros do próprio sinal, suave e sem atraso. Os problemas da câmera são os de verdade, por isso os controles de simulação ficam escondidos.</p></section>
+      <details class="panel-sec" id="probs">
+        <summary class="sec-head"><span class="label">Problemas da câmera <button type="button" class="qhelp" data-help="problemas" aria-label="O que é isto?">?</button></span><span class="tech"></span></summary>
+        <div class="probs">
+        <div class="slider"><label for="sSpeed">Velocidade do movimento</label><output id="oSpeed"></output><input id="sSpeed" type="range" min="0.5" max="2" step="0.05" value="1"></div>
+        <div class="slider"><label for="sJit">Ruído da câmera <span class="tech">σ por ponto</span></label><output id="oJit"></output><input id="sJit" type="range" min="0" max="0.4" step="0.01" value="0.1"></div>
+        <div class="slider"><label for="sTremA">Tremor da mão, força</label><output id="oTremA"></output><input id="sTremA" type="range" min="0" max="6" step="0.25" value="0"></div>
+        <div class="slider"><label for="sTremF">Tremor da mão, ritmo</label><output id="oTremF"></output><input id="sTremF" type="range" min="3" max="12" step="0.5" value="6"></div>
+        <div class="slider"><label for="sOut">Saltos de ponto <span class="tech">outliers</span></label><output id="oOut"></output><input id="sOut" type="range" min="0" max="0.1" step="0.005" value="0.01"></div>
+        <div class="slider"><label for="sDrop">Mão perdida pela câmera</label><output id="oDrop"></output><input id="sDrop" type="range" min="0" max="0.2" step="0.01" value="0.03"></div>
+        </div>
+      </details>
+    </aside>
+    <aside class="panel" aria-label="Cadeias de filtros" data-lvtab="filtros">
+      <section class="panel-sec">
+        <div class="sec-head"><span class="label">Cadeias de filtros <button type="button" class="qhelp" data-help="cadeia" aria-label="O que é isto?">?</button></span><button class="btn small" id="resetPipes" type="button">Padrões do estudo</button></div>
+        <div id="pipes" style="display:grid; gap:10px"></div>
+      </section>
+    </aside>
+    <aside class="panel side-right" aria-label="Resultados" data-lvtab="resultados"><section class="panel-sec" id="estado"></section></aside>
+  </main>
+  <div class="lv-strip livre-only" id="lvStrip" hidden></div>
+
+  <!-- Arena 3D: movida entre a aula e o laboratório livre -->
+  <section class="arena-wrap" id="arenaWrap" aria-label="Mão em 3D">
+    <div id="arena"></div>
+    <div class="hud hud-tl" id="hudTl"></div>
+    <div class="hud hud-tr" id="hudTr">
+      <button class="view-btn menu-btn" id="hudMenuBtn" type="button" aria-expanded="false" aria-label="Mais opções">⋯</button>
+      <div class="hud-items" id="hudItems">
+      <button class="view-btn" id="camLessonBtn" type="button" aria-pressed="false" hidden>Usar minha câmera</button>
+      <button class="view-btn live-btn" id="liveBtn" type="button" aria-pressed="false" hidden>Mover a mão<span class="d-label"> eu mesmo</span></button>
+      <button class="view-btn" id="skinBtn" type="button" hidden>Ver esqueleto</button>
+      <button class="view-btn" id="viewBtn" type="button" title="Trocar o ângulo da câmera">Vista: mão</button>
+      </div>
+    </div>
+    <div class="chainbar" id="chainbar" hidden></div>
+    <div class="flag drop" id="flagDrop" hidden>Mão perdida pela câmera</div>
+    <div class="stage-status" id="stageStatus"></div>
+    <div class="hud hud-bl" id="layers"></div>
+    <div class="ev-card" id="evCard" hidden></div>
+    <div class="drag-hint" id="dragHint" hidden><svg viewBox="0 0 34 46" aria-hidden="true"><path d="M17 3 L17 43 M9 11 L17 3 L25 11 M9 35 L17 43 L25 35" fill="none" stroke="#E8C547" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Arraste a alça para dobrar o dedo<span class="d-only"> (ou arraste sobre a mão)</span>.</span></div>
+    <div class="bend" id="bend" hidden aria-label="Dobrar o dedo"><span>abrir</span><div class="bend-track" id="bendTrack"><i id="bendThumb" style="top:0%"></i></div><span>fechar</span></div>
+    <div class="hud hud-br" id="miniPlay" hidden><button class="play" id="play2" type="button" aria-label="Pausar"></button><select class="sel" id="rate2" aria-label="Velocidade de reprodução"><option value="0.1">0,1x</option><option value="0.25">0,25x</option><option value="0.5" selected>0,5x</option><option value="1">1x</option></select></div>
+    <div class="cam-pip" id="camPip" hidden></div>
+    <div class="cam-toast" id="camToast" hidden role="status"></div>
+    <div class="lens-frame" id="lensFrame" hidden><span>lente · ponta do indicador</span></div>
+    <div id="labels"></div>
+  </section>
+
+  <p class="note credit">Modelo 3D da mão: <a href="https://github.com/immersive-web/webxr-input-profiles" target="_blank" rel="noopener" style="color:inherit">WebXR Input Profiles</a>, © 2019 Amazon, licença MIT. A mão, o ruído e os filtros são simulados; o goniômetro e os filtros seguem o estudo.</p>
+  <div class="overlay" id="gonioOv" hidden><div class="ov-card" style="max-width:820px">
+    <div class="kicker">Conferência</div><h2 style="font-size:24px">O goniômetro mede o que a mão fez?</h2>
+    <p>Cada linha monta uma mão com ângulos conhecidos e compara com o que o goniômetro calcula. A flexão e a abdução são separadas como na recomendação da ISB (Wu et al., 2005), e o TAM é somado com sinal.</p>
+    <div style="overflow-x:auto"><table class="rt" id="gonioTbl"></table></div>
+    <p class="note">Fora do alcance da câmera da mão: punho e pronação/supinação precisam de pontos do antebraço, e a rotação de um dedo em torno do próprio eixo não aparece nos 21 pontos.</p>
+    <div class="nav"><span></span><button type="button" class="btn primary" id="gonioClose">Fechar</button></div></div></div>
+  <div class="help-pop" id="helpPop" role="dialog" aria-label="Explicação" hidden></div>
+  <nav class="bottom-nav" id="bottomNav" aria-label="Modo">
+    <button type="button" data-mode="aula" aria-pressed="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6.5 12 3l9 3.5-9 3.5-9-3.5Z M6.5 8.2V14c0 1.7 2.5 3 5.5 3s5.5-1.3 5.5-3V8.2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg><span>Aula</span></button>
+    <button type="button" data-mode="livre" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h4M12 17h8M14 4.5v5M8 14.5v5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><span>Livre</span></button>
+    <button type="button" data-mode="camera" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8.5A1.5 1.5 0 0 1 5.5 7h2l1.5-2h6l1.5 2h2A1.5 1.5 0 0 1 20 8.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 17.5v-9Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><circle cx="12" cy="13" r="3.3" fill="none" stroke="currentColor" stroke-width="1.7"/></svg><span>Câmera</span></button>
+  </nav>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -578,7 +797,7 @@ for (const f of FINGERS) { D0[f] = normz(sub(MCP[f], W)); KAX[f] = normz(sub(LAT
 const PALM_N = normz(cross(sub(MCP.INDEX, W), sub(MCP.PINKY, W)));
 const M0 = normz([-0.55, 0.8, 0.22]);
 // Direção do metacarpo do polegar no fim de cada movimento (ajustada para as pontas se tocarem na pinça e na oposição).
-const M1_BY = { parada: normz([0.42, 0.5, 0.76]), flexao: normz([0.42, 0.5, 0.76]), oposicao: normz([0.147, 0.692, 0.707]), pinca: normz([-0.288, 0.646, 0.707]), indicador: normz([0.42, 0.5, 0.76]) };
+const M1_BY = { parada: normz([0.42, 0.5, 0.76]), flexao: normz([0.42, 0.5, 0.76]), oposicao: normz([0.147, 0.692, 0.707]), pinca: normz([-0.288, 0.646, 0.707]), indicador: normz([0.42, 0.5, 0.76]), gravacao: normz([0.42, 0.5, 0.76]), degrau: normz([0.42, 0.5, 0.76]), leque: normz([0.42, 0.5, 0.76]) };
 let M1 = M1_BY.flexao;
 function fk(p) {
   const lm = new Array(21);
@@ -591,7 +810,10 @@ function fk(p) {
   lm[2] = tm; lm[3] = ti; lm[4] = tt;
   for (const f of FINGERS) {
     const b = BASE_IDX[f], L = LEN[f], q = p[f];
-    const k2 = KAX[f], a1 = rot(D0[f], k2, q.mcp), a2 = rot(D0[f], k2, q.mcp + q.pip), a3 = rot(D0[f], k2, q.mcp + q.pip + q.dip);
+    // abdução: gira o dedo em torno do eixo volar do metacarpo; depois a flexão da MCP em torno do eixo lateral (sequência da ISB)
+    const k2 = KAX[f], ab = (q.abd || 0) * ABD_SIGN[f], base = rot(D0[f], normz(cross(D0[f], k2)), ab);
+    const a1 = rot(base, k2, q.mcp), kp = normz(sub(k2, mul(a1, dot(k2, a1))));
+    const a2 = rot(a1, kp, q.pip), a3 = rot(a1, kp, q.pip + q.dip);
     const pip = add(MCP[f], mul(a1, L[0])), dip = add(pip, mul(a2, L[1])), tip = add(dip, mul(a3, L[2]));
     lm[b] = MCP[f]; lm[b + 1] = pip; lm[b + 2] = dip; lm[b + 3] = tip;
   }
@@ -613,7 +835,10 @@ const AMP = {
   oposicao: { INDEX: [4, 4, 2], MIDDLE: [6, 6, 3], RING: [20, 20, 8], PINKY: [55, 45, 20], THUMB: [0.95, 21, 34] },
   pinca: { INDEX: [45, 40, 25], MIDDLE: [12, 12, 6], RING: [8, 8, 4], PINKY: [6, 6, 3], THUMB: [0.95, 11, 9] },
   indicador: { INDEX: [75, 90, 55], MIDDLE: [3, 3, 2], RING: [2, 2, 1], PINKY: [2, 2, 1], THUMB: [0, 2, 2] },
+  leque: { INDEX: [0, 0, 0], MIDDLE: [0, 0, 0], RING: [0, 0, 0], PINKY: [0, 0, 0], THUMB: [0.15, 0, 0] },
 };
+// abdução de cada dedo no fim do movimento (graus, positiva para longe do médio)
+const ABD_AMP = { leque: { INDEX: 18, MIDDLE: 3, RING: 10, PINKY: 25 } };
 const REST = { mcp: 5, pip: 6, dip: 3 };
 // Pose para uma fração s do movimento (0 = mão aberta, 1 = fim do movimento).
 function paramsAt(s, mov, trem, t) {
@@ -621,55 +846,130 @@ function paramsAt(s, mov, trem, t) {
   for (let i = 0; i < 4; i++) {
     const f = FINGERS[i], a = A[f];
     const tr = trem ? trem.amp * Math.sin(2 * Math.PI * trem.f * t + trem.ph[i]) : 0;
-    p[f] = { mcp: REST.mcp + a[0] * s + tr, pip: REST.pip + a[1] * s + 0.8 * tr, dip: REST.dip + a[2] * s + 0.5 * tr };
+    p[f] = { mcp: REST.mcp + a[0] * s + tr, pip: REST.pip + a[1] * s + 0.8 * tr, dip: REST.dip + a[2] * s + 0.5 * tr, abd: (ABD_AMP[mov] ? ABD_AMP[mov][f] : 0) * s };
   }
   const trT = trem ? 0.7 * trem.amp * Math.sin(2 * Math.PI * trem.f * t + trem.ph[4]) : 0;
   p.THUMB = { opp: 0.05 + A.THUMB[0] * s, mcp: 4 + A.THUMB[1] * s + trT, ip: 6 + A.THUMB[2] * s + 0.6 * trT };
   return p;
 }
 function params(t, mov, speed, trem) {
-  const s = (mov === "parada" || t < REST_S) ? 0 : cycleS(t - REST_S, 2.6 / speed);
+  // degrau: o dedo salta de aberto para fechado e fica parado 3 s em cada posição (teste de resposta, não é um movimento real)
+  const s = (mov === "parada" || t < REST_S) ? 0 : mov === "degrau" ? (((t - REST_S) % 6) < 3 ? 1 : 0) : cycleS(t - REST_S, 2.6 / speed);
   return paramsAt(s, mov, trem, t);
 }
 
-/* ============================ goniômetro do estudo ============================ */
-// Réplica de DigitalGoniometer.compute_all: ângulo 3D com sinal, TAM com valores absolutos, arredondado a 0,01.
-function angSigned(v1, v2, ref) {
-  const a = normz(v1), b = normz(v2);
-  const ang = Math.acos(clamp(dot(a, b), -1, 1)) * DEG;
-  return dot(cross(a, b), ref) >= 0 ? ang : -ang;
-}
+/* ============================ goniômetro (padrão ISB) ============================ */
+/* Decomposição como na recomendação da ISB para a mão (Wu et al., 2005): cada osso ganha eixos próprios
+   (Y ao longo do osso, Z lateral, X volar) e o movimento da articulação é separado em flexão/extensão
+   (em torno do eixo lateral do osso proximal) e abdução/adução (em torno do eixo perpendicular).
+   A rotação axial dos dedos não aparece nos 21 pontos, que ficam sobre o eixo dos ossos.
+   Entrada com a quiralidade da mão esquerda (a mão direita é espelhada antes). Ângulos em graus,
+   flexão positiva; abdução positiva para longe do dedo médio (no médio, para o lado do mínimo). */
 const r2 = (x) => Math.round(x * 100) / 100;
+const ABD_SIGN = { INDEX: -1, MIDDLE: 1, RING: 1, PINKY: 1 };
 const SERIES = [];
-for (const f of FINGERS) for (const j of ["MCP", "PIP", "DIP", "TAM"]) SERIES.push(f + "_" + j);
-SERIES.push("THUMB_MCP", "THUMB_IP", "THUMB_TAM", "_OPP");
+for (const f of FINGERS) for (const j of ["MCP", "PIP", "DIP", "TAM", "ABD", "PPD"]) SERIES.push(f + "_" + j);
+SERIES.push("THUMB_MCP", "THUMB_IP", "THUMB_TAM", "THUMB_RABD", "THUMB_PABD", "THUMB_OPPD", "SPREAD", "PINCH", "_OPP");
 const FINGER_PT = { INDEX: "Indicador", MIDDLE: "Médio", RING: "Anelar", PINKY: "Mínimo", THUMB: "Polegar" };
-const JOINT_PT = { MCP: "base (MCP)", PIP: "meio (PIP)", DIP: "ponta (DIP)", IP: "IP", TAM: "soma (TAM)" };
+const JOINT_PT = { MCP: "base (MCP)", PIP: "meio (PIP)", DIP: "ponta (DIP)", IP: "IP", TAM: "soma (TAM)", ABD: "abdução (MCP)", PPD: "distância polpa-palma",
+  RABD: "abdução radial (CMC)", PABD: "abdução palmar (CMC)", OPPD: "oposição (ponta à base do mínimo)" };
+const SERIES_PT = { SPREAD: "Espalhamento dos dedos (indicador a mínimo)", PINCH: "Pinça: abertura polegar-indicador" };
+const U = () => unitOf(state.series), isAng = () => unitOf(state.series) === "°";
+function unitOf(s) { return /_PPD$|^PINCH$/.test(s) ? " mm" : s === "THUMB_OPPD" ? "%" : "°"; }
+const orth = (v, ax) => normz(sub(v, mul(ax, dot(v, ax))));
+// Flexão do segmento d em relação ao osso de eixo y e eixo lateral z: ângulo no plano sagital (y, volar).
+function flexAbd(d, y, z) {
+  const v = cross(z, y);
+  return { flex: Math.atan2(dot(d, v), dot(d, y)) * DEG, abd: Math.asin(clamp(dot(d, z), -1, 1)) * DEG };
+}
 function gonio(lm) {
-  const ax = normz(sub(lm[17], lm[5]));
-  const tax = normz(cross(sub(lm[5], lm[0]), sub(lm[17], lm[0])));
-  const out = {};
+  const out = {}, lat = normz(sub(lm[17], lm[5])), hand = len(sub(lm[9], lm[0]));
+  const nPalm = normz(cross(sub(lm[5], lm[0]), sub(lm[17], lm[0])));
+  const volarPalm = cross(orth(lat, normz(sub(lm[9], lm[0]))), normz(sub(lm[9], lm[0])));
   for (const f of FINGERS) {
     const b = BASE_IDX[f];
-    const mcp = r2(angSigned(sub(lm[b], lm[0]), sub(lm[b + 1], lm[b]), ax));
-    const pip = r2(angSigned(sub(lm[b + 1], lm[b]), sub(lm[b + 2], lm[b + 1]), ax));
-    const dip = r2(angSigned(sub(lm[b + 2], lm[b + 1]), sub(lm[b + 3], lm[b + 2]), ax));
-    out[f + "_MCP"] = mcp; out[f + "_PIP"] = pip; out[f + "_DIP"] = dip;
-    out[f + "_TAM"] = r2(Math.min(270, Math.abs(mcp) + Math.abs(pip) + Math.abs(dip)));
+    const ym = normz(sub(lm[b], lm[0])), zm = orth(lat, ym);           // metacarpo do dedo
+    const d1 = normz(sub(lm[b + 1], lm[b]));
+    const mcp = flexAbd(d1, ym, zm);
+    const z1 = orth(zm, d1), d2 = normz(sub(lm[b + 2], lm[b + 1]));     // falange proximal
+    const pip = flexAbd(d2, d1, z1).flex;
+    const z2 = orth(z1, d2), d3 = normz(sub(lm[b + 3], lm[b + 2]));     // falange média
+    const dip = flexAbd(d3, d2, z2).flex;
+    out[f + "_MCP"] = r2(mcp.flex); out[f + "_PIP"] = r2(pip); out[f + "_DIP"] = r2(dip);
+    out[f + "_ABD"] = r2(ABD_SIGN[f] * mcp.abd);
+    out[f + "_TAM"] = r2(mcp.flex + pip + dip);                          // soma com sinal: hiperextensão subtrai
+    // distância polpa-palma: da ponta do dedo até a palma, perto da prega palmar distal
+    const crease = add(lm[b], mul(sub(lm[0], lm[b]), 0.2));
+    out[f + "_PPD"] = r2(len(sub(lm[b + 3], crease)));
   }
-  const tm = r2(angSigned(sub(lm[2], lm[1]), sub(lm[3], lm[2]), tax));
-  const ti = r2(angSigned(sub(lm[3], lm[2]), sub(lm[4], lm[3]), tax));
-  out.THUMB_MCP = tm; out.THUMB_IP = ti; out.THUMB_TAM = r2(Math.min(130, Math.abs(tm) + Math.abs(ti)));
-  // Série auxiliar só para desenhar o polegar da mão filtrada (não entra nas métricas).
-  const m = normz(sub(lm[2], lm[1])), dm = sub(M1, M0);
-  out._OPP = clamp(dot(sub(m, M0), dm) / dot(dm, dm), 0, 1);
+  // polegar: MCP e IP em flexão em torno do eixo perpendicular à palma, como na mão do lab
+  const t1 = normz(sub(lm[2], lm[1])), t2 = normz(sub(lm[3], lm[2])), t3 = normz(sub(lm[4], lm[3]));
+  const k1 = orth(nPalm, t1); // eixo de dobra do polegar: perpendicular à palma e ao metacarpo, o mesmo para MCP e IP
+  const sAng = (a, d, k) => { const dp = orth(d, k); return Math.atan2(dot(cross(a, dp), k), dot(a, dp)) * DEG; };
+  const tm = sAng(t1, t2, k1), ti = sAng(t2, t3, k1);
+  out.THUMB_MCP = r2(tm); out.THUMB_IP = r2(ti); out.THUMB_TAM = r2(tm + ti);
+  // base do polegar (CMC), aproximada pela palma: abdução radial no plano da palma, palmar para fora dele
+  const m2 = normz(sub(lm[5], lm[0]));
+  const projT = orth(t1, nPalm), projI = orth(m2, nPalm);
+  out.THUMB_RABD = r2(Math.acos(clamp(dot(projT, projI), -1, 1)) * DEG);
+  out.THUMB_PABD = r2(Math.asin(clamp(dot(t1, volarPalm), -1, 1)) * DEG);
+  // oposição: distância da ponta do polegar à base do mínimo, em % do comprimento da mão (menor = mais oposição)
+  out.THUMB_OPPD = r2(len(sub(lm[4], lm[17])) / hand * 100);
+  // espalhamento: ângulo entre as falanges proximais do indicador e do mínimo, no plano da palma
+  out.SPREAD = r2(Math.acos(clamp(dot(orth(sub(lm[6], lm[5]), nPalm), orth(sub(lm[18], lm[17]), nPalm)), -1, 1)) * DEG);
+  out.PINCH = r2(len(sub(lm[4], lm[8])));
+  // série auxiliar só para desenhar o polegar da mão filtrada (não entra nas métricas)
+  const dm = sub(M1, M0);
+  out._OPP = clamp(dot(sub(t1, M0), dm) / dot(dm, dm), 0, 1);
   return out;
 }
 function paramsFromSeries(get) {
   const p = {};
-  for (const f of FINGERS) p[f] = { mcp: get(f + "_MCP"), pip: get(f + "_PIP"), dip: get(f + "_DIP") };
+  for (const f of FINGERS) p[f] = { mcp: get(f + "_MCP"), pip: get(f + "_PIP"), dip: get(f + "_DIP"), abd: get(f + "_ABD") };
   p.THUMB = { opp: get("_OPP"), mcp: get("THUMB_MCP"), ip: get("THUMB_IP") };
   return p;
+}
+// TAM da sessão (ASSH; Rayan e Akelman): flexão máxima somada menos o déficit de extensão somado.
+// O déficit é o quanto cada articulação não chegou a 0°; a hiperextensão não entra.
+function tamSession(get, idx) {
+  let fl = 0, def = 0;
+  for (const s of get.joints) {
+    const a = get(s); let mx = -Infinity, mn = Infinity;
+    for (const i of idx) if (isFinite(a[i])) { mx = Math.max(mx, a[i]); mn = Math.min(mn, a[i]); }
+    if (!isFinite(mx)) return NaN;
+    fl += mx; def += Math.max(0, mn);
+  }
+  return fl - def;
+}
+// Conferência do goniômetro com mãos de ângulo conhecido (também roda no botão "Conferir o goniômetro").
+function gonioSelfTest() {
+  const P = (o) => { const p = paramsAt(0, "flexao", null, 0); for (const f of FINGERS) p[f] = { mcp: 0, pip: 0, dip: 0, abd: 0 }; p.THUMB = { opp: 0.05, mcp: 0, ip: 0 }; for (const k in o) p[k] = { ...p[k], ...o[k] }; return p; };
+  const spin = (lm, ax, deg) => { const k = normz(ax); return lm.map((q) => rot(q, k, deg)); };
+  const cases = [
+    ["Dedo reto", P({}), { MCP: 0, PIP: 0, DIP: 0, ABD: 0, TAM: 0 }],
+    ["Flexão pura", P({ INDEX: { mcp: 60, pip: 45, dip: 20 } }), { MCP: 60, PIP: 45, DIP: 20, ABD: 0, TAM: 125 }],
+    ["Só abdução", P({ INDEX: { abd: 20 } }), { MCP: 0, PIP: 0, DIP: 0, ABD: 20, TAM: 0 }],
+    ["Flexão + abdução", P({ INDEX: { mcp: 60, abd: 20 } }), { MCP: 60, PIP: 0, DIP: 0, ABD: 20, TAM: 60 }],
+    ["Abdução + flexão dos três", P({ INDEX: { mcp: 40, pip: 70, dip: 30, abd: 15 } }), { MCP: 40, PIP: 70, DIP: 30, ABD: 15, TAM: 140 }],
+    ["Hiperextensão", P({ INDEX: { mcp: -20 } }), { MCP: -20, PIP: 0, DIP: 0, ABD: 0, TAM: -20 }],
+    ["Hiperextensão + flexão", P({ INDEX: { mcp: -20, pip: 90, dip: 60 } }), { MCP: -20, PIP: 90, DIP: 60, ABD: 0, TAM: 130 }],
+    ["Adução (para o médio)", P({ INDEX: { abd: -10 } }), { MCP: 0, PIP: 0, DIP: 0, ABD: -10, TAM: 0 }],
+    ["Mão girada 70° no espaço", spin(fk(P({ INDEX: { mcp: 60, pip: 45, dip: 20, abd: 10 } })), [0.3, 1, 0.5], 70), { MCP: 60, PIP: 45, DIP: 20, ABD: 10, TAM: 125 }],
+    ["Mínimo: flexão + abdução", P({ PINKY: { mcp: 50, pip: 30, abd: 25 } }), { MCP: 50, PIP: 30, DIP: 0, ABD: 25, TAM: 80 }, "PINKY"],
+  ];
+  const rows = [];
+  for (const [name, pose, exp, fing] of cases) {
+    const f = fing || "INDEX", g = gonio(Array.isArray(pose) ? pose : fk(pose));
+    const got = {}; let ok = true;
+    for (const k of Object.keys(exp)) { got[k] = g[f + "_" + k]; if (Math.abs(got[k] - exp[k]) > 0.05) ok = false; }
+    rows.push({ name, finger: f, exp, got, ok });
+  }
+  // polegar e distâncias
+  const gT = gonio(fk(P({ THUMB: { opp: 0.05, mcp: 30, ip: 40 } })));
+  rows.push({ name: "Polegar: MCP 30, IP 40", finger: "THUMB", exp: { MCP: 30, IP: 40, TAM: 70 }, got: { MCP: gT.THUMB_MCP, IP: gT.THUMB_IP, TAM: gT.THUMB_TAM }, ok: Math.abs(gT.THUMB_MCP - 30) < 0.05 && Math.abs(gT.THUMB_IP - 40) < 0.05 && Math.abs(gT.THUMB_TAM - 70) < 0.05 });
+  const open = gonio(fk(P({}))), fan = gonio(fk(P({ INDEX: { abd: 15 }, PINKY: { abd: 20 } })));
+  rows.push({ name: "Leque: indicador 15 + mínimo 20", finger: "SPREAD", exp: { "aumento do espalhamento": 35 }, got: { "aumento do espalhamento": r2(fan.SPREAD - open.SPREAD) }, ok: Math.abs(fan.SPREAD - open.SPREAD - 35) < 0.1 });
+  return rows;
 }
 
 /* ============================ cenário ============================ */
@@ -732,16 +1032,73 @@ const FILTERS = {
       { k: "beta", plain: "Reação à velocidade", label: "β", min: 0, max: 0.2, step: 0.001, d: 3 },
       { k: "dc", plain: "Suavização da velocidade", label: "d_cutoff", min: 0.5, max: 5, step: 0.1, d: 1, unit: " Hz" }],
     make: (p, trace) => {
-      let v = null, prev = null, dx = 0;
+      let v = null, dx = 0;
       const al = (fc, dt) => 1 / (1 + (1 / (2 * Math.PI * fc)) / dt);
       return (x, dt) => {
-        if (v === null) { v = x; prev = x; dx = 0; if (trace) trace.push(p.mc); return x; }
-        const d = (x - prev) / dt, ad = al(p.dc, dt);
+        if (v === null) { v = x; dx = 0; if (trace) trace.push(p.mc); return x; }
+        // derivada sobre o último valor FILTRADO, como no algoritmo original (Casiez et al., 2012) e nas implementações dos autores
+        const d = (x - v) / dt, ad = al(p.dc, dt);
         dx = ad * d + (1 - ad) * dx;
         const fc = p.mc + p.beta * Math.abs(dx);
         if (trace) trace.push(fc);
         const a = al(fc, dt);
-        v = a * x + (1 - a) * v; prev = x; return v;
+        v = a * x + (1 - a) * v; return v;
+      };
+    } },
+  kalmancv: { name: "Kalman de velocidade", params: [
+      { k: "q", plain: "Quanto a velocidade pode mudar", label: "q", log: true, min: 1, max: 7, step: 0.1 },
+      { k: "r", plain: "Desconfiança da câmera", label: "r", log: true, min: -2, max: 2, step: 0.05 }],
+    // estado = ângulo e velocidade; aceleração tratada como ruído branco de intensidade q (°²/s³)
+    make: (p) => {
+      let x = null, v = 0, P00 = 1, P01 = 0, P11 = 1;
+      return (z, dt) => {
+        if (x === null) { x = z; v = 0; P00 = p.r; P01 = 0; P11 = 1e4; return x; }
+        const d2 = dt * dt, d3 = d2 * dt;
+        x += v * dt;
+        const n00 = P00 + 2 * dt * P01 + d2 * P11 + p.q * d3 / 3, n01 = P01 + dt * P11 + p.q * d2 / 2, n11 = P11 + p.q * dt;
+        const S = n00 + p.r, k0 = n00 / S, k1 = n01 / S, y = z - x;
+        x += k0 * y; v += k1 * y;
+        P00 = (1 - k0) * n00; P01 = (1 - k0) * n01; P11 = n11 - k1 * n01;
+        return x;
+      };
+    } },
+  ukf: { name: "UKF", params: [
+      { k: "q", plain: "Quanto a velocidade pode mudar", label: "q", log: true, min: 1, max: 7, step: 0.1 },
+      { k: "r", plain: "Desconfiança da câmera", label: "r", log: true, min: -2, max: 2, step: 0.05 },
+      { k: "wmax", plain: "Velocidade máxima do dedo", label: "ω_max", min: 100, max: 1500, step: 50, d: 0, unit: " °/s" }],
+    // Kalman unscented com modelo não linear: a velocidade satura em ω_max (tanh), como um dedo que não passa de certa rapidez.
+    make: (p) => {
+      let m = null, P = null;
+      const n = 2, alpha = 1, beta = 2, kappa = 1, lam = alpha * alpha * (n + kappa) - n, c = n + lam;
+      const Wm0 = lam / c, Wc0 = Wm0 + (1 - alpha * alpha + beta), Wi = 1 / (2 * c);
+      const f = (s, dt) => { const w = p.wmax * Math.tanh(s[1] / p.wmax); return [s[0] + w * dt, w]; };
+      return (z, dt) => {
+        if (m === null) { m = [z, 0]; P = [p.r, 0, 1e4]; return z; }
+        const a = Math.sqrt(Math.max(1e-12, c * P[0])), b = c * P[1] / a, d = Math.sqrt(Math.max(1e-12, c * P[2] - b * b));
+        const S = [m, [m[0] + a, m[1] + b], [m[0], m[1] + d], [m[0] - a, m[1] - b], [m[0], m[1] - d]].map((x) => f(x, dt));
+        const W = [Wm0, Wi, Wi, Wi, Wi], Wc = [Wc0, Wi, Wi, Wi, Wi];
+        const mp = [0, 0]; S.forEach((x, i) => { mp[0] += W[i] * x[0]; mp[1] += W[i] * x[1]; });
+        let p00 = 0, p01 = 0, p11 = 0;
+        S.forEach((x, i) => { const e0 = x[0] - mp[0], e1 = x[1] - mp[1]; p00 += Wc[i] * e0 * e0; p01 += Wc[i] * e0 * e1; p11 += Wc[i] * e1 * e1; });
+        const d2 = dt * dt; p00 += p.q * d2 * dt / 3; p01 += p.q * d2 / 2; p11 += p.q * dt;
+        // medida = o próprio ângulo
+        const Pzz = p00 + p.r, k0 = p00 / Pzz, k1 = p01 / Pzz, y = z - mp[0];
+        m = [mp[0] + k0 * y, mp[1] + k1 * y];
+        P = [p00 - k0 * k0 * Pzz, p01 - k0 * k1 * Pzz, p11 - k1 * k1 * Pzz];
+        return m[0];
+      };
+    } },
+  butter: { name: "Butterworth", params: [
+      { k: "fc", plain: "Frequência de corte", label: "f_c", min: 1, max: 12, step: 0.5, d: 1, unit: " Hz" }],
+    // passa-baixa de 2ª ordem causal (biquad pela transformação bilinear), recalculado com o Δt de cada quadro
+    make: (p) => {
+      let x1 = 0, x2 = 0, y1 = 0, y2 = 0, init = false;
+      return (x, dt) => {
+        if (!init) { x1 = x2 = y1 = y2 = x; init = true; return x; }
+        const fs = 1 / dt, fc = Math.min(p.fc, 0.45 * fs), K = Math.tan(Math.PI * fc / fs), Q = Math.SQRT1_2;
+        const nrm = 1 / (1 + K / Q + K * K), b0 = K * K * nrm, b1 = 2 * b0, a1 = 2 * (K * K - 1) * nrm, a2 = (1 - K / Q + K * K) * nrm;
+        const y = b0 * x + b1 * x1 + b0 * x2 - a1 * y1 - a2 * y2;
+        x2 = x1; x1 = x; y2 = y1; y1 = y; return y;
       };
     } },
 };
@@ -749,7 +1106,10 @@ function studyParams(type, mov) {
   if (type === "ema") return { alpha: 0.3 };
   if (type === "median") return { win: 5 };
   if (type === "kalman") return { q: 0.01, r: 0.1 };
-  return mov === "flexao" ? { mc: 1.0, beta: 0.003, dc: 1.0 } : { mc: 1.5, beta: 0, dc: 1.0 };
+  if (type === "kalmancv") return { q: 1e4, r: 10 };
+  if (type === "ukf") return { q: 1e4, r: 10, wmax: 600 };
+  if (type === "butter") return { fc: 5 };
+  return mov === "flexao" || mov === "gravacao" || mov === "degrau" ? { mc: 1.0, beta: 0.003, dc: 1.0 } : { mc: 1.5, beta: 0, dc: 1.0 };
 }
 const RESET_FRAMES = 15; // NO_HAND_RESET_FRAMES do sistema
 function makeChain(blocks, trace) { return blocks.filter((b) => b.on !== false).map((b) => FILTERS[b.type].make(b.p, b.type === "oneeuro" ? trace : null)); }
@@ -802,16 +1162,28 @@ function jitterOf(f, idx) {
 function metrics(f, v, sim) {
   const n = sim.n, t = sim.t, mov = [], rest = [];
   const still = sim.mov === "parada";
-  for (let i = 0; i < n; i++) {
-    if (!still && t[i] >= REST_S) mov.push(i);
-    else if (t[i] >= 0.3 && (still || t[i] <= REST_S - 0.1)) rest.push(i);
+  let span;
+  if (sim.recorded) {
+    // gravação: parado ou em movimento pela velocidade da referência
+    span = [];
+    for (let i = 1; i < n - 1; i++) {
+      if (!isFinite(v[i]) || !isFinite(v[i - 1]) || !isFinite(v[i + 1])) continue;
+      span.push(i);
+      (Math.abs(v[i + 1] - v[i - 1]) / Math.max(1e-3, t[i + 1] - t[i - 1]) > 30 ? mov : rest).push(i);
+    }
+  } else {
+    for (let i = 0; i < n; i++) {
+      if (!still && t[i] >= REST_S) mov.push(i);
+      else if (t[i] >= 0.3 && (still || t[i] <= REST_S - 0.1)) rest.push(i);
+    }
+    span = still ? rest : mov;
   }
-  const span = still ? rest : mov;
   let se = 0, c = 0, mx = 0;
-  for (const i of span) if (isFinite(f[i])) { const e = f[i] - v[i]; se += e * e; c++; mx = Math.max(mx, Math.abs(e)); }
+  for (const i of span) if (isFinite(f[i]) && isFinite(v[i])) { const e = f[i] - v[i]; se += e * e; c++; mx = Math.max(mx, Math.abs(e)); }
   let fmin = Infinity, fmax = -Infinity, vmin = Infinity, vmax = -Infinity;
-  for (const i of span) { if (isFinite(f[i])) { fmin = Math.min(fmin, f[i]); fmax = Math.max(fmax, f[i]); } vmin = Math.min(vmin, v[i]); vmax = Math.max(vmax, v[i]); }
-  return { rmse: c ? Math.sqrt(se / c) : NaN, lag: still ? NaN : xcorrLag(f, v, mov, sim.meanDt), jitter: jitterOf(f, rest), amp: still ? NaN : (fmax - fmin) - (vmax - vmin), max: mx };
+  for (const i of span) { if (isFinite(f[i])) { fmin = Math.min(fmin, f[i]); fmax = Math.max(fmax, f[i]); } if (isFinite(v[i])) { vmin = Math.min(vmin, v[i]); vmax = Math.max(vmax, v[i]); } }
+  const lag = still || mov.length < 10 ? NaN : xcorrLag(f, v, mov, sim.meanDt);
+  return { rmse: c ? Math.sqrt(se / c) : NaN, lag, jitter: jitterOf(f, rest), amp: still ? NaN : (fmax - fmin) - (vmax - vmin), max: mx };
 }
 const grade = {
   rmse: (x) => x < 5 ? "bom" : x < 10 ? "atencao" : "ruim",
@@ -826,7 +1198,7 @@ function steadyGain(q, r) { let P = 1, k = 1; for (let i = 0; i < 400; i++) { co
 const COLORS = { truth: "#F2F5F7", raw: "#8C9BA8", A: "#38D8F0", B: "#F05AA8", C: "#F2B23A" };
 const BASE_SC = { mov: "flexao", seed: 2604, speed: 1, jit: 0.1, tremA: 0, tremF: 6, out: 0, drop: 0, outJ: null };
 const state = {
-  mode: "aula", lesson: 0, readMore: false, pipeTab: "A", view: "persp", done: new Set(), touches: 0, chain: 0, autoPaused: new Set(), introSeen: false,
+  mode: "aula", lesson: 0, readMore: false, lvView: "sinal", ext: null, resView: "simples", pipeTab: "A", view: "persp", done: new Set(), touches: 0, chain: 0, autoPaused: new Set(), introSeen: false,
   sc: { ...BASE_SC },
   series: "INDEX_PIP",
   layers: { truth: true, raw: true, A: true, B: true, C: true },
@@ -844,8 +1216,8 @@ function defaultPipes(mov) {
     { id: "C", visible: false, blocks: [] },
   ];
 }
-const DEFAULT_SERIES = { flexao: "INDEX_PIP", oposicao: "THUMB_IP", pinca: "INDEX_MCP" };
-function seriesName(s) { const [f, j] = s.split("_"); return FINGER_PT[f] + ", " + JOINT_PT[j]; }
+const DEFAULT_SERIES = { flexao: "INDEX_PIP", oposicao: "THUMB_IP", pinca: "INDEX_MCP", gravacao: "INDEX_PIP", degrau: "INDEX_PIP", leque: "INDEX_ABD" };
+function seriesName(s) { if (SERIES_PT[s]) return SERIES_PT[s]; const [f, j] = s.split("_"); return FINGER_PT[f] + ", " + JOINT_PT[j]; }
 function chainText(p) {
   const on = p.blocks.filter((b) => b.on !== false);
   return on.length ? on.map((b) => FILTERS[b.type].name).join(" → ") : "sem filtro (igual à câmera)";
@@ -934,6 +1306,23 @@ const LESSONS = [
     meters: ["tremor", "lag", "max"],
     challenge: { text: "Encontre a cadeia com tremor abaixo de 0,35° e maior erro abaixo de 15°.", target: { tremor: 0.35, max: 15 }, test: (m) => m.A.jitter < 0.35 && m.A.max < 15, ok: "Conseguiu. Primeiro a mediana tira os saltos, depois o One Euro suaviza o que sobrou. É assim que o estudo monta as cascatas.",
       hint: "Na ordem inversa, o One Euro vê o salto como um movimento rápido e deixa ele passar." },
+  },
+  {
+    kicker: "Indo além", title: "Três filtros da engenharia",
+    lead: `O <b>Butterworth</b> corta os ritmos rápidos, como o tremor, e deixa passar os lentos. O <b>Kalman de velocidade</b> prevê para onde o dedo vai. O <b>UKF</b> faz o mesmo com um modelo curvo, que limita a velocidade do dedo.`,
+    more: `Prever o movimento quase elimina o atraso, mas tem um preço: nas viradas, o filtro pode passar do ponto antes de perceber que o dedo voltou.`,
+    sc: { mov: "indicador", jit: 0.1 },
+    pipes: [{ id: "A", name: "Filtro", blocks: [] }], view: "dedo", live: true,
+    control: { kind: "chain", name: "Filtro", options: [
+      ["Média exponencial", [["ema", { alpha: 0.3 }]]],
+      ["Butterworth", [["butter", { fc: 5 }]]],
+      ["Kalman de velocidade", [["kalmancv", { q: 1e4, r: 10 }]]],
+      ["UKF", [["ukf", { q: 1e4, r: 10, wmax: 600 }]]],
+    ], initial: 0 },
+    observe: "Compare o atraso de cada um. Depois olhe o dedo azul nas viradas: os filtros que preveem o movimento passam um pouco do contorno branco antes de voltar.",
+    meters: ["tremor", "lag", "max"],
+    challenge: { text: "Encontre um filtro com atraso abaixo de 20 ms e tremor abaixo de 1°.", target: { lag: 20, tremor: 1 }, test: (m) => m.A.lag < 20 && m.A.jitter < 1, ok: "Conseguiu. Prever a velocidade quase zera o atraso. No laboratório livre, a medida de ultrapassagem mostra o preço disso.",
+      hint: "Procure os filtros que estimam a velocidade do dedo." },
     last: true,
   },
 ];
@@ -959,6 +1348,7 @@ function applyLesson(idx) {
   recomputeSim();
   renderDock(); renderLayers(); renderChainbar();
   $("liveBtn").hidden = !L.live;
+  $("camLessonBtn").hidden = idx < 1;
   state.simT = 0; state.frame = 0; setPlaying(true);
   if (L.live) startLive();
 }
@@ -1165,7 +1555,13 @@ function bindDilema() {
 }
 
 /* ============================ cálculo ============================ */
-function recomputeSim() { state.sim = simulate(state.sc); recomputeFilters(); }
+function recomputeSim() { state.sim = state.sc.mov === "gravacao" && state.recording ? state.recording : simulate(state.sc); recomputeFilters(); }
+// No laboratório livre, uma gravação da câmera não tem mão real: a linha de comparação vira a referência centrada.
+function applyRecordedUi() {
+  const rec = state.sc.mov === "gravacao";
+  state.names.truth = rec ? "Referência" : "Mão real";
+  $("recNote").hidden = !rec; $("probs").hidden = rec; $("seedField").hidden = rec;
+}
 function recomputeFilters() {
   const sim = state.sim;
   state.outs = {};
@@ -1180,7 +1576,18 @@ function recomputeFilters() {
     if (L.meters.includes("speedo")) { const tr = []; runSeries(state.pipes[0].blocks, sim.rawS[s], sim, tr); state.trace = tr; }
     if (state.live) state.live.chains = {};
     renderMeters(); updateChallenge();
-  } else renderEstado();
+  } else {
+    state.ext = { raw: metricsExt(sim.rawS[s], v, sim), ref: smoothOfRef(v, sim) };
+    for (const p of state.pipes) if (p.visible) state.ext[p.id] = metricsExt(state.outs[p.id][s], v, sim);
+    // TAM da sessão do dedo da série escolhida
+    const fing = s.split("_")[0], joints = fing === "THUMB" ? ["THUMB_MCP", "THUMB_IP"] : FINGERS.includes(fing) ? [fing + "_MCP", fing + "_PIP", fing + "_DIP"] : null;
+    const idx = []; for (let i = 0; i < sim.n; i++) if (sim.t[i] >= 0.3) idx.push(i);
+    const tamOf = (src) => { if (!joints) return NaN; const g = (k) => src[k]; g.joints = joints; return tamSession(g, idx); };
+    state.ext.tam = { ref: tamOf(sim.truthS), raw: tamOf(sim.rawS) };
+    for (const p of state.pipes) if (p.visible) state.ext.tam[p.id] = tamOf(state.outs[p.id]);
+    for (const id of Object.keys(state.ext)) if (state.ext[id] && state.ext.tam && id !== "tam" && id !== "ref") state.ext[id].tamS = state.ext.tam[id];
+    renderEstado();
+  }
   chart.dirty = true;
   $("scrub").max = sim.n - 1;
 }
@@ -1201,6 +1608,7 @@ function startLive() {
 }
 function stopLive() {
   if (!state.live) return;
+  if (state.live.cam) { camOff(); camLessonReturnFeed(); }
   state.live = null;
   $("dragHint").hidden = true;
   $("bend").hidden = true;
@@ -1235,6 +1643,7 @@ function liveStep(dt) {
 }
 function liveMetrics() {
   const L = state.live, B = L.buf, n = B.t.length;
+  if (L.cam) { L.mets = camLiveMetrics(B); renderMeters(); return; }
   const idx = [], still = [];
   for (let i = 0; i < n; i++) { idx.push(i); if (i > 0 && Math.abs(B.truth[i] - B.truth[i - 1]) < 0.05) still.push(i); }
   let lo = Infinity, hi = -Infinity; for (const v of B.truth) { lo = Math.min(lo, v); hi = Math.max(hi, v); }
@@ -1248,21 +1657,51 @@ function liveMetrics() {
   L.mets = m; renderMeters();
 }
 $("liveBtn").addEventListener("click", () => { if (state.live) stopLive(); else startLive(); });
+// Com a câmera não há mão real: tremor nos trechos parados do próprio sinal e atraso contra o sinal da câmera.
+function camLiveMetrics(B) {
+  const n = B.t.length, still = [], idx = [];
+  let lo = Infinity, hi = -Infinity;
+  for (let i = 0; i < n; i++) {
+    if (!isFinite(B.raw[i])) continue;
+    idx.push(i); lo = Math.min(lo, B.raw[i]); hi = Math.max(hi, B.raw[i]);
+    let a = Infinity, b = -Infinity, ok = i >= 4 && i < n - 4;
+    for (let j = i - 4; ok && j <= i + 4; j++) { if (!isFinite(B.raw[j])) { ok = false; break; } a = Math.min(a, B.raw[j]); b = Math.max(b, B.raw[j]); }
+    if (ok && b - a < 6) still.push(i);
+  }
+  const dtm = n > 1 ? (B.t[n - 1] - B.t[0]) / (n - 1) : 1 / 30, moving = hi - lo > 15;
+  const m = { raw: { jitter: still.length > 8 ? jitterOf(B.raw, still) : NaN, max: NaN } };
+  for (const p of state.pipes) {
+    if (!p.visible) continue;
+    const f = B.out[p.id];
+    m[p.id] = { jitter: still.length > 8 ? jitterOf(f, still) : NaN, lag: moving && idx.length > 20 ? xcorrLag(f, B.raw, idx, dtm) : NaN, max: NaN };
+  }
+  return m;
+}
 
 /* ============================ modo ============================ */
-function placeArena(m) { (m === "aula" ? $("slotAula") : $("slotLivre")).appendChild($("arenaWrap")); resizeArena(); }
+function placeArena(m) { (m === "aula" ? $("slotAula") : m === "camera" ? $("slotCam") : $("slotLivre")).appendChild($("arenaWrap")); resizeArena(); }
 function setMode(m) {
   stopLive();
   state.mode = m;
   $("modeAula").setAttribute("aria-pressed", String(m === "aula"));
   $("modeLivre").setAttribute("aria-pressed", String(m === "livre"));
   $("modeCam").setAttribute("aria-pressed", String(m === "camera"));
+  document.querySelectorAll("#bottomNav [data-mode]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.mode === m)));
+  if (m === "livre") document.body.dataset.lv = state.lvTab || "mao"; else delete document.body.dataset.lv;
   document.querySelectorAll(".aula-only").forEach((e) => e.hidden = m !== "aula");
   document.querySelectorAll(".livre-only").forEach((e) => e.hidden = m !== "livre");
   document.querySelectorAll(".cam-only").forEach((e) => e.hidden = m !== "camera");
-  if (m !== "camera") camOff();
-  if (m === "camera") { $("timeline").hidden = true; document.querySelector(".credit").hidden = true; $("arenaWrap").hidden = true; return; }
-  document.querySelector(".credit").hidden = false; $("arenaWrap").hidden = false;
+  if (m !== "camera" && lc.running && lc.target === "camera") camOff();
+  $("arenaWrap").classList.toggle("in-cam", m === "camera");
+  $("camLessonBtn").hidden = !(m === "aula" && state.lesson >= 1);
+  if (m === "camera") {
+    placeArena("camera"); $("timeline").hidden = true; document.querySelector(".credit").hidden = true;
+    $("summary").hidden = true; $("intro").hidden = true;
+    state.layers = { truth: false, raw: true, A: true, B: false, C: false }; M1 = M1_BY.flexao;
+    setView("persp", true); camViewApply();
+    return;
+  }
+  document.querySelector(".credit").hidden = false;
   placeArena(m);
   $("summary").hidden = true;
   $("skinBtn").hidden = !(skinMode || Object.keys(skins).length === 5) || m === "aula";
@@ -1270,11 +1709,13 @@ function setMode(m) {
   if (m === "aula") { applyLesson(state.lesson); if (!state.introSeen) $("intro").hidden = false; }
   else {
     state.sc = { ...BASE_SC, mov: $("movement").value, seed: parseInt($("seed").value, 10) || 2604 };
+    if (state.sc.mov === "gravacao" && !state.recording) { state.sc.mov = "flexao"; $("movement").value = "flexao"; }
     for (const [sid, , key] of sliders) state.sc[key] = parseFloat($(sid).value);
     state.series = $("series").value || DEFAULT_SERIES[state.sc.mov];
     state.pipes = defaultPipes(state.sc.mov);
     state.names = { truth: "Mão real", raw: "Câmera", A: "Cadeia A", B: "Cadeia B", C: "Cadeia C" };
     state.layers = { truth: true, raw: true, A: true, B: true, C: false };
+    applyRecordedUi();
     $("liveBtn").hidden = true; $("chainbar").hidden = true;
     setRate(1);
     renderPipes(); renderLayers(); setView("persp", true); recomputeSim();
@@ -1283,6 +1724,13 @@ function setMode(m) {
 $("modeAula").addEventListener("click", () => setMode("aula"));
 $("modeLivre").addEventListener("click", () => setMode("livre"));
 $("modeCam").addEventListener("click", () => setMode("camera"));
+$("bottomNav").addEventListener("click", (e) => { const b = e.target.closest("[data-mode]"); if (b && b.dataset.mode !== state.mode) { setMode(b.dataset.mode); window.scrollTo(0, 0); } });
+$("lvTabs").addEventListener("click", (e) => {
+  const b = e.target.closest("[data-lv]"); if (!b) return;
+  state.lvTab = b.dataset.lv; document.body.dataset.lv = state.lvTab;
+  $("lvTabs").querySelectorAll("[data-lv]").forEach((x) => x.setAttribute("aria-pressed", String(x.dataset.lv === state.lvTab)));
+  resizeArena(); resizeChart(); chart.dirty = true; window.scrollTo(0, 0);
+});
 $("introGo").addEventListener("click", () => { $("intro").hidden = true; state.introSeen = true; state.simT = 0; setPlaying(true); });
 $("sumClose").addEventListener("click", () => { $("summary").hidden = true; });
 $("sumLab").addEventListener("click", () => setMode("livre"));
@@ -1305,13 +1753,24 @@ for (const [sid, oid, key, fmt] of sliders) {
   el.addEventListener("input", () => { upd(); state.sc[key] = parseFloat(el.value); scheduleSim(); });
 }
 (function fillSeries() {
-  const sel = $("series");
-  for (const s of SERIES) { if (s === "_OPP") continue; const o = document.createElement("option"); o.value = s; o.textContent = seriesName(s); sel.appendChild(o); }
+  const sel = $("series"), F = FINGERS;
+  const groups = [
+    ["Flexão dos dedos", F.flatMap((f) => [f + "_MCP", f + "_PIP", f + "_DIP", f + "_TAM"])],
+    ["Abdução e abertura", F.map((f) => f + "_ABD").concat(["SPREAD"])],
+    ["Polegar", ["THUMB_MCP", "THUMB_IP", "THUMB_TAM", "THUMB_RABD", "THUMB_PABD", "THUMB_OPPD"]],
+    ["Distâncias", F.map((f) => f + "_PPD").concat(["PINCH"])],
+  ];
+  for (const [label, list] of groups) {
+    const og = document.createElement("optgroup"); og.label = label;
+    for (const k of list) { const o = document.createElement("option"); o.value = k; o.textContent = seriesName(k); og.appendChild(o); }
+    sel.appendChild(og);
+  }
   sel.value = "INDEX_PIP";
 })();
 $("series").addEventListener("change", (e) => { state.series = e.target.value; recomputeFilters(); });
 $("movement").addEventListener("change", (e) => {
   state.sc.mov = e.target.value;
+  applyRecordedUi(); renderLayers();
   state.series = DEFAULT_SERIES[state.sc.mov]; $("series").value = state.series;
   for (const p of state.pipes) for (const b of p.blocks) if (b.type === "oneeuro") b.p = studyParams("oneeuro", state.sc.mov);
   renderPipes(); recomputeSim();
@@ -1319,7 +1778,10 @@ $("movement").addEventListener("change", (e) => {
 $("seed").addEventListener("change", (e) => { state.sc.seed = clamp(parseInt(e.target.value, 10) || 1, 1, 999999); e.target.value = state.sc.seed; recomputeSim(); });
 $("newSeed").addEventListener("click", () => { state.sc.seed = 1 + Math.floor(Math.random() * 999998); $("seed").value = state.sc.seed; recomputeSim(); });
 $("resetPipes").addEventListener("click", () => { state.pipes = defaultPipes(state.sc.mov); state.layers.C = false; renderPipes(); recomputeFilters(); renderLayers(); });
-function fmtParam(def, v) { return def.log ? v.toExponential(1).replace(".", ",").replace("e-", "e−") : nf(v, def.d) + (def.unit || ""); }
+function fmtParam(def, v) {
+  if (!def.log) return nf(v, def.d) + (def.unit || "");
+  return v >= 100 ? nf(v, 0) : v >= 1 ? nf(v, 1) : nf(v, Math.min(4, Math.max(2, 1 - Math.floor(Math.log10(v)))));
+}
 function renderPipes() {
   const host = $("pipes"); host.innerHTML = "";
   const tabs = document.createElement("div"); tabs.className = "ptabs"; tabs.setAttribute("role", "tablist");
@@ -1328,7 +1790,7 @@ function renderPipes() {
     t.setAttribute("aria-selected", String(p.id === state.pipeTab));
     t.innerHTML = `<span class="pipe-id" style="background:${COLORS[p.id]};opacity:${p.visible ? 1 : .45}">${p.id}</span><span>${p.blocks.length ? p.blocks.filter((b) => b.on !== false).map((b) => FILTERS[b.type].name.split(" ")[0]).join(" → ") || "desligada" : "vazia"}</span>`;
     t.title = chainText(p);
-    t.addEventListener("click", () => { state.pipeTab = p.id; renderPipes(); });
+    t.addEventListener("click", () => { state.pipeTab = p.id; renderPipes(); renderStrip(); });
     tabs.appendChild(t);
   }
   host.appendChild(tabs);
@@ -1348,12 +1810,14 @@ function renderPipes() {
       const bl = document.createElement("div"); bl.className = "block" + (b.on ? "" : " off");
       const bh = document.createElement("div"); bh.className = "block-head";
       bh.innerHTML = `<span class="mono" style="color:var(--muted);font-size:11px">${bi + 1}</span><span class="block-name">${def.name}</span>`;
-      const mk = (txt, title, fn, disabled) => { const x = document.createElement("button"); x.className = "btn icon"; x.type = "button"; x.textContent = txt; x.title = title; x.setAttribute("aria-label", title); x.disabled = !!disabled; if (disabled) x.style.opacity = .3; x.addEventListener("click", fn); return x; };
-      bh.appendChild(mk("↑", "Mover para cima", () => { [p.blocks[bi - 1], p.blocks[bi]] = [p.blocks[bi], p.blocks[bi - 1]]; renderPipes(); recomputeFilters(); }, bi === 0));
-      bh.appendChild(mk("↓", "Mover para baixo", () => { [p.blocks[bi + 1], p.blocks[bi]] = [p.blocks[bi], p.blocks[bi + 1]]; renderPipes(); recomputeFilters(); }, bi === p.blocks.length - 1));
-      const by = mk(b.on ? "on" : "off", b.on ? "Desligar sem remover" : "Ligar", () => { b.on = !b.on; renderPipes(); recomputeFilters(); });
-      by.style.width = "30px"; bh.appendChild(by);
-      bh.appendChild(mk("×", "Remover filtro", () => { p.blocks.splice(bi, 1); renderPipes(); recomputeFilters(); }));
+      const mk = (txt, title, fn, disabled) => { const x = document.createElement("button"); x.className = "btn small"; x.type = "button"; x.textContent = txt; x.title = title; x.setAttribute("aria-label", title); x.disabled = !!disabled; if (disabled) x.style.opacity = .3; x.addEventListener("click", fn); return x; };
+      bh.insertAdjacentHTML("beforeend", qh("f_" + b.type));
+      bh.appendChild(mk("Subir", "Passar este filtro para antes do anterior", () => { [p.blocks[bi - 1], p.blocks[bi]] = [p.blocks[bi], p.blocks[bi - 1]]; renderPipes(); recomputeFilters(); }, bi === 0));
+      bh.appendChild(mk("Descer", "Passar este filtro para depois do próximo", () => { [p.blocks[bi + 1], p.blocks[bi]] = [p.blocks[bi], p.blocks[bi + 1]]; renderPipes(); recomputeFilters(); }, bi === p.blocks.length - 1));
+      const by = mk(b.on ? "Ligado" : "Desligado", b.on ? "Desligar sem remover" : "Ligar de novo", () => { b.on = !b.on; renderPipes(); recomputeFilters(); });
+      by.setAttribute("aria-pressed", String(!!b.on));
+      bh.appendChild(by);
+      bh.appendChild(mk("Remover", "Tirar este filtro da cadeia", () => { p.blocks.splice(bi, 1); renderPipes(); recomputeFilters(); }));
       bl.appendChild(bh);
       for (const pd of def.params) {
         const row = document.createElement("div"); row.className = "slider";
@@ -1393,21 +1857,138 @@ const TIPS = {
   jitter: "Quanto o número pula de um quadro para o outro com a mão parada.",
   amp: "Quanto a amplitude do movimento ficou maior (positivo) ou menor (negativo) que a real.",
 };
+const TIPS_REC = {
+  rmse: "Diferença média entre o filtro e a referência (média centrada do próprio sinal da câmera).",
+  lag: "Quanto tempo o filtro chega depois do sinal da câmera.",
+  jitter: "Quanto o número pula de um quadro para o outro nos trechos em que a mão ficou parada.",
+  amp: "Quanto a amplitude do movimento ficou maior (positivo) ou menor (negativo) que a da referência.",
+};
 function metricRows(m, isRaw) {
-  const row = (name, val, key, unit, d) => { const g = isRaw ? "ref" : grade[key](val); return `<span title="${TIPS[key]}">${name}</span><span class="v">${nf(val, d)}${unit}</span><span class="chip ${g}">${isRaw ? "ref." : GRADE_TXT[g]}</span>`; };
-  return `<div class="metrics">${row("Erro médio", m.rmse, "rmse", "°", 2)}${row("Atraso", m.lag, "lag", " ms", 0)}${row("Tremor parado", m.jitter, "jitter", "°", 2)}${row("Erro de amplitude", m.amp, "amp", "°", 1)}</div>`;
+  const rec = state.sim && state.sim.recorded, tips = rec ? TIPS_REC : TIPS;
+  const row = (name, val, key, unit, d) => { const g = isRaw || !isFinite(val) ? "ref" : grade[key](val); return `<span title="${tips[key]}">${name}</span><span class="v">${nf(val, d)}${unit}</span><span class="chip ${g}">${isRaw ? "ref." : isFinite(val) ? GRADE_TXT[g] : "–"}</span>`; };
+  return `<div class="metrics">${row(rec ? "Diferença da referência" : "Erro médio", m.rmse, "rmse", "°", 2)}${row(rec ? "Atraso vs câmera" : "Atraso", m.lag, "lag", " ms", 0)}${row("Tremor parado", m.jitter, "jitter", "°", 2)}${row("Erro de amplitude", m.amp, "amp", "°", 1)}</div>`;
+}
+const RES_ROWS = [
+  ["Erro", [
+    ["rmse", "Erro médio (RMSE)", "°", 2, "low", "Raiz do erro quadrático médio contra a referência, no trecho de movimento."],
+    ["mae", "Erro absoluto médio (MAE)", "°", 2, "low", "Média do erro em valor absoluto. Pesa menos os erros grandes que o RMSE."],
+    ["nrmse", "Erro relativo (NRMSE)", "%", 1, "low", "RMSE dividido pela amplitude do movimento."],
+    ["max", "Maior erro", "°", 1, "low", "O pior quadro."],
+    ["amp", "Erro de amplitude", "°", 1, "abs", "Quanto a amplitude ficou maior (positivo) ou menor (negativo) que a da referência."]]],
+  ["Tempo", [
+    ["lag", "Atraso (correlação)", " ms", 0, "low", "Deslocamento que mais alinha o filtro à referência (pico da correlação cruzada)."],
+    ["peakLag", "Atraso no pico", " ms", 0, "abs", "Diferença de tempo para chegar a 90% do fechamento, média das repetições."],
+    ["overshoot", "Ultrapassagem", "°", 1, "low", "Quanto o filtro passa do ponto real no fechamento ou na abertura (maior valor)."],
+    ["rise", "Tempo de subida (10–90%)", " ms", 0, "low", "Só no cenário de degrau: quanto o filtro leva de 10% a 90% do salto."],
+    ["settle", "Tempo de acomodação (±5%)", " ms", 0, "low", "Só no cenário de degrau: quanto leva até ficar a menos de 5% do valor final."],
+    ["stepOv", "Ultrapassagem no degrau", "%", 1, "low", "Só no cenário de degrau: passada além do valor final, em % do salto."]]],
+  ["Tremor e suavidade", [
+    ["jitter", "Tremor parado (RMS da 2ª diferença)", "°", 2, "low", "Quanto o número pula de um quadro para o outro com a mão parada (definição do lab)."],
+    ["sdRest", "Desvio padrão em repouso", "°", 2, "low", "Desvio padrão do erro com a mão parada: o jitter mais usado na literatura."],
+    ["sparc", "SPARC", "", 2, "ref", "Suavidade pelo espectro da velocidade (Balasubramanian et al., 2015). Mais perto de zero = mais suave. O melhor é o mais parecido com a mão real."],
+    ["ldlj", "LDLJ", "", 2, "ref", "Jerk adimensional em log (Hogan e Sternad, 2009). Maior = mais suave. O melhor é o mais parecido com a mão real."]]],
+  ["Concordância (Bland-Altman)", [
+    ["bias", "Viés", "°", 2, "abs", "Diferença média entre o filtro e a referência."],
+    ["loa", "Limites de 95%", "°", 1, "width", "Viés ± 1,96 desvio padrão: onde caem 95% das diferenças."]]],
+  ["Medida clínica", [
+    ["tamS", "TAM da sessão (ASSH)", "°", 1, "ref", "Flexão máxima somada menos o déficit de extensão, no dedo escolhido. O melhor é o mais parecido com a mão real."]]],
+  ["Custo", [
+    ["cost", "Custo por amostra", " µs", 1, "low", "Tempo de processamento por quadro, medido neste aparelho."]]],
+];
+const WORDS = { jitter: { bom: "quase nada", atencao: "um pouco", ruim: "muito" }, lag: { bom: "quase nada", atencao: "um pouco", ruim: "muito" }, rmse: { bom: "pouco", atencao: "médio", ruim: "muito" } };
+function renderPlacar(E, pipes, rec) {
+  if (!isAng()) {
+    let w = null; for (const p of pipes) if (!w || E[p.id].rmse < E[w.id].rmse) w = p;
+    const u = U();
+    return `<div class="placar"><div class="verdict">${w ? `<b>${state.names[w.id]}</b> fica mais perto da ${rec ? "referência" : "mão real"}: diferença média de ${nf(E[w.id].rmse, 1)}${u}, atraso de ${nf(E[w.id].lag, 0)} ms.` : "Adicione um filtro para comparar."}</div>
+      ${pipes.concat([{ id: "raw" }]).map((p) => `<div class="sc-card${p === w ? " win" : ""}"><div class="sc-head"><span class="pipe-id" style="background:${COLORS[p.id] || COLORS.raw}">${p.id === "raw" ? "–" : p.id}</span><span>${p.id === "raw" ? "Câmera, sem filtro" : chainText(p)}</span></div>
+        <div class="sc-row"><span>Treme?</span><i class="g-ref"></i><span></span><small>${nf(E[p.id].jitter, 2)}${u}</small></div>
+        <div class="sc-row"><span>Atrasa?</span><i class="g-ref"></i><span></span><small>${nf(E[p.id].lag, 0)} ms</small></div>
+        <div class="sc-row"><span>Erra quanto?</span><i class="g-ref"></i><span></span><small>${nf(E[p.id].rmse, 1)}${u}</small></div></div>`).join("")}
+      <p class="note">Esta medida é uma distância ou porcentagem: as cores de bom e ruim valem só para ângulos.</p></div>`;
+  }
+  const m3 = [["jitter", "Treme?", "treme", "°", 2], ["lag", "Atrasa?", "atrasa", " ms", 0], ["rmse", "Erra quanto?", "erra", "°", 1]];
+  const gi = { bom: 0, atencao: 1, ruim: 2 };
+  const score = (m) => m3.reduce((s, [k]) => s + (isFinite(m[k]) ? gi[grade[k](m[k])] : 1), 0) + (isFinite(m.rmse) ? m.rmse / 100 : 1);
+  let win = null; for (const p of pipes) if (!win || score(E[p.id]) < score(E[win.id])) win = p;
+  let verdict = "Adicione um filtro em uma cadeia para comparar.";
+  if (win) {
+    const m = E[win.id], good = [], weak = [];
+    const verb = { jitter: "treme", lag: "atrasa", rmse: "erra" };
+    let bestWeak = 0;
+    for (const [k, , , u, d] of m3) {
+      const isBest = pipes.length > 1 && pipes.every((q) => q === win || !(E[q.id][k] < m[k]));
+      const g = isFinite(m[k]) ? grade[k](m[k]) : "atencao";
+      const txt = `${verb[k]} ${WORDS[k][g]} (${nf(m[k], d)}${u})`;
+      if (g === "bom") good.push(isBest ? `é a que menos ${verb[k]} (${nf(m[k], d)}${u})` : txt);
+      else { weak.push(txt); if (isBest) bestWeak++; }
+    }
+    verdict = (pipes.length > 1 ? `<b>${state.names[win.id]} vence</b>` : `<b>${state.names[win.id]}</b>`) + (good.length ? ": " + good.join(", ") + "." : ".")
+      + (weak.length ? ` Ponto fraco: ${weak.join(" e ")}${bestWeak ? (bestWeak === weak.length && pipes.length > 1 ? ", mesmo sendo a melhor nisso" : "") : ""}.` : " Sem ponto fraco nestas três medidas.");
+  }
+  const card = (id, m, title, cls, help) => `<div class="sc-card ${cls}"><div class="sc-head">${id === "raw" ? `<span class="pipe-id" style="background:${COLORS.raw}">–</span>` : `<span class="pipe-id" style="background:${COLORS[id]}">${id}</span>`}<span>${title}</span></div>` +
+    m3.map(([k, lab, hk, u, d]) => { const g = id === "raw" ? "ref" : isFinite(m[k]) ? grade[k](m[k]) : "ref"; const w = id === "raw" || !isFinite(m[k]) ? (k === "lag" && id === "raw" ? "não atrasa" : "") : WORDS[k][g];
+      return `<div class="sc-row"><span>${lab}${help ? qh(hk) : ""}</span><i class="g-${g}"></i><span class="w">${w || (k === "lag" ? "não atrasa" : "referência")}</span><small>${nf(m[k], d)}${u}</small></div>`; }).join("") + `</div>`;
+  return `<div class="placar"><div class="verdict">${verdict}</div>
+    ${pipes.map((p, i) => card(p.id, E[p.id], chainText(p), p === win && pipes.length > 1 ? "win" : "", i === 0)).join("")}
+    ${card("raw", E.raw, "Câmera, sem filtro (para comparar)", "ref")}
+    <p class="note">${rec ? "Gravação real: \"erra\" compara com a referência, a média centrada do próprio sinal." : "Verde é bom, amarelo pede atenção e vermelho é ruim."} Para todas as medidas, abra "Pesquisa".</p></div>`;
 }
 function renderEstado() {
   if (state.mode !== "livre") return;
-  const mets = state.mets;
-  let html = `<div class="sec-head"><span class="label">Resultados · ${seriesName(state.series)}</span></div>`;
-  for (const p of state.pipes) {
-    if (!p.visible) continue;
-    html += `<div class="card"><div class="card-head"><span class="pipe-id" style="background:${COLORS[p.id]}">${p.id}</span><div style="min-width:0"><div class="card-title">${chainText(p)}</div></div></div>${metricRows(mets[p.id], false)}<div class="live-txt" id="live-${p.id}"></div></div>`;
+  const sim = state.sim, rec = sim.recorded, E = state.ext; if (!E) return;
+  if (state.resView !== "pesquisa") {
+    const pipesS = state.pipes.filter((p) => p.visible && E[p.id]);
+    $("estado").innerHTML = resHeader() + renderPlacar(E, pipesS, rec);
+    bindResToggle(); renderStrip(); return;
   }
-  html += `<div class="card"><div class="card-head"><span class="pipe-id" style="background:${COLORS.raw}">–</span><div><div class="card-title">Câmera, sem filtro</div><div class="card-sub">referência para comparar</div></div></div>${metricRows(mets.raw, true)}</div>
-  <p class="note">Passe o mouse sobre o nome de cada medida para ver o que ela significa.</p>`;
+  const pipes = state.pipes.filter((p) => p.visible && E[p.id]);
+  const cols = pipes.map((p) => [p.id, E[p.id]]).concat([["raw", E.raw]]);
+  const refName = rec ? "Referência" : "Mão real";
+  let html = resHeader();
+  if (rec) html += `<p class="note">Gravação real (mão ${sim.hand}): sem mão real, as medidas comparam com a referência centrada e com o próprio sinal da câmera.</p>`;
+  html += `<table class="rt"><thead><tr><th>Medida</th>${pipes.map((p) => `<th title="${chainText(p)}"><span class="pipe-id" style="background:${COLORS[p.id]};display:inline-grid;width:18px;height:18px;font-size:11px">${p.id}</span></th>`).join("")}<th title="Sem filtro">Câmera</th><th class="c-ref">${refName}</th></tr></thead><tbody>`;
+  for (const [grp, rows] of RES_ROWS) {
+    const vis = rows.filter(([k]) => (!["rise", "settle", "stepOv"].includes(k) || sim.mov === "degrau") && (k !== "tamS" || isFinite(E.tam.ref)));
+    if (!vis.length) continue;
+    html += `<tr class="grp"><td colspan="${cols.length + 2}">${grp}</td></tr>`;
+    for (let [k, name, unit, d, rule, tip] of vis) {
+      if (unit === "°") unit = U();
+      const val = (m) => k === "loa" ? [m.loaLo, m.loaHi] : k === "cost" ? NaN : k === "tamS" ? m.tamS : m[k];
+      const refV = k === "sparc" || k === "ldlj" ? E.ref[k] : k === "tamS" ? E.tam.ref : NaN;
+      const score = (x) => rule === "low" ? x : rule === "abs" ? Math.abs(x) : rule === "ref" ? Math.abs(x - refV) : rule === "width" ? x[1] - x[0] : x;
+      let best = null, bs = Infinity;
+      for (const p of pipes) { const x = val(E[p.id]); const sc = Array.isArray(x) ? (isFinite(x[0]) ? score(x) : NaN) : score(x); if (isFinite(sc) && sc < bs - 1e-9) { bs = sc; best = p.id; } }
+      const fmt = (x) => Array.isArray(x) ? (isFinite(x[0]) ? `${nf(x[0], d)} a ${nf(x[1], d)}${unit}` : "–") : (isFinite(x) ? nf(x, d) + unit : "–");
+      const gcls = (id, x) => id !== "raw" && grade[k] && isAng() && isFinite(x) ? grade[k](x) : "";
+      html += `<tr><td class="metric">${name}${qh(k)}</td>` + cols.map(([id, m]) => {
+        if (k === "cost") return `<td id="cost-${id}">${id === "raw" ? "–" : "…"}</td>`;
+        const x = val(m); return `<td class="${gcls(id, x)}${id === best && pipes.length > 1 ? " best" : ""}">${fmt(x)}</td>`;
+      }).join("") + `<td class="c-ref">${isFinite(refV) ? nf(refV, d) : ""}</td></tr>`;
+    }
+  }
+  html += `</tbody></table><p class="rt-now" id="rtNow"></p>
+  <p class="note">Sublinhado: a melhor cadeia em cada medida. Cores: verde bom, amarelo atenção, vermelho ruim. Toque no "?" de cada medida para ver o que ela significa.</p>`;
   $("estado").innerHTML = html;
+  bindResToggle();
+  renderStrip();
+  clearTimeout(costTimer);
+  costTimer = setTimeout(() => { for (const p of pipes) { const el = $("cost-" + p.id); if (el) el.textContent = nf(costOf(p, sim), 2) + " µs"; } }, 350);
+}
+let costTimer = null;
+function resHeader() {
+  return `<div class="sec-head"><span class="label">Resultados · ${seriesName(state.series)}</span>
+    <div class="seg res-toggle" role="group" aria-label="Nível de detalhe" id="resToggle"><button type="button" data-r="simples" aria-pressed="${state.resView !== "pesquisa"}">Simples</button><button type="button" data-r="pesquisa" aria-pressed="${state.resView === "pesquisa"}">Pesquisa</button></div></div>`;
+}
+function bindResToggle() { $("resToggle").addEventListener("click", (e) => { const b = e.target.closest("[data-r]"); if (!b) return; state.resView = b.dataset.r; renderEstado(); }); }
+// Faixa do celular: o resultado da cadeia aberta nas abas, sempre à vista enquanto se mexe nos filtros.
+function renderStrip() {
+  const el = $("lvStrip"); if (state.mode !== "livre") { el.hidden = true; return; }
+  const p = state.pipes.find((q) => q.id === state.pipeTab), m = p && state.mets[p.id];
+  if (!p || !p.visible || !m) { el.hidden = true; return; }
+  const rec = state.sim.recorded;
+  el.innerHTML = `<span class="pipe-id" style="background:${COLORS[p.id]};display:inline-grid;width:18px;height:18px;font-size:11px;vertical-align:-3px">${p.id}</span> ${rec ? "dif." : "erro"} <b>${nf(m.rmse, 1)}${U()}</b> · atraso <b>${nf(m.lag, 0)} ms</b> · tremor <b>${nf(m.jitter, 2)}${U()}</b>`;
+  el.hidden = false;
 }
 
 /* ============================ arena 3D ============================ */
@@ -1715,6 +2296,7 @@ function loadSkins() {
 $("skinBtn").addEventListener("click", () => { skinMode = !skinMode; $("skinBtn").textContent = skinMode ? "Ver esqueleto" : "Ver pele"; });
 function drawHand(key, lm, show) {
   const sk = skinMode ? skins[key] : null;
+  show = !!show && !!lm;
   hands[key].group.visible = !!show && !sk;
   if (skins[key]) skins[key].group.visible = !!show && !!sk;
   if (!show || !lm) return null;
@@ -1753,11 +2335,13 @@ function drawScope() {
   let lo = Infinity, hi = -Infinity;
   const vis = state.pipes.filter((p) => p.visible && state.layers[p.id]);
   for (let i = S.i0; i <= S.i1; i++) {
-    lo = Math.min(lo, S.truth[i]); hi = Math.max(hi, S.truth[i]);
+    if (isFinite(S.truth[i])) { lo = Math.min(lo, S.truth[i]); hi = Math.max(hi, S.truth[i]); }
+    else if (isFinite(S.raw[i])) { lo = Math.min(lo, S.raw[i]); hi = Math.max(hi, S.raw[i]); }
     for (const p of vis) { const v = S.out[p.id][i]; if (isFinite(v)) { lo = Math.min(lo, v); hi = Math.max(hi, v); } }
     if (state.sim.mov === "parada" && isFinite(S.raw[i])) { lo = Math.min(lo, S.raw[i]); hi = Math.max(hi, S.raw[i]); }
   }
   const still = state.sim.mov === "parada" && !state.live;
+  if (!isFinite(lo)) { lo = 0; hi = 30; }
   const span = Math.max(still ? 4 : 30, hi - lo);
   const mid = (hi + lo) / 2; lo = mid - span * 0.62; hi = mid + span * 0.62;
   const Y = (v) => pad.t + (1 - (v - lo) / (hi - lo)) * (h - pad.t - pad.b);
@@ -1770,7 +2354,7 @@ function drawScope() {
   for (let r = 0; r >= -S.win; r -= 0.5) { const x = Math.round(X(S.tc + r)) + 0.5; ctx.strokeStyle = "#131D25"; ctx.beginPath(); ctx.moveTo(x, pad.t); ctx.lineTo(x, h - pad.b); ctx.stroke(); if (Math.abs(r - Math.round(r)) < 1e-6) { ctx.fillStyle = "#8A9BA8"; ctx.fillText(r === 0 ? "agora" : nf(r, 0) + " s", x, h - pad.b + 6); } }
   ctx.save(); ctx.beginPath(); ctx.rect(pad.l, pad.t, w - pad.l - pad.r, h - pad.t - pad.b); ctx.clip();
   // verdade
-  if (state.layers.truth) { ctx.strokeStyle = "rgba(242,245,247,0.85)"; ctx.lineWidth = 1.5; ctx.setLineDash([5, 4]); ctx.beginPath(); for (let i = S.i0; i <= S.i1; i++) { const x = X(S.t[i]), y = Y(S.truth[i]); if (i === S.i0) ctx.moveTo(x, y); else ctx.lineTo(x, y); } ctx.stroke(); ctx.setLineDash([]); }
+  if (state.layers.truth) { ctx.strokeStyle = "rgba(242,245,247,0.85)"; ctx.lineWidth = 1.5; ctx.setLineDash([5, 4]); ctx.beginPath(); let pen = false; for (let i = S.i0; i <= S.i1; i++) { if (!isFinite(S.truth[i])) { pen = false; continue; } const x = X(S.t[i]), y = Y(S.truth[i]); if (pen) ctx.lineTo(x, y); else { ctx.moveTo(x, y); pen = true; } } ctx.stroke(); ctx.setLineDash([]); }
   // medidas da câmera como bolinhas
   if (state.layers.raw) for (let i = S.i0; i <= S.i1; i++) {
     const v = S.raw[i]; if (!isFinite(v)) continue;
@@ -1861,21 +2445,24 @@ const pipeShown = (p) => p.visible && state.layers[p.id];
 function jointHit(j) { const tri = jointOf(state.series); if (!tri) return true; return tri.includes(j) || j === tri[2] + 1; }
 function drawChart() {
   const sim = state.sim; if (!sim || !chart.w || state.mode !== "livre") return;
+  if (state.lvView !== "sinal") { drawAnalysis(); return; }
   const { w, h, pad } = chart, s = state.series, T = sim.t[sim.n - 1];
   const X = (t) => pad.l + (t / T) * (w - pad.l - pad.r);
   const truth = sim.truthS[s];
   let lo = Infinity, hi = -Infinity;
-  for (let i = 0; i < sim.n; i++) { lo = Math.min(lo, truth[i]); hi = Math.max(hi, truth[i]); }
+  for (let i = 0; i < sim.n; i++) if (isFinite(truth[i])) { lo = Math.min(lo, truth[i]); hi = Math.max(hi, truth[i]); }
   for (const p of state.pipes) if (pipeShown(p)) { const y = state.outs[p.id][s]; for (let i = 0; i < sim.n; i++) if (isFinite(y[i])) { lo = Math.min(lo, y[i]); hi = Math.max(hi, y[i]); } }
   const padY = Math.max(4, (hi - lo) * 0.15); lo -= padY; hi += padY;
   const Y = (v) => pad.t + (1 - (v - lo) / (hi - lo)) * (h - pad.t - pad.b);
   cctx.clearRect(0, 0, w, h);
   cctx.font = "11px 'JetBrains Mono', monospace";
-  cctx.fillStyle = "rgba(138,155,168,0.07)"; cctx.fillRect(X(0), pad.t, X(REST_S) - X(0), h - pad.t - pad.b);
-  cctx.fillStyle = "#8A9BA8"; cctx.textAlign = "left"; cctx.textBaseline = "alphabetic"; cctx.fillText("mão parada", X(0) + 6, pad.t + 12);
+  if (!sim.recorded) {
+    cctx.fillStyle = "rgba(138,155,168,0.07)"; cctx.fillRect(X(0), pad.t, X(REST_S) - X(0), h - pad.t - pad.b);
+    cctx.fillStyle = "#8A9BA8"; cctx.textAlign = "left"; cctx.textBaseline = "alphabetic"; cctx.fillText("mão parada", X(0) + 6, pad.t + 12);
+  }
   const st = (() => { const raw = (hi - lo) / 5, p = Math.pow(10, Math.floor(Math.log10(raw))); for (const m of [1, 2, 5, 10]) if (m * p >= raw) return m * p; return 10 * p; })();
   cctx.strokeStyle = "#18242E"; cctx.lineWidth = 1; cctx.textAlign = "right"; cctx.textBaseline = "middle";
-  for (let v = Math.ceil(lo / st) * st; v <= hi; v += st) { const y = Math.round(Y(v)) + 0.5; cctx.beginPath(); cctx.moveTo(pad.l, y); cctx.lineTo(w - pad.r, y); cctx.stroke(); cctx.fillStyle = "#8A9BA8"; cctx.fillText(nf(v, 0) + "°", pad.l - 6, y); }
+  for (let v = Math.ceil(lo / st) * st; v <= hi; v += st) { const y = Math.round(Y(v)) + 0.5; cctx.beginPath(); cctx.moveTo(pad.l, y); cctx.lineTo(w - pad.r, y); cctx.stroke(); cctx.fillStyle = "#8A9BA8"; cctx.fillText(nf(v, 0) + U().trim(), pad.l - 6, y); }
   cctx.textAlign = "center"; cctx.textBaseline = "top";
   for (let t = 0; t <= T; t += 1) { const x = Math.round(X(t)) + 0.5; cctx.strokeStyle = "#141F28"; cctx.beginPath(); cctx.moveTo(x, pad.t); cctx.lineTo(x, h - pad.b); cctx.stroke(); cctx.fillStyle = "#8A9BA8"; cctx.fillText(t + " s", x, h - pad.b + 6); }
   for (let i = 0; i < sim.n; i++) { const ev = sim.events[i]; if (!ev) continue; const x = X(sim.t[i]); if (ev.kind === "drop") { cctx.fillStyle = "rgba(232,197,71,0.6)"; cctx.fillRect(x - 1, h - pad.b - 6, 3, 6); } else if (jointHit(ev.j)) { cctx.fillStyle = "rgba(229,83,75,0.9)"; cctx.fillRect(x - 1, pad.t, 3, 6); } }
@@ -1889,6 +2476,7 @@ function drawChart() {
   cctx.strokeStyle = "rgba(216,226,234,0.5)"; cctx.lineWidth = 1; cctx.beginPath(); cctx.moveTo(x + 0.5, pad.t); cctx.lineTo(x + 0.5, h - pad.b); cctx.stroke();
 }
 function renderLegend() {
+  if (state.lvView !== "sinal") return;
   $("chartTitle").textContent = "Ângulo do " + seriesName(state.series).toLowerCase() + ", em graus";
   const items = [[state.names.truth, "repeating-linear-gradient(90deg,#F2F5F7 0 5px,transparent 5px 9px)"], ["Câmera, sem filtro", "#8C9BA8"]];
   for (const p of state.pipes) if (pipeShown(p)) items.push([state.names[p.id], COLORS[p.id]]);
@@ -1901,9 +2489,300 @@ function frameAtX(clientX) {
   return lo;
 }
 let chartDrag = false;
-chartEl.addEventListener("pointerdown", (e) => { chartDrag = true; chartEl.setPointerCapture(e.pointerId); setPlaying(false); seek(frameAtX(e.clientX)); });
+chartEl.addEventListener("pointerdown", (e) => { if (state.lvView !== "sinal") return; chartDrag = true; chartEl.setPointerCapture(e.pointerId); setPlaying(false); seek(frameAtX(e.clientX)); });
 chartEl.addEventListener("pointermove", (e) => { if (chartDrag) seek(frameAtX(e.clientX)); });
 chartEl.addEventListener("pointerup", () => { chartDrag = false; });
+
+/* ============================ análises do laboratório livre ============================ */
+// Segmentos: parado / em movimento / trecho avaliado, iguais aos de metrics().
+function segsOf(v, sim) {
+  const n = sim.n, t = sim.t, mov = [], rest = [];
+  const still = sim.mov === "parada";
+  let span;
+  if (sim.recorded) {
+    span = [];
+    for (let i = 1; i < n - 1; i++) {
+      if (!isFinite(v[i]) || !isFinite(v[i - 1]) || !isFinite(v[i + 1])) continue;
+      span.push(i);
+      (Math.abs(v[i + 1] - v[i - 1]) / Math.max(1e-3, t[i + 1] - t[i - 1]) > 30 ? mov : rest).push(i);
+    }
+  } else {
+    for (let i = 0; i < n; i++) {
+      if (!still && t[i] >= REST_S) mov.push(i);
+      else if (t[i] >= 0.3 && (still || t[i] <= REST_S - 0.1)) rest.push(i);
+    }
+    span = still ? rest : mov;
+  }
+  return { mov, rest, span };
+}
+// Reamostra num passo fixo (interpolação linear, atravessando falhas curtas).
+function resampleSeg(x, t, ta, tb, dt) {
+  const out = [];
+  let j = 0;
+  for (let tt = ta; tt <= tb + 1e-9; tt += dt) {
+    while (j < t.length - 2 && t[j + 1] < tt) j++;
+    let a = j, b = j + 1;
+    while (a > 0 && !isFinite(x[a])) a--;
+    while (b < t.length - 1 && !isFinite(x[b])) b++;
+    if (!isFinite(x[a]) || !isFinite(x[b])) { out.push(NaN); continue; }
+    const u = t[b] === t[a] ? 0 : clamp((tt - t[a]) / (t[b] - t[a]), 0, 1);
+    out.push(x[a] + (x[b] - x[a]) * u);
+  }
+  return out;
+}
+function speedOf(y, dt) { const s = []; for (let i = 0; i < y.length; i++) { const a = y[Math.max(0, i - 1)], b = y[Math.min(y.length - 1, i + 1)]; s.push(Math.abs(b - a) / ((Math.min(y.length - 1, i + 1) - Math.max(0, i - 1)) * dt)); } return s; }
+// FFT radix-2 (módulo), para o SPARC.
+function fftMag(x, nfft) {
+  const re = new Float64Array(nfft), im = new Float64Array(nfft);
+  for (let i = 0; i < x.length && i < nfft; i++) re[i] = x[i];
+  for (let i = 1, j = 0; i < nfft; i++) { let bit = nfft >> 1; for (; j & bit; bit >>= 1) j ^= bit; j ^= bit; if (i < j) { [re[i], re[j]] = [re[j], re[i]]; [im[i], im[j]] = [im[j], im[i]]; } }
+  for (let len = 2; len <= nfft; len <<= 1) {
+    const ang = -2 * Math.PI / len, wr = Math.cos(ang), wi = Math.sin(ang);
+    for (let i = 0; i < nfft; i += len) {
+      let cr = 1, ci = 0;
+      for (let k = 0; k < len / 2; k++) {
+        const ar = re[i + k + len / 2] * cr - im[i + k + len / 2] * ci, ai = re[i + k + len / 2] * ci + im[i + k + len / 2] * cr;
+        re[i + k + len / 2] = re[i + k] - ar; im[i + k + len / 2] = im[i + k] - ai; re[i + k] += ar; im[i + k] += ai;
+        const nr = cr * wr - ci * wi; ci = cr * wi + ci * wr; cr = nr;
+      }
+    }
+  }
+  const m = new Float64Array(nfft); for (let i = 0; i < nfft; i++) m[i] = Math.hypot(re[i], im[i]); return m;
+}
+// SPARC, como no código de referência de Balasubramanian et al. (2015): espectro da velocidade com preenchimento de zeros,
+// normalizado pelo máximo, corte adaptativo até 10 Hz com limiar de amplitude 0,05, comprimento de arco com sinal negativo.
+function sparcOf(speed, fs, padlevel = 4, fc = 10, ampTh = 0.05) {
+  if (speed.length < 8 || speed.some((v) => !isFinite(v))) return NaN;
+  const nfft = Math.pow(2, Math.ceil(Math.log2(speed.length)) + padlevel), M = fftMag(speed, nfft);
+  let mx = 0; for (const v of M) mx = Math.max(mx, v); if (!(mx > 0)) return NaN;
+  const f = [], m = [];
+  for (let k = 0; k < nfft && k * fs / nfft <= fc; k++) { f.push(k * fs / nfft); m.push(M[k] / mx); }
+  let i0 = -1, i1 = -1; m.forEach((v, k) => { if (v >= ampTh) { if (i0 < 0) i0 = k; i1 = k; } });
+  if (i1 <= i0) return NaN;
+  const span = f[i1] - f[i0]; let s = 0;
+  for (let k = i0 + 1; k <= i1; k++) s += Math.hypot((f[k] - f[k - 1]) / span, m[k] - m[k - 1]);
+  return -s;
+}
+// LDLJ com o perfil de velocidade (Hogan e Sternad, 2009; Balasubramanian et al., 2012): −ln(T³/v_pico² · ∫ (d²v/dt²)² dt).
+function ldljOf(speed, fs) {
+  if (speed.length < 8 || speed.some((v) => !isFinite(v))) return NaN;
+  const dt = 1 / fs, T = speed.length * dt; let vp = 0; for (const v of speed) vp = Math.max(vp, Math.abs(v)); if (!(vp > 0)) return NaN;
+  let J = 0; for (let i = 1; i < speed.length - 1; i++) { const d2 = (speed[i + 1] - 2 * speed[i] + speed[i - 1]) / (dt * dt); J += d2 * d2 * dt; }
+  return -Math.log(T * T * T / (vp * vp) * J);
+}
+// Repetições: trechos contínuos em que a referência passa de 10% da amplitude.
+function repsOf(v, sim, span) {
+  let lo = Infinity, hi = -Infinity; for (const i of span) if (isFinite(v[i])) { lo = Math.min(lo, v[i]); hi = Math.max(hi, v[i]); }
+  if (!(hi - lo > 10)) return { reps: [], lo, hi };
+  const thr = lo + 0.1 * (hi - lo), reps = [];
+  let a = -1;
+  for (let i = 0; i < sim.n; i++) {
+    const up = isFinite(v[i]) && v[i] > thr && (!sim.recorded || span.includes(i) || true);
+    if (up && a < 0) a = i;
+    if ((!up || i === sim.n - 1) && a >= 0) { const b = up ? i : i - 1; if (sim.t[b] - sim.t[a] > 0.3 && sim.t[a] >= (sim.recorded ? 0 : REST_S - 0.05)) reps.push([a, b]); a = -1; }
+  }
+  return { reps, lo, hi };
+}
+function crossTime(x, t, a, b, level, rising) {
+  for (let i = Math.max(1, a); i <= b; i++) {
+    if (!isFinite(x[i]) || !isFinite(x[i - 1])) continue;
+    if (rising ? (x[i - 1] < level && x[i] >= level) : (x[i - 1] > level && x[i] <= level)) return t[i - 1] + (level - x[i - 1]) / (x[i] - x[i - 1]) * (t[i] - t[i - 1]);
+  }
+  return NaN;
+}
+const meanOf = (a) => { const b = a.filter(isFinite); return b.length ? b.reduce((s, x) => s + x, 0) / b.length : NaN; };
+// Medidas completas de um sinal f contra a referência v (mão real na simulação, média centrada na gravação).
+function metricsExt(f, v, sim) {
+  const base = metrics(f, v, sim), { mov, rest, span } = segsOf(v, sim);
+  const d = []; for (const i of span) if (isFinite(f[i]) && isFinite(v[i])) d.push(f[i] - v[i]);
+  let vlo = Infinity, vhi = -Infinity; for (const i of span) if (isFinite(v[i])) { vlo = Math.min(vlo, v[i]); vhi = Math.max(vhi, v[i]); }
+  const mae = meanOf(d.map(Math.abs)), bias = meanOf(d);
+  const sd = d.length > 1 ? Math.sqrt(d.reduce((s, x) => s + (x - bias) ** 2, 0) / (d.length - 1)) : NaN;
+  const rd = []; for (const i of rest) if (isFinite(f[i]) && isFinite(v[i])) rd.push(f[i] - v[i]);
+  const rm = meanOf(rd), sdRest = rd.length > 2 ? Math.sqrt(rd.reduce((s, x) => s + (x - rm) ** 2, 0) / (rd.length - 1)) : NaN;
+  // por repetição: atraso no pico (90% do fechamento), ultrapassagem, SPARC e LDLJ
+  const { reps, lo } = repsOf(v, sim, span), dt = sim.meanDt, fs = 1 / dt;
+  const pk = [], ov = [], sp = [], lj = [];
+  for (const [a, b] of reps) {
+    let vmax = -Infinity; for (let i = a; i <= b; i++) if (isFinite(v[i])) vmax = Math.max(vmax, v[i]);
+    const L = lo + 0.9 * (vmax - lo), tv = crossTime(v, sim.t, a - 3, b, L, true), tf = crossTime(f, sim.t, a - 3, b + 15, L, true);
+    if (isFinite(tv) && isFinite(tf)) pk.push((tf - tv) * 1000);
+    let fmax = -Infinity, fmin = Infinity;
+    const e = Math.min(sim.n - 1, b + Math.round(0.4 / dt));
+    for (let i = a; i <= e; i++) if (isFinite(f[i])) { fmax = Math.max(fmax, f[i]); fmin = Math.min(fmin, f[i]); }
+    ov.push(Math.max(0, fmax - vmax, lo - fmin));
+    const ta = sim.t[a] - 0.15, tb = sim.t[b] + 0.15;
+    const s = speedOf(resampleSeg(f, sim.t, ta, tb, dt), dt);
+    sp.push(sparcOf(s, fs)); lj.push(ldljOf(s, fs));
+  }
+  // degrau: tempo de subida (10–90%), tempo de acomodação (±5%) e ultrapassagem em % do salto
+  const rise = [], settle = [], stepOv = [];
+  if (sim.mov === "degrau") {
+    const edges = []; for (let i = 1; i < sim.n; i++) if (Math.abs(v[i] - v[i - 1]) > 20) edges.push(i);
+    edges.forEach((i, k) => {
+      const a0 = v[i - 1], b0 = v[i], end = k + 1 < edges.length ? edges[k + 1] - 1 : sim.n - 1, up = b0 > a0, A = Math.abs(b0 - a0);
+      const t10 = crossTime(f, sim.t, i, end, a0 + 0.1 * (b0 - a0), up), t90 = crossTime(f, sim.t, i, end, a0 + 0.9 * (b0 - a0), up);
+      if (isFinite(t10) && isFinite(t90)) rise.push((t90 - t10) * 1000);
+      let last = NaN, peak = 0;
+      for (let j = i; j <= end; j++) { if (!isFinite(f[j])) continue; if (Math.abs(f[j] - b0) > 0.05 * A) last = sim.t[j]; peak = Math.max(peak, up ? f[j] - b0 : b0 - f[j]); }
+      settle.push(isFinite(last) ? (last - sim.t[i - 1]) * 1000 : 0); stepOv.push(peak / A * 100);
+    });
+  }
+  return { ...base, mae, nrmse: vhi > vlo ? base.rmse / (vhi - vlo) * 100 : NaN, sdRest, bias, loaLo: bias - 1.96 * sd, loaHi: bias + 1.96 * sd,
+    peakLag: meanOf(pk), overshoot: ov.length ? Math.max(...ov) : NaN, sparc: meanOf(sp), ldlj: meanOf(lj),
+    rise: meanOf(rise), settle: meanOf(settle), stepOv: meanOf(stepOv), reps: reps.length };
+}
+// Suavidade da própria referência (a mão real), para comparar com a de cada filtro.
+function smoothOfRef(v, sim) {
+  const { span } = segsOf(v, sim), { reps } = repsOf(v, sim, span), dt = sim.meanDt, sp = [], lj = [];
+  for (const [a, b] of reps) { const s = speedOf(resampleSeg(v, sim.t, sim.t[a] - 0.15, sim.t[b] + 0.15, dt), dt); sp.push(sparcOf(s, 1 / dt)); lj.push(ldljOf(s, 1 / dt)); }
+  return { sparc: meanOf(sp), ldlj: meanOf(lj) };
+}
+// Custo: microssegundos por amostra, medido rodando a cadeia várias vezes (o relógio do navegador é grosseiro).
+const costCache = new Map();
+function costOf(p, sim) {
+  const key = JSON.stringify(p.blocks) + "|" + sim.n;
+  if (costCache.has(key)) return costCache.get(key);
+  const x = sim.rawS[state.series]; let reps = 0; const t0 = performance.now();
+  while (performance.now() - t0 < 25 || reps < 3) { runSeries(p.blocks, x, sim); reps++; }
+  const us = (performance.now() - t0) * 1000 / (reps * sim.n);
+  costCache.set(key, us); return us;
+}
+// Resposta em frequência: senoide de 10° em cada frequência, ganho e atraso da componente fundamental na saída.
+const FR_F = Array.from({ length: 26 }, (_, i) => 0.5 * Math.pow(28, i / 25)).filter((f) => f < 14.5);
+const frCache = new Map();
+function freqResp(blocks, dt) {
+  const key = JSON.stringify(blocks) + "|" + dt.toFixed(5);
+  if (frCache.has(key)) return frCache.get(key);
+  const out = FR_F.map((fq) => {
+    const chain = makeChain(blocks), N = Math.max(Math.round(8 / (fq * dt)), Math.round(4 / dt)), keep = Math.max(Math.round(3 / (fq * dt)), Math.round(1.5 / dt));
+    let sc = 0, cc = 0, ss = 0, sxc = 0, sxs = 0, m = 0;
+    const ys = [], ph = [];
+    for (let i = 0; i < N; i++) {
+      const tt = i * dt, x = 45 + 10 * Math.sin(2 * Math.PI * fq * tt);
+      let z = x; for (const f of chain) z = f(z, dt);
+      if (i >= N - keep) { ys.push(z); ph.push(2 * Math.PI * fq * tt); }
+    }
+    const mean = meanOf(ys);
+    ys.forEach((y, k) => { const s = Math.sin(ph[k]), c = Math.cos(ph[k]); sxs += (y - mean) * s; sxc += (y - mean) * c; ss += s * s; cc += c * c; sc += s * c; m++; });
+    const det = ss * cc - sc * sc, A = (sxs * cc - sxc * sc) / det, B = (sxc * ss - sxs * sc) / det;
+    const gain = Math.hypot(A, B) / 10;
+    let lag = -Math.atan2(B, A); while (lag < 0) lag += 2 * Math.PI;
+    return { f: fq, gain, delay: lag / (2 * Math.PI * fq) * 1000 };
+  });
+  frCache.set(key, out); return out;
+}
+// Pareto: varre o principal ajuste de cada tipo de filtro e mede tremor × atraso.
+const PARETO = [
+  ["ema", "Média exp.", "#7AA2F7", [1, .7, .5, .35, .25, .18, .12, .08, .05].map((a) => ({ alpha: a }))],
+  ["median", "Mediana", "#C792EA", [3, 5, 7, 9, 11, 13, 15].map((w) => ({ win: w }))],
+  ["kalman", "Kalman", "#89DDFF", [-3, -2.5, -2, -1.5, -1, -0.5, 0, 0.5, 1].map((r) => ({ q: 0.01, r: Math.pow(10, r) }))],
+  ["oneeuro", "One Euro", "#C3E88D", [0.2, 0.4, 0.7, 1, 1.5, 2.5, 4].map((mc) => ({ mc, beta: 0.01, dc: 1 }))],
+  ["kalmancv", "Kalman velocidade", "#FFCB6B", [2, 2.5, 3, 3.5, 4, 4.5, 5, 6].map((q) => ({ q: Math.pow(10, q), r: 10 }))],
+  ["ukf", "UKF", "#F78C6C", [2, 2.5, 3, 3.5, 4, 4.5, 5, 6].map((q) => ({ q: Math.pow(10, q), r: 10, wmax: 600 }))],
+  ["butter", "Butterworth", "#FF5370", [1.5, 2, 3, 4, 5, 6, 8, 10].map((fc) => ({ fc }))],
+];
+let paretoCache = { key: "", data: null };
+function paretoData() {
+  const sim = state.sim, s = state.series, key = (sim.recorded ? "rec" : JSON.stringify(state.sc)) + s;
+  if (paretoCache.key === key) return paretoCache.data;
+  const x = sim.rawS[s], v = sim.truthS[s];
+  const data = PARETO.map(([type, name, color, ps]) => ({ type, name, color, pts: ps.map((p) => { const m = metrics(runSeries([{ type, on: true, p }], x, sim), v, sim); return { lag: m.lag, jit: m.jitter, p }; }).filter((q) => isFinite(q.lag) && isFinite(q.jit)) }));
+  paretoCache = { key, data }; return data;
+}
+
+/* ---- desenho das análises no painel do gráfico ---- */
+const LV_VIEWS = { sinal: "Sinal", freq: "Resposta em frequência", pareto: "Pareto: tremor × atraso", ba: "Bland-Altman" };
+function axisText(ctx, txt, x, y, align, base) { ctx.textAlign = align || "center"; ctx.textBaseline = base || "top"; ctx.fillText(txt, x, y); }
+function drawFreq() {
+  const { w, h } = chart, ctx = cctx, pad = { l: 46, r: 14, t: 12, b: 26 }, sim = state.sim;
+  const split = pad.t + (h - pad.t - pad.b) * 0.6, X = (f) => pad.l + Math.log(f / 0.5) / Math.log(15 / 0.5) * (w - pad.l - pad.r);
+  const Yg = (g) => pad.t + (1 - clamp(g, 0, 1.3) / 1.3) * (split - pad.t - 8), Yd = (d) => split + 26 + (1 - clamp(d, 0, 400) / 400) * (h - pad.b - split - 26);
+  ctx.font = "11px 'JetBrains Mono', monospace";
+  // faixas (Heida, Wentink e Marani, 2013)
+  const bands = [[0.5, 3.5, "movimento voluntário", "voluntário", "rgba(76,195,138,0.10)"], [3.5, 7.5, "tremor parkinsoniano", "Parkinson", "rgba(232,197,71,0.10)"], [7.5, 15, "tremor fisiológico", "fisiológico", "rgba(229,83,75,0.10)"]];
+  for (const [a, b, name, short, c] of bands) {
+    ctx.fillStyle = c; ctx.fillRect(X(a), pad.t, X(b) - X(a), h - pad.t - pad.b); ctx.fillStyle = "#8A9BA8";
+    const lab = ctx.measureText(name).width < X(b) - X(a) - 6 ? name : short;
+    axisText(ctx, lab, (X(a) + X(b)) / 2, pad.t + 2);
+  }
+  ctx.strokeStyle = "#18242E"; ctx.fillStyle = "#8A9BA8";
+  for (const g of [0, 0.5, 1]) { const y = Math.round(Yg(g)) + 0.5; ctx.beginPath(); ctx.moveTo(pad.l, y); ctx.lineTo(w - pad.r, y); ctx.stroke(); axisText(ctx, nf(g * 100, 0) + "%", pad.l - 6, y, "right", "middle"); }
+  for (const d of [0, 200, 400]) { const y = Math.round(Yd(d)) + 0.5; ctx.beginPath(); ctx.moveTo(pad.l, y); ctx.lineTo(w - pad.r, y); ctx.stroke(); axisText(ctx, d + " ms", pad.l - 6, y, "right", "middle"); }
+  for (const f of [0.5, 1, 2, 5, 10, 15]) { const x = Math.round(X(f)) + 0.5; ctx.beginPath(); ctx.moveTo(x, pad.t); ctx.lineTo(x, h - pad.b); ctx.stroke(); axisText(ctx, nf(f, f < 1 ? 1 : 0) + " Hz", x, h - pad.b + 6); }
+  ctx.save(); ctx.translate(10, (pad.t + split) / 2); ctx.rotate(-Math.PI / 2); axisText(ctx, "passa", 0, 0, "center", "middle"); ctx.restore();
+  ctx.save(); ctx.translate(10, (split + 26 + h - pad.b) / 2); ctx.rotate(-Math.PI / 2); axisText(ctx, "atraso", 0, 0, "center", "middle"); ctx.restore();
+  for (const p of state.pipes) {
+    if (!pipeShown(p)) continue;
+    const blocks = p.blocks.filter((b) => b.on !== false), fr = freqResp(blocks, sim.meanDt);
+    for (const [key, Y] of [["gain", Yg], ["delay", Yd]]) {
+      ctx.strokeStyle = COLORS[p.id]; ctx.lineWidth = 2.2; ctx.beginPath();
+      fr.forEach((q, i) => { const y = Y(q[key]); if (i) ctx.lineTo(X(q.f), y); else ctx.moveTo(X(q.f), y); }); ctx.stroke();
+    }
+  }
+  $("chartLegend").innerHTML = state.pipes.filter(pipeShown).map((p) => `<span><i style="background:${COLORS[p.id]}"></i>${state.names[p.id]}</span>`).join("") + `<span class="tech">senoide de 10°; nos filtros não lineares a resposta muda com a amplitude</span>`;
+}
+function drawPareto() {
+  const { w, h } = chart, ctx = cctx, pad = { l: 56, r: 26, t: 12, b: 30 };
+  const X = (l) => pad.l + clamp(l / 320, 0, 1) * (w - pad.l - pad.r), Y = (j) => pad.t + (1 - Math.sqrt(clamp(j / 2.6, 0, 1))) * (h - pad.t - pad.b);
+  ctx.font = "11px 'JetBrains Mono', monospace"; ctx.strokeStyle = "#18242E"; ctx.fillStyle = "#8A9BA8";
+  for (const j of [0, 0.25, 0.5, 1, 2]) { const y = Math.round(Y(j)) + 0.5; ctx.beginPath(); ctx.moveTo(pad.l, y); ctx.lineTo(w - pad.r, y); ctx.stroke(); axisText(ctx, nf(j, j > 0 && j < 1 ? 2 : 0) + "°", pad.l - 6, y, "right", "middle"); }
+  for (const l of [0, 80, 160, 240, 320]) { const x = Math.round(X(l)) + 0.5; ctx.beginPath(); ctx.moveTo(x, pad.t); ctx.lineTo(x, h - pad.b); ctx.stroke(); axisText(ctx, l + " ms", x, h - pad.b + 6); }
+  axisText(ctx, "atraso →", w - pad.r, h - 12, "right"); ctx.save(); ctx.translate(12, (pad.t + h - pad.b) / 2); ctx.rotate(-Math.PI / 2); axisText(ctx, "tremor parado", 0, 0, "center", "middle"); ctx.restore();
+  const data = paretoData(), all = [];
+  for (const d of data) {
+    ctx.strokeStyle = d.color; ctx.globalAlpha = 0.7; ctx.lineWidth = 1.4; ctx.beginPath();
+    d.pts.forEach((q, i) => { if (i) ctx.lineTo(X(q.lag), Y(q.jit)); else ctx.moveTo(X(q.lag), Y(q.jit)); }); ctx.stroke(); ctx.globalAlpha = 1;
+    ctx.fillStyle = d.color; for (const q of d.pts) { ctx.beginPath(); ctx.arc(X(q.lag), Y(q.jit), 3, 0, 7); ctx.fill(); all.push(q); }
+  }
+  // fronteira: pontos que nenhum outro vence nas duas medidas ao mesmo tempo
+  const front = all.filter((a) => !all.some((b) => b !== a && b.lag <= a.lag && b.jit <= a.jit && (b.lag < a.lag || b.jit < a.jit))).sort((a, b) => a.lag - b.lag);
+  ctx.strokeStyle = "rgba(242,245,247,0.8)"; ctx.setLineDash([5, 4]); ctx.lineWidth = 1.3; ctx.beginPath();
+  front.forEach((q, i) => { if (i) ctx.lineTo(X(q.lag), Y(q.jit)); else ctx.moveTo(X(q.lag), Y(q.jit)); }); ctx.stroke(); ctx.setLineDash([]);
+  for (const p of state.pipes) {
+    if (!pipeShown(p)) continue; const m = state.mets[p.id]; if (!m || !isFinite(m.lag) || !isFinite(m.jitter)) continue;
+    const x = X(m.lag), y = Y(m.jitter);
+    ctx.strokeStyle = COLORS[p.id]; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.arc(x, y, 8, 0, 7); ctx.stroke();
+    ctx.fillStyle = COLORS[p.id]; ctx.font = "bold 12px 'Chakra Petch', sans-serif"; axisText(ctx, p.id, x + 11, y, "left", "middle"); ctx.font = "11px 'JetBrains Mono', monospace";
+  }
+  $("chartLegend").innerHTML = data.map((d) => `<span><i class="dot" style="background:${d.color}"></i>${d.name}</span>`).join("") + `<span><i style="background:repeating-linear-gradient(90deg,#F2F5F7 0 5px,transparent 5px 9px)"></i>fronteira</span><span>anéis: suas cadeias</span>`;
+}
+function drawBA() {
+  const { w, h } = chart, ctx = cctx, pad = { l: 50, r: 104, t: 14, b: 30 }, sim = state.sim, s = state.series;
+  const p = state.pipes.find((q) => q.id === state.pipeTab && q.visible) || state.pipes.find((q) => q.visible);
+  if (!p) return;
+  const f = state.outs[p.id][s], v = sim.truthS[s], { span } = segsOf(v, sim), E = state.ext && state.ext[p.id];
+  const pts = []; for (const i of span) if (isFinite(f[i]) && isFinite(v[i])) pts.push([(f[i] + v[i]) / 2, f[i] - v[i]]);
+  if (!pts.length || !E) return;
+  let x0 = Infinity, x1 = -Infinity, ymax = 2; for (const [a, b] of pts) { x0 = Math.min(x0, a); x1 = Math.max(x1, a); ymax = Math.max(ymax, Math.abs(b)); }
+  ymax = Math.max(ymax, Math.abs(E.loaLo), Math.abs(E.loaHi)) * 1.1;
+  const X = (a) => pad.l + (a - x0) / Math.max(1, x1 - x0) * (w - pad.l - pad.r), Y = (b) => pad.t + (1 - (b + ymax) / (2 * ymax)) * (h - pad.t - pad.b);
+  ctx.font = "11px 'JetBrains Mono', monospace"; ctx.strokeStyle = "#18242E"; ctx.fillStyle = "#8A9BA8";
+  const st = ymax > 20 ? 10 : ymax > 8 ? 4 : ymax > 3 ? 2 : 1;
+  for (let b = -Math.floor(ymax / st) * st; b <= ymax; b += st) { const y = Math.round(Y(b)) + 0.5; ctx.beginPath(); ctx.moveTo(pad.l, y); ctx.lineTo(w - pad.r, y); ctx.stroke(); axisText(ctx, nf(b, 0) + U().trim(), pad.l - 6, y, "right", "middle"); }
+  axisText(ctx, "média do filtro e da " + (sim.recorded ? "referência" : "mão real") + " (" + U().trim() + ") →", w - pad.r, h - 14, "right");
+  ctx.save(); ctx.translate(12, (pad.t + h - pad.b) / 2); ctx.rotate(-Math.PI / 2); axisText(ctx, "filtro − " + (sim.recorded ? "ref." : "real"), 0, 0, "center", "middle"); ctx.restore();
+  ctx.fillStyle = COLORS[p.id]; ctx.globalAlpha = 0.45; const stp = Math.max(1, Math.floor(pts.length / 700));
+  for (let k = 0; k < pts.length; k += stp) { ctx.beginPath(); ctx.arc(X(pts[k][0]), Y(pts[k][1]), 2.2, 0, 7); ctx.fill(); } ctx.globalAlpha = 1;
+  for (const [val, lab, dash] of [[E.bias, "viés", []], [E.loaHi, "+1,96 DP", [5, 4]], [E.loaLo, "−1,96 DP", [5, 4]]]) {
+    const y = Y(val); ctx.strokeStyle = "#F2F5F7"; ctx.setLineDash(dash); ctx.lineWidth = 1.3; ctx.beginPath(); ctx.moveTo(pad.l, y); ctx.lineTo(w - pad.r, y); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle = "#F2F5F7"; axisText(ctx, `${lab} ${nf(val, 1)}${U()}`, w - pad.r + 4, y, "left", "middle");
+  }
+  $("chartLegend").innerHTML = `<span><i class="dot" style="background:${COLORS[p.id]}"></i>${state.names[p.id]}: ${chainText(p)}</span><span class="tech">escolha a cadeia nas abas de Filtros</span>`;
+}
+function drawAnalysis() {
+  cctx.clearRect(0, 0, chart.w, chart.h);
+  $("chartTitle").textContent = LV_VIEWS[state.lvView] + " · " + seriesName(state.series).toLowerCase();
+  if (state.lvView === "freq") drawFreq(); else if (state.lvView === "pareto") drawPareto(); else drawBA();
+}
+$("lvView").addEventListener("click", (e) => {
+  const b = e.target.closest("[data-v]"); if (!b) return;
+  state.lvView = b.dataset.v;
+  $("lvView").querySelectorAll("[data-v]").forEach((x) => x.setAttribute("aria-pressed", String(x.dataset.v === state.lvView)));
+  chartEl.style.cursor = state.lvView === "sinal" ? "crosshair" : "default";
+  renderViewRead();
+  lastLegendKey = ""; chart.dirty = true;
+});
 
 /* ============================ linha do tempo ============================ */
 const ICON_PAUSE = '<svg viewBox="0 0 14 14"><rect x="2" y="1" width="3.5" height="12"/><rect x="8.5" y="1" width="3.5" height="12"/></svg>';
@@ -1934,18 +2813,26 @@ function statusFor(i) {
   const sim = state.sim, s = state.series, ev = sim.events[i], v = sim.truthS[s][i];
   const vis = state.pipes.filter(pipeShown);
   if (ev && ev.kind === "drop") return "A câmera perdeu a mão neste quadro: os filtros repetem o último valor até a mão voltar.";
-  if (ev && ev.kind === "outlier" && jointHit(ev.j)) return `Um ponto do dedo saltou ${nf(ev.mag, 0)} mm. A câmera errou ${nf(Math.abs(sim.rawS[s][i] - v), 0)}° neste quadro.`;
+  if (sim.recorded) return "Gravação real. " + (vis.length ? vis.map((p) => { const e = state.outs[p.id][s][i] - v; return `${nameOf(p.id)}: ${isFinite(e) ? nf(Math.abs(e), 0) + "${U()} da referência" : "–"}`; }).join("; ") + "." : "");
+  if (ev && ev.kind === "outlier" && jointHit(ev.j)) return `Um ponto do dedo saltou ${nf(ev.mag, 0)} mm. A câmera errou ${nf(Math.abs(sim.rawS[s][i] - v), 0)}${U()} neste quadro.`;
   if (sim.mov === "parada" || sim.t[i] < REST_S) {
-    if (!vis.length) return `Mão parada: mesmo assim, o número da câmera pula ${nf(state.mets.raw.jitter, 1)}° de um quadro para o outro.`;
-    return `Mão parada: a câmera pula ${nf(state.mets.raw.jitter, 1)}° por quadro; ` + vis.map((p) => `${(state.mode === "aula" ? nameOf(p.id).toLowerCase() : nameOf(p.id))}, ${nf(state.mets[p.id].jitter, 2)}°`).join("; ") + ".";
+    if (!vis.length) return `Mão parada: mesmo assim, o número da câmera pula ${nf(state.mets.raw.jitter, 1)}${U()} de um quadro para o outro.`;
+    return `Mão parada: a câmera pula ${nf(state.mets.raw.jitter, 1)}${U()} por quadro; ` + vis.map((p) => `${(state.mode === "aula" ? nameOf(p.id).toLowerCase() : nameOf(p.id))}, ${nf(state.mets[p.id].jitter, 2)}°`).join("; ") + ".";
   }
   if (!vis.length) return "Dedo em movimento.";
   const dv = sim.truthS[s][i] - sim.truthS[s][Math.max(0, i - 1)];
   const moving = Math.abs(dv) > 1.2 ? (dv > 0 ? "O dedo está fechando" : "O dedo está abrindo") : "O dedo parou";
-  return `${moving}: ` + vis.map((p) => { const e = state.outs[p.id][s][i] - v; return `${(state.mode === "aula" ? nameOf(p.id).toLowerCase() : nameOf(p.id))} está ${nf(Math.abs(e), 0)}° ${Math.abs(e) < 1 ? "junto da mão real" : e * dv < 0 ? "atrás" : "à frente"}`; }).join("; ") + ".";
+  return `${moving}: ` + vis.map((p) => { const e = state.outs[p.id][s][i] - v; return `${(state.mode === "aula" ? nameOf(p.id).toLowerCase() : nameOf(p.id))} está ${nf(Math.abs(e), 0)}${U()} ${Math.abs(e) < 1 ? "junto da mão real" : e * dv < 0 ? "atrás" : "à frente"}`; }).join("; ") + ".";
 }
 function liveStatus() {
-  const L = state.live; if (!L || !L.cur) return "";
+  const L = state.live; if (!L) return "";
+  if (L.cam) {
+    if (!L.cur) return "Ligando a câmera. Aceite o pedido do navegador.";
+    const s = state.series, vis = state.pipes.filter(pipeShown);
+    const txt = L.cur.raw ? "Sua mão pela câmera: " + vis.map((p) => `${state.names[p.id]} ${L.cur.out[p.id] ? nf(L.cur.out[p.id][s], 0) : "–"}°`).join("; ") + "." : "Procurando a mão.";
+    return txt + (lc.hints[0] ? " Dica: " + lc.hints[0].toLowerCase() + "." : "");
+  }
+  if (!L.cur) return "";
   const s = state.series, vis = state.pipes.filter(pipeShown);
   const v = L.cur.gT[s];
   if (L.cur.ev && jointHit(L.cur.ev.j)) return `Um ponto saltou ${nf(L.cur.ev.mag, 0)} mm.`;
@@ -1958,7 +2845,7 @@ let liveCardUntil = 0;
 function showLiveEvent() {
   const card = $("evCard"), L = state.live, s = state.series, now = performance.now();
   const ev = L.cur && L.cur.ev;
-  if (ev && ev.kind === "outlier" && jointHit(ev.j)) {
+  if (ev && ev.kind === "outlier" && jointHit(ev.j) && L.cur.gT) {
     const v = L.cur.gT[s], vis = state.pipes.filter(pipeShown), A = vis.length ? arcs[vis[0].id] : null;
     const rows = [`<div class="row"><span>Câmera</span><b>${nf(Math.abs(L.cur.gR[s] - v), 1)}° de erro</b></div>`].concat(vis.map((p) => `<div class="row"><span style="color:${COLORS[p.id]}">${state.names[p.id]}</span><b>${nf(Math.abs(L.cur.out[p.id][s] - v), 1)}° de erro</b></div>`));
     card.innerHTML = `<span class="label">Salto de ponto · ${nf(ev.mag, 0)} mm</span>${rows.join("")}`;
@@ -1986,11 +2873,12 @@ function updateHud() {
   const sim = state.sim, i = state.frame, s = state.series;
   if (state.live) {
     const c = state.live.cur;
-    $("hudTl").innerHTML = `<span><b>você está movendo a mão</b></span><span>${seriesName(s)}</span><span>real ${nf(c.gT[s], 1)}° · câmera ${nf(c.gR[s], 1)}°</span>`;
+    $("hudTl").innerHTML = !c ? "<span><b>ligando a câmera...</b></span>" : state.live.cam ? `<span><b>sua mão pela câmera</b></span><span>${seriesName(s)}</span><span>câmera ${c.gR ? nf(c.gR[s], 1) : "–"}°</span>`
+      : `<span><b>você está movendo a mão</b></span><span>${seriesName(s)}</span><span>real ${nf(c.gT[s], 1)}° · câmera ${nf(c.gR[s], 1)}°</span>`;
     $("readout").textContent = "mão ao vivo";
   } else {
-    const phase = sim.mov === "parada" || sim.t[i] < REST_S ? "mão parada" : "movimento";
-    $("hudTl").innerHTML = `<span><b>${nf(sim.t[i], 2)} s</b> · ${phase}</span><span>${seriesName(s)}</span><span>real ${nf(sim.truthS[s][i], 1)}° · câmera ${nf(sim.rawS[s][i], 1)}°</span>`;
+    const phase = sim.recorded ? "gravação real" : sim.mov === "parada" || sim.t[i] < REST_S ? "mão parada" : "movimento";
+    $("hudTl").innerHTML = `<span><b>${nf(sim.t[i], 2)} s</b> · ${phase}</span><span>${seriesName(s)}</span><span>${sim.recorded ? "ref." : "real"} ${nf(sim.truthS[s][i], 1)}${unitOf(s)} · câmera ${nf(sim.rawS[s][i], 1)}${unitOf(s)}</span>`;
     $("readout").textContent = `${nf(sim.t[i], 2)} s de ${nf(sim.t[sim.n - 1], 2)} s`;
     $("scrub").value = i;
   }
@@ -2000,7 +2888,8 @@ function updateHud() {
   if (st !== lastStatus) { if (state.mode === "aula") $("stageStatus").textContent = st; else $("statusText").textContent = st; lastStatus = st; }
   $("stageStatus").hidden = state.mode !== "aula";
   if (state.mode === "livre") {
-    for (const p of state.pipes) { const el = $("live-" + p.id); if (!el) continue; const y = state.outs[p.id][s][i]; el.textContent = `agora: ${nf(y, 1)}° · ${nf(Math.abs(y - sim.truthS[s][i]), 1)}° da mão real`; }
+    const now = $("rtNow");
+    if (now) now.textContent = "agora: " + state.pipes.filter((p) => p.visible).map((p) => `${p.id} ${nf(state.outs[p.id][s][i], 1)}${U()}`).join(" · ") + ` · ${sim.recorded ? "ref." : "real"} ${nf(sim.truthS[s][i], 1)}${U()}`;
     return;
   }
   showEvent(i);
@@ -2048,22 +2937,28 @@ function renderLens(tipLm) {
 let lastNow = performance.now(), lastFrame = -1, lastLegendKey = "";
 function tick(now) {
   const dtReal = Math.min(0.1, (now - lastNow) / 1000); lastNow = now;
+  if (state.mode === "camera") {
+    if (lc.view !== "video") { drawCamHands(); if (camAnim) camAnim(now); placeCamera(); renderer.render(scene, camera); }
+    requestAnimationFrame(tick); return;
+  }
   const sim = state.sim;
   let tipForLens = null;
   if (sim) {
     if (state.live) {
-      state.live.acc += dtReal;
-      let steps = 0;
-      while (state.live.acc >= 1 / 30 && steps < 4) { liveStep(1 / 30); state.live.acc -= 1 / 30; steps++; }
+      if (!state.live.cam) {
+        state.live.acc += dtReal;
+        let steps = 0;
+        while (state.live.acc >= 1 / 30 && steps < 4) { liveStep(1 / 30); state.live.acc -= 1 / 30; steps++; }
+        $("bendThumb").style.top = (state.live.s * 100) + "%";
+      }
       const c = state.live.cur, LB = state.live.buf.truth;
-      $("bendThumb").style.top = (state.live.s * 100) + "%";
       motionDir = LB.length > 1 ? LB[LB.length - 1] - LB[LB.length - 2] : 0;
-      const truthJ = drawHand("truth", c.truth, state.layers.truth);
-      drawHand("raw", c.raw, state.layers.raw);
+      const truthJ = drawHand("truth", c ? c.truth : null, !!(c && c.truth) && state.layers.truth);
+      drawHand("raw", c ? c.raw : null, !!(c && c.raw) && state.layers.raw);
       for (const p of state.pipes) {
-        const o = c.out[p.id], ok = pipeShown(p) && o;
+        const o = c && c.raw ? c.out[p.id] : null, ok = pipeShown(p) && !!o;
         const lm = drawHand(p.id, ok ? fk(paramsFromSeries((k) => o[k])) : null, ok);
-        setArc(p.id, lm, ok ? o[state.series] : NaN, ok, truthJ, c.gT[state.series]);
+        setArc(p.id, lm, ok ? o[state.series] : NaN, ok, truthJ, c && c.gT ? c.gT[state.series] : NaN);
       }
     } else {
       if (state.playing) {
@@ -2081,7 +2976,7 @@ function tick(now) {
       const truthJ = drawHand("truth", sim.truth[i], state.layers.truth);
       const raw = sim.raw[i];
       const rawJ = drawHand("raw", raw, state.layers.raw && !!raw);
-      tipForLens = raw ? raw[8] : sim.truth[i][8];
+      tipForLens = raw ? raw[8] : sim.truth[i] ? sim.truth[i][8] : null;
       for (const p of state.pipes) {
         const out = state.outs[p.id], ok = pipeShown(p) && out && isFinite(out.INDEX_MCP[i]);
         const lm = drawHand(p.id, ok ? fk(paramsFromSeries((k) => out[k][i])) : null, ok);
@@ -2091,7 +2986,7 @@ function tick(now) {
     const key = state.mode + state.lesson + state.series + state.pipes.map((p) => pipeShown(p) ? p.id : "").join("") + state.layers.raw + state.layers.truth + state.sc.out;
     if (key !== lastLegendKey) { if (state.mode === "aula") renderScopeLegend(); else renderLegend(); lastLegendKey = key; }
     if (state.mode === "aula") drawScope();
-    else if (chart.dirty || state.frame !== lastFrame) { drawChart(); chart.dirty = false; lastFrame = state.frame; }
+    else if (chart.dirty || (state.lvView === "sinal" && state.frame !== lastFrame)) { drawChart(); chart.dirty = false; lastFrame = state.frame; }
     updateHud();
   }
   if (state.mode === "camera") { requestAnimationFrame(tick); return; }
@@ -2104,7 +2999,7 @@ function tick(now) {
 }
 
 
-/* ============================ câmera ao vivo (teste) ============================ */
+/* ============================ câmera ao vivo ============================ */
 // Usa o MediaPipe Hand Landmarker no navegador; o modelo e o motor vêm da CDN na primeira vez e ficam em cache.
 const MP_VER = "0.10.14";
 const MP_BASE = "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@" + MP_VER;
@@ -2118,7 +3013,38 @@ const CAM_FILTERS = {
 const CAM_FILTER_PT = { none: "sem filtro", oe: "One Euro", med_oe: "Mediana → One Euro" };
 const HAND_LINKS = [[0,1],[1,2],[2,3],[3,4],[0,5],[5,6],[6,7],[7,8],[5,9],[9,10],[10,11],[11,12],[9,13],[13,14],[14,15],[15,16],[13,17],[17,18],[18,19],[19,20],[0,17]];
 const lc = { stream: null, lm: null, facing: "user", running: false, fkey: "med_oe", chains: null, lastT: null, miss: 0,
-  sel: "INDEX_PIP", buf: [], rec: null, fps: 0, fpsT: 0, fpsN: 0, last: null, vt: -1, loading: null };
+  sel: "INDEX_PIP", buf: [], rec: null, fps: 0, fpsT: 0, fpsN: 0, last: null, vt: -1, loading: null,
+  target: "camera", detMs: NaN, filtLag: NaN, latT: 0, side: "auto", sideAuto: "left", sideVotes: 0, norm: null, wake: null, lumaT: 0, luma: NaN, hints: [], view: "both", session: null };
+
+/* Alinhamento da mão da câmera com a mão do lab: mesma base da palma, mesmo tamanho. */
+function palmBasis(lm) {
+  const o = lm[0], y = normz(sub(lm[9], o));
+  let x = sub(lm[17], lm[5]); x = normz(sub(x, mul(y, dot(x, y))));
+  return { o, x, y, z: cross(x, y), L: len(sub(lm[9], o)) };
+}
+const MODEL_B = palmBasis(fk(paramsAt(0, "flexao", null, 0)));
+function toModelFrame(lm) {
+  const b = palmBasis(lm), sc = MODEL_B.L / Math.max(1e-6, b.L);
+  return lm.map((p) => {
+    const d = sub(p, b.o), u0 = dot(d, b.x) * sc, u1 = dot(d, b.y) * sc, u2 = dot(d, b.z) * sc;
+    return add(MODEL_B.o, add(add(mul(MODEL_B.x, u0), mul(MODEL_B.y, u1)), mul(MODEL_B.z, u2)));
+  });
+}
+// Pontos do MediaPipe (metros, y para baixo) em mm no sentido do lab. A mão direita é espelhada para ter a quiralidade do modelo,
+// e assim a flexão sai positiva nas duas mãos.
+function worldToLab(world, right) {
+  return world.map((p) => { const q = Array.isArray(p) ? p : [p.x, p.y, p.z]; return [(right ? -1 : 1) * q[0] * 1000, -q[1] * 1000, -q[2] * 1000]; });
+}
+function isRight() { return lc.side === "auto" ? lc.sideAuto === "right" : lc.side === "right"; }
+// Lateralidade pelo sinal da flexão das articulações do meio: na mão esquerda (a do modelo) ela é positiva.
+function sideVote(lmAsLeft) {
+  const g = gonio(lmAsLeft), v = g.INDEX_PIP + g.MIDDLE_PIP + g.RING_PIP;
+  if (Math.abs(v) < 12) return;
+  lc.sideVotes = clamp(lc.sideVotes + (v > 0 ? 1 : -1), -30, 30);
+  if (lc.sideVotes >= 8) lc.sideAuto = "left"; else if (lc.sideVotes <= -8) lc.sideAuto = "right";
+}
+function sideText() { return (isRight() ? "Direita" : "Esquerda") + (lc.side === "auto" ? " · detectada" : " · escolhida por você"); }
+
 function camReset() { lc.chains = {}; for (const k of CAM_SERIES) lc.chains[k] = makeChain(CAM_FILTERS[lc.fkey]); lc.lastT = null; }
 async function camLoadModel() {
   if (lc.lm) return lc.lm;
@@ -2138,36 +3064,51 @@ async function camLoadModel() {
   })();
   try { return await lc.loading; } catch (e) { lc.loading = null; throw e; }
 }
-function camError(msg) { $("camErr").textContent = msg; $("camMsg").hidden = false; $("camStart").disabled = false; }
-async function camOn() {
-  $("camStart").disabled = true; $("camErr").textContent = "";
+let toastTimer = null;
+function camToast(msg) { const t = $("camToast"); t.textContent = msg; t.hidden = false; clearTimeout(toastTimer); toastTimer = setTimeout(() => { t.hidden = true; }, 9000); }
+function camError(msg) {
+  if (lc.target === "aula") { camToast(msg); return; }
+  $("camErr").textContent = msg; $("camMsg").hidden = false; $("camStart").disabled = false;
+}
+async function wakeOn() { try { if ("wakeLock" in navigator) lc.wake = await navigator.wakeLock.request("screen"); } catch (e) { lc.wake = null; } }
+function wakeOff() { try { if (lc.wake) lc.wake.release(); } catch (e) {} lc.wake = null; }
+async function camOn(target) {
+  lc.target = target || "camera";
+  if (lc.target === "camera") { $("camStart").disabled = true; $("camErr").textContent = ""; }
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) { camError("Este navegador não oferece acesso à câmera aqui. Abra a página no Chrome, no Edge ou no Safari, fora de apps como WhatsApp e Instagram."); return false; }
   camLoadModel().catch(() => {}); // o modelo baixa enquanto o navegador pede a permissão
-  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) { camError("Este navegador não oferece acesso à câmera aqui. Abra a página no Chrome, no Edge ou no Safari, fora de apps como WhatsApp e Instagram."); return; }
   try {
     lc.stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: lc.facing, width: { ideal: 960 }, height: { ideal: 720 } }, audio: false });
   } catch (e) {
-    const why = e && e.name === "NotAllowedError" ? "A câmera foi bloqueada. Se você não negou o pedido, quem bloqueou foi a janela onde esta página está aberta: baixe a página e abra direto no navegador."
+    const why = e && e.name === "NotAllowedError" ? "A câmera foi bloqueada. Se você não negou o pedido, quem bloqueou foi a janela onde esta página está aberta: abra a página direto no navegador."
       : e && e.name === "NotFoundError" ? "Nenhuma câmera foi encontrada neste aparelho."
       : "Não foi possível abrir a câmera (" + (e && e.name || "erro") + ").";
-    camError(why); return;
+    camError(why); return false;
   }
   const v = $("camVideo"); v.srcObject = lc.stream; await v.play().catch(() => {});
-  $("camStage").classList.toggle("mirror", lc.facing === "user");
-  $("camMsg").hidden = true; $("camStop").disabled = false;
+  $("camFeed").classList.toggle("mirror", lc.facing === "user");
+  if (lc.target === "camera") { $("camMsg").hidden = true; $("camStop").disabled = false; }
   try { const devs = await navigator.mediaDevices.enumerateDevices(); $("camFlip").hidden = devs.filter((d) => d.kind === "videoinput").length < 2; } catch (e) {}
   $("camInfo").textContent = "carregando a detecção da mão...";
   try { await camLoadModel(); }
-  catch (e) { $("camModel").textContent = "o modelo não carregou"; camOff(); camError("A câmera abriu, mas o detector da mão não carregou (" + ((e && e.message) || e) + "). A janela onde esta página está aberta pode estar bloqueando a CDN; abra a página direto no navegador."); return; }
-  camReset(); lc.running = true; lc.vt = -1; $("camRecBtn").disabled = false;
+  catch (e) { $("camModel").textContent = "o modelo não carregou"; camOff(); camError("A câmera abriu, mas o detector da mão não carregou (" + ((e && e.message) || e) + "). Abra a página direto no navegador."); return false; }
+  if (!lc.stream) return false;
+  camReset(); lc.running = true; lc.vt = -1; lc.sideVotes = 0; lc.miss = 0; lc.buf = [];
+  if (lc.target === "camera") { $("camRecBtn").disabled = false; $("camView").classList.remove("off"); }
+  wakeOn();
   requestAnimationFrame(camLoop);
+  return true;
 }
 function camOff() {
-  lc.running = false;
+  lc.running = false; lc.norm = null; lc.last = null; lc.hints = [];
   if (lc.rec) camRecStop();
   if (lc.stream) { lc.stream.getTracks().forEach((t) => t.stop()); lc.stream = null; }
+  wakeOff();
   const v = $("camVideo"); if (v) v.srcObject = null;
-  if ($("camMsg")) { $("camMsg").hidden = false; $("camStart").disabled = false; $("camStop").disabled = true; $("camRecBtn").disabled = true; $("camBig").hidden = true; $("camInfo").textContent = "câmera desligada"; }
-  const c = $("camCanvas"); if (c) c.getContext("2d").clearRect(0, 0, c.width, c.height);
+  $("camMsg").hidden = false; $("camStart").disabled = false; $("camStop").disabled = true; $("camRecBtn").disabled = true; $("camBig").hidden = true; $("camInfo").textContent = "câmera desligada";
+  $("camHints").innerHTML = "";
+  $("camView").classList.add("off");
+  const c = $("camCanvas"); c.getContext("2d").clearRect(0, 0, c.width, c.height);
 }
 function camLoop() {
   if (!lc.running) return;
@@ -2177,16 +3118,55 @@ function camLoop() {
     const now = performance.now();
     let res = null;
     try { res = lc.lm.detectForVideo(v, now); } catch (e) { res = null; }
+    const det = performance.now() - now;
+    lc.detMs = isFinite(lc.detMs) ? 0.9 * lc.detMs + 0.1 * det : det;
+    if (lc.rec) { lc.rec.det.push(det); }
     camFrame(res, now / 1000, v);
   }
   requestAnimationFrame(camLoop);
 }
+const lumaCanvas = document.createElement("canvas"); lumaCanvas.width = 32; lumaCanvas.height = 24;
+function camLuma(v, t) {
+  if (t - lc.lumaT < 1) return; lc.lumaT = t;
+  try {
+    const ctx = lumaCanvas.getContext("2d", { willReadFrequently: true }); ctx.drawImage(v, 0, 0, 32, 24);
+    const d = ctx.getImageData(0, 0, 32, 24).data; let s = 0;
+    for (let i = 0; i < d.length; i += 4) s += 0.299 * d[i] + 0.587 * d[i + 1] + 0.114 * d[i + 2];
+    lc.luma = s / (d.length / 4);
+  } catch (e) { lc.luma = NaN; }
+}
+// Dicas de captura: o que mais atrapalha a medição da flexão pela câmera.
+function camQuality(img, world, has, aspect) {
+  const h = [];
+  if (!has) h.push("Mostre a mão para a câmera");
+  else {
+    let x0 = 1, x1 = 0, y0 = 1, y1 = 0;
+    for (const p of img) { x0 = Math.min(x0, p.x); x1 = Math.max(x1, p.x); y0 = Math.min(y0, p.y); y1 = Math.max(y1, p.y); }
+    const size = Math.max((x1 - x0) * aspect, y1 - y0);
+    if (size < 0.25) h.push("Aproxime a mão da câmera");
+    else if (size > 0.85) h.push("Afaste um pouco a mão");
+    if (x0 < 0.02 || x1 > 0.98 || y0 < 0.02 || y1 > 0.98) h.push("Centralize a mão na imagem");
+    const w0 = [world[0].x, world[0].y, world[0].z], w5 = [world[5].x, world[5].y, world[5].z], w17 = [world[17].x, world[17].y, world[17].z];
+    const n = normz(cross(sub(w5, w0), sub(w17, w0)));
+    if (Math.abs(n[2]) > 0.85) h.push("Para medir a flexão, vire um pouco a mão de lado");
+  }
+  if (lc.fps > 0 && lc.fps < 15) h.push("Poucos quadros por segundo: feche outros apps");
+  if (isFinite(lc.luma) && lc.luma < 55) h.push("Pouca luz: acenda uma luz ou chegue perto da janela");
+  lc.hints = h;
+}
+let hintsKey = "";
+function renderHints(has) {
+  const key = lc.hints.join("|") + has; if (key === hintsKey) return; hintsKey = key;
+  $("camHints").innerHTML = lc.hints.length ? lc.hints.map((t) => `<span class="hint-chip">${t}</span>`).join("") : (has ? '<span class="hint-chip ok">Boa captura</span>' : "");
+}
 function camFrame(res, t, v) {
   lc.fpsN++; if (t - lc.fpsT >= 1) { lc.fps = lc.fpsN / (t - lc.fpsT); lc.fpsN = 0; lc.fpsT = t; }
+  camLuma(v, t);
   const c = $("camCanvas"), W2 = v.videoWidth, H2 = v.videoHeight;
   if (c.width !== W2 || c.height !== H2) { c.width = W2; c.height = H2; }
   const ctx = c.getContext("2d"); ctx.clearRect(0, 0, W2, H2);
-  const has = res && res.landmarks && res.landmarks.length && res.worldLandmarks && res.worldLandmarks.length;
+  const has = !!(res && res.landmarks && res.landmarks.length && res.worldLandmarks && res.worldLandmarks.length);
+  const dt = lc.lastT === null ? 1 / 30 : Math.max(1e-3, t - lc.lastT); lc.lastT = t;
   let raw = null, filt = null;
   if (has) {
     lc.miss = 0;
@@ -2194,36 +3174,55 @@ function camFrame(res, t, v) {
     ctx.lineWidth = Math.max(2, W2 / 260); ctx.strokeStyle = "rgba(56,216,240,0.9)";
     for (const [a, b] of HAND_LINKS) { ctx.beginPath(); ctx.moveTo(img[a].x * W2, img[a].y * H2); ctx.lineTo(img[b].x * W2, img[b].y * H2); ctx.stroke(); }
     ctx.fillStyle = "#F2F5F7"; for (const p of img) { ctx.beginPath(); ctx.arc(p.x * W2, p.y * H2, Math.max(3, W2 / 200), 0, 7); ctx.fill(); }
-    const lm = world.map((p) => [p.x * 1000, -p.y * 1000, -p.z * 1000]);
-    const g = gonio(lm);
-    const dt = lc.lastT === null ? 1 / 30 : Math.max(1e-3, t - lc.lastT); lc.lastT = t;
+    const lmL = worldToLab(world, false);
+    sideVote(lmL);
+    const norm = toModelFrame(isRight() ? lmL.map((p) => [-p[0], p[1], p[2]]) : lmL);
+    lc.norm = norm;
+    const g = gonio(norm);
     raw = {}; filt = {};
-    for (const k of CAM_SERIES) { const x = Math.abs(g[k]); raw[k] = x; let z = x; for (const f of lc.chains[k]) z = f(z, dt); filt[k] = z; }
+    for (const k of CAM_SERIES) { raw[k] = g[k]; let z = g[k]; for (const f of lc.chains[k]) z = f(z, dt); filt[k] = z; }
+    raw._OPP = filt._OPP = g._OPP;
     if (lc.rec) lc.rec.frames.push({ t: +(t - lc.rec.t0).toFixed(4), world: world.map((p) => [+p.x.toFixed(5), +p.y.toFixed(5), +p.z.toFixed(5)]), image: img.map((p) => [+p.x.toFixed(4), +p.y.toFixed(4)]),
       raw: Object.fromEntries(CAM_SERIES.map((k) => [k, +raw[k].toFixed(2)])), filtered: Object.fromEntries(CAM_SERIES.map((k) => [k, +filt[k].toFixed(2)])) });
+    camQuality(img, world, true, W2 / Math.max(1, H2));
   } else {
-    lc.miss++;
+    lc.miss++; lc.norm = null;
     if (lc.miss === RESET_FRAMES) camReset();
     if (lc.rec) lc.rec.frames.push({ t: +(t - lc.rec.t0).toFixed(4), world: null });
+    camQuality(null, null, false, 1);
   }
+  renderHints(has);
   lc.last = { raw, filt };
+  if (lc.target === "aula") { if (state.live && state.live.cam) liveFeedCam(lc.norm, raw, dt); return; }
   lc.buf.push({ t, raw: raw ? raw[lc.sel] : NaN, filt: filt ? filt[lc.sel] : NaN });
   while (lc.buf.length && lc.buf[0].t < t - 5) lc.buf.shift();
   $("camInfo").textContent = (has ? "mão encontrada" : "procurando a mão...") + " · " + nf(lc.fps, 0) + " quadros/s";
   if (lc.rec) $("camRec").textContent = "gravando " + nf(t - lc.rec.t0, 1) + " s";
   $("camBig").hidden = !has;
   if (has) { $("camBigV").textContent = nf(filt[lc.sel], 0) + "°"; $("camBigN").textContent = seriesName(lc.sel) + " · " + CAM_FILTER_PT[lc.fkey]; }
-  camTable(); camChart();
+  camTable(); camChart(); camLatency(t);
   if (lc.rec && t - lc.rec.t0 >= 60) camRecStop();
+}
+// Latência: o que é do aparelho (detecção e intervalo entre quadros) e o que é do filtro (atraso contra a medida bruta).
+function camLatency(t) {
+  if (t - lc.latT < 1) return; lc.latT = t;
+  const B = lc.buf, f = B.map((q) => q.filt), r = B.map((q) => q.raw), idx = [];
+  let lo = Infinity, hi = -Infinity; B.forEach((q, i) => { if (isFinite(q.raw)) { idx.push(i); lo = Math.min(lo, q.raw); hi = Math.max(hi, q.raw); } });
+  const dtm = B.length > 1 ? (B[B.length - 1].t - B[0].t) / (B.length - 1) : 1 / 30;
+  lc.filtLag = hi - lo > 15 && idx.length > 30 ? xcorrLag(f, r, idx, dtm) : NaN;
+  $("camLat").textContent = `latência: detecção ${nf(lc.detMs, 0)} ms · entre quadros ${nf(lc.fps > 0 ? 1000 / lc.fps : NaN, 0)} ms · filtro ${isFinite(lc.filtLag) ? nf(lc.filtLag, 0) + " ms" : "mova a mão para medir"}`;
 }
 let camTblT = 0;
 function camTable() {
   const now = performance.now(); if (now - camTblT < 150) return; camTblT = now;
   const L = lc.last, rows = [];
-  for (const f of ["INDEX", "MIDDLE", "RING", "PINKY"]) rows.push([FINGER_PT[f], [f + "_MCP", f + "_PIP", f + "_DIP"]]);
-  rows.push(["Polegar", ["THUMB_MCP", "THUMB_IP", null]]);
-  const cell = (k) => { if (!k) return "<td></td>"; const v = L && L.filt ? L.filt[k] : NaN; return `<td class="${k === lc.sel ? "sel" : ""}"><button type="button" data-k="${k}">${nf(v, 0)}°</button></td>`; };
-  $("camTbl").innerHTML = `<thead><tr><th>Dedo</th><th>base</th><th>meio</th><th>ponta</th></tr></thead><tbody>${rows.map(([n, ks]) => `<tr class="${ks.includes(lc.sel) ? "sel" : ""}"><td>${n}</td>${ks.map(cell).join("")}</tr>`).join("")}</tbody>`;
+  for (const f of ["INDEX", "MIDDLE", "RING", "PINKY"]) rows.push([FINGER_PT[f], [f + "_MCP", f + "_PIP", f + "_DIP", f + "_ABD"]]);
+  rows.push(["Polegar", ["THUMB_MCP", "THUMB_IP", null, "THUMB_RABD"]]);
+  const cell = (k) => { if (!k) return "<td></td>"; const v = L && L.filt ? L.filt[k] : NaN; return `<td class="${k === lc.sel ? "sel" : ""}"><button type="button" data-k="${k}" title="${seriesName(k)}">${nf(v, 0)}${unitOf(k)}</button></td>`; };
+  const ex = (k, d) => `<button type="button" data-k="${k}" class="linkbtn" style="font-size:12.5px">${seriesName(k)}: ${L && L.filt ? nf(L.filt[k], d) : "–"}${unitOf(k)}</button>`;
+  $("camTbl").innerHTML = `<thead><tr><th>Dedo</th><th>base</th><th>meio</th><th>ponta</th><th>abdução</th></tr></thead><tbody>${rows.map(([n, ks]) => `<tr class="${ks.includes(lc.sel) ? "sel" : ""}"><td>${n}</td>${ks.map(cell).join("")}</tr>`).join("")}</tbody>
+    <tfoot><tr><td colspan="5" style="text-align:left;font-family:var(--f-body);padding-top:8px;line-height:1.9">${ex("SPREAD", 0)}<br>${ex("THUMB_PABD", 0)}<br>${ex("PINCH", 0)}<br>${ex("THUMB_OPPD", 0)}<br><span class="note">No polegar, "abdução" é a abdução radial da base (CMC). Toque num valor para ver no gráfico.</span></td></tr></tfoot>`;
+  $("camSideBtn").textContent = sideText();
 }
 $("camTbl").addEventListener("click", (e) => { const b = e.target.closest("[data-k]"); if (!b) return; lc.sel = b.dataset.k; lc.buf = []; camTblT = 0; $("camChartT").textContent = seriesName(lc.sel) + " · últimos 5 s"; });
 function camChart() {
@@ -2236,7 +3235,7 @@ function camChart() {
   const t1 = B[B.length - 1].t, t0 = t1 - 5;
   let lo = Infinity, hi = -Infinity; for (const p of B) for (const v of [p.raw, p.filt]) if (isFinite(v)) { lo = Math.min(lo, v); hi = Math.max(hi, v); }
   if (!isFinite(lo)) { lo = 0; hi = 90; }
-  const span = Math.max(20, hi - lo), mid = (hi + lo) / 2; lo = Math.max(-5, mid - span * 0.6); hi = lo + span * 1.2;
+  const span = Math.max(20, hi - lo), mid = (hi + lo) / 2; lo = mid - span * 0.6; hi = lo + span * 1.2;
   const X = (t) => pad.l + (t - t0) / 5 * (w - pad.l - pad.r), Y = (v) => pad.t + (1 - (v - lo) / (hi - lo)) * (h - pad.t - pad.b);
   ctx.font = "10.5px 'JetBrains Mono', monospace"; ctx.fillStyle = "#8A9BA8"; ctx.strokeStyle = "#18242E"; ctx.textAlign = "right"; ctx.textBaseline = "middle";
   const st = span > 60 ? 30 : span > 30 ? 15 : 5;
@@ -2246,7 +3245,7 @@ function camChart() {
   for (const p of B) { if (!isFinite(p.filt)) { pen = false; continue; } if (pen) ctx.lineTo(X(p.t), Y(p.filt)); else { ctx.moveTo(X(p.t), Y(p.filt)); pen = true; } } ctx.stroke();
 }
 function camRecStart() {
-  lc.rec = { t0: performance.now() / 1000, frames: [], filter: lc.fkey };
+  lc.rec = { t0: performance.now() / 1000, frames: [], filter: lc.fkey, det: [] };
   $("camRecBtn").textContent = "Parar e salvar"; $("camRec").hidden = false; $("camSumBox").hidden = true;
 }
 function camRecStop() {
@@ -2257,17 +3256,25 @@ function camRecStop() {
   const adm = {}; for (const k of CAM_SERIES) { let lo = Infinity, hi = -Infinity; for (const f of ok) { lo = Math.min(lo, f.filtered[k]); hi = Math.max(hi, f.filtered[k]); } adm[k] = ok.length ? +(hi - lo).toFixed(1) : null; }
   const session = { kind: "hand-filter-lab-camera-test", created: new Date().toISOString(), device: navigator.userAgent,
     detector: { library: "@mediapipe/tasks-vision " + MP_VER, model: "hand_landmarker float16/1" },
-    filter: { name: CAM_FILTER_PT[rec.filter], blocks: CAM_FILTERS[rec.filter] }, angles: "goniômetro do estudo, valor absoluto, graus",
+    hand: isRight() ? "direita" : "esquerda", hand_source: lc.side === "auto" ? "detectada" : "escolhida",
+    filter: { name: CAM_FILTER_PT[rec.filter], blocks: CAM_FILTERS[rec.filter] }, angles: "goniômetro do estudo, graus, flexão positiva",
+    latency_ms: { detection_mean: +meanOf(rec.det).toFixed(1), frame_interval_mean: rec.frames.length > 1 ? +(dur / (rec.frames.length - 1) * 1000).toFixed(1) : null },
     duration_s: dur, frames_total: rec.frames.length, frames_with_hand: ok.length, range_of_motion_deg: adm, frames: rec.frames };
   lc.session = session;
-  const top = ["INDEX", "MIDDLE", "RING", "PINKY"].map((f) => `${FINGER_PT[f]} ${nf(adm[f + "_PIP"], 0)}°`).join(" · ");
+  const idxAll = ok.map((_, i) => i), col = (k) => ok.map((f) => f.filtered[k]);
+  const tamOf = (joints) => { const g = (k) => col(k); g.joints = joints; return tamSession(g, idxAll); };
+  const top = ["INDEX", "MIDDLE", "RING", "PINKY"].map((f) => `${FINGER_PT[f]} ${nf(tamOf([f + "_MCP", f + "_PIP", f + "_DIP"]), 0)}°`).join(" · ") + ` · Polegar ${nf(tamOf(["THUMB_MCP", "THUMB_IP"]), 0)}°`;
+  const ext = (k, fn) => { const v = col(k).filter(isFinite); return v.length ? fn(...v) : NaN; };
+  session.tam_session_deg = Object.fromEntries(["INDEX", "MIDDLE", "RING", "PINKY"].map((f) => [f, +nf(tamOf([f + "_MCP", f + "_PIP", f + "_DIP"]), 1).replace(",", ".")]).concat([["THUMB", +nf(tamOf(["THUMB_MCP", "THUMB_IP"]), 1).replace(",", ".")]]));
   $("camSumBox").hidden = false;
   $("camSumBox").innerHTML = `<div class="cam-sum"><span class="label" style="color:var(--good)">Sessão gravada</span>
-    <p>${nf(dur, 1)} s, ${rec.frames.length} quadros, mão encontrada em ${nf(ok.length / rec.frames.length * 100, 0)}% deles.</p>
-    <p>Amplitude da articulação do meio (PIP): ${top}.</p>
-    <p class="note">No sistema principal, este é o ponto em que a sessão iria para a ficha do paciente. Aqui, para o teste, você pode baixar o arquivo.</p>
-    <div class="cam-row"><button type="button" class="btn primary" id="camSave">Baixar a sessão (.json)</button></div></div>`;
+    <p>${nf(dur, 1)} s, ${rec.frames.length} quadros, mão ${session.hand} encontrada em ${nf(ok.length / rec.frames.length * 100, 0)}% deles.</p>
+    <p>TAM da sessão (ASSH): ${top}.</p>
+    <p>Abertura: espalhamento máximo ${nf(ext("SPREAD", Math.max), 0)}°, menor pinça ${nf(ext("PINCH", Math.min), 0)} mm, melhor oposição ${nf(ext("THUMB_OPPD", Math.min), 0)}% do comprimento da mão.</p>
+    <p class="note">No sistema principal, este é o ponto em que a sessão iria para a ficha do paciente.</p>
+    <div class="cam-row"><button type="button" class="btn primary" id="camOpenLab"${ok.length < 20 ? " disabled" : ""}>Testar filtros nesta gravação</button><button type="button" class="btn" id="camSave">Baixar (.json)</button></div></div>`;
   $("camSave").addEventListener("click", camSave);
+  $("camOpenLab").addEventListener("click", () => openRecording(session));
 }
 async function camSave() {
   const s = lc.session; if (!s) return;
@@ -2275,23 +3282,210 @@ async function camSave() {
   try { const dl = await claude.use("downloads"); if (dl) { await dl.save({ filename: name, data }); return; } } catch (e) { if (e && e.code && e.code !== "unavailable") return; }
   try { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([data], { type: "application/json" })); a.download = name; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 4000); } catch (e) {}
 }
-$("camStart").addEventListener("click", camOn);
+
+/* ---- gravação real como dado bruto do laboratório livre ---- */
+// Sem mão real conhecida, a referência é uma média centrada de 9 quadros do próprio sinal da câmera: suave e sem atraso.
+function centeredRef(x, t) {
+  const n = x.length, y = new Float64Array(n);
+  for (let i = 0; i < n; i++) {
+    let s = 0, c = 0;
+    for (let j = Math.max(0, i - 4); j <= Math.min(n - 1, i + 4); j++) if (isFinite(x[j]) && Math.abs(t[j] - t[i]) < 0.2) { s += x[j]; c++; }
+    y[i] = c >= 3 ? s / c : NaN;
+  }
+  return y;
+}
+function simFromSession(sess) {
+  const right = sess.hand === "direita", fr = sess.frames, n = fr.length;
+  const t = fr.map((f) => f.t), raw = [], events = [], truthS = {}, rawS = {};
+  for (const s of SERIES) rawS[s] = new Float64Array(n);
+  for (let i = 0; i < n; i++) {
+    const f = fr[i];
+    if (f.world) {
+      const lm = toModelFrame(worldToLab(f.world, right)); raw.push(lm); events.push(null);
+      const g = gonio(lm); for (const s of SERIES) rawS[s][i] = g[s];
+    } else { raw.push(null); events.push({ kind: "drop" }); for (const s of SERIES) rawS[s][i] = NaN; }
+  }
+  for (const s of SERIES) truthS[s] = s === "_OPP" ? rawS[s] : centeredRef(rawS[s], t);
+  const dts = []; for (let i = 1; i < n; i++) dts.push(t[i] - t[i - 1]);
+  return { mov: "gravacao", recorded: true, n, t, truth: new Array(n).fill(null), raw, events, truthS, rawS,
+    meanDt: dts.reduce((a, b) => a + b, 0) / Math.max(1, dts.length), hand: sess.hand };
+}
+function openRecording(sess) {
+  state.recording = simFromSession(sess);
+  const sel = $("movement");
+  if (!sel.querySelector('option[value="gravacao"]')) { const o = document.createElement("option"); o.value = "gravacao"; o.textContent = "Gravação da câmera"; sel.appendChild(o); }
+  sel.value = "gravacao"; $("series").value = "INDEX_PIP";
+  setMode("livre");
+}
+
+/* ---- câmera dentro da aula ---- */
+function liveFeedCam(norm, g, dt) {
+  const L = state.live; L.t += dt;
+  const out = {};
+  for (const p of state.pipes) {
+    if (!p.visible) continue;
+    if (!L.chains[p.id]) { L.chains[p.id] = {}; for (const s of SERIES) L.chains[p.id][s] = makeChain(p.blocks, p.id === "A" && s === state.series ? L.traceA : null); }
+    if (!g) { out[p.id] = L.cur && L.cur.out[p.id] ? L.cur.out[p.id] : null; continue; }
+    const o = {};
+    for (const s of SERIES) { let z = g[s]; for (const f of L.chains[p.id][s]) z = f(z, dt); o[s] = z; }
+    out[p.id] = o;
+  }
+  L.cur = { truth: null, raw: norm, out, ev: null, gT: null, gR: g || (L.cur ? L.cur.gR : null) };
+  const B = L.buf, s = state.series;
+  B.t.push(L.t); B.truth.push(NaN); B.raw.push(g ? g[s] : NaN); B.ev.push(null);
+  for (const id of ["A", "B", "C"]) B.out[id].push(out[id] && g ? out[id][s] : NaN);
+  while (B.t.length && B.t[0] < L.t - LIVE_WIN) { B.t.shift(); B.truth.shift(); B.raw.shift(); B.ev.shift(); for (const id of ["A", "B", "C"]) B.out[id].shift(); }
+  if (L.traceA.length > 400) L.traceA.splice(0, L.traceA.length - 400);
+  if (++L.steps % 10 === 0) liveMetrics();
+}
+function camLessonReturnFeed() {
+  $("camStage").prepend($("camFeed")); $("camPip").hidden = true;
+  $("camLessonBtn").setAttribute("aria-pressed", "false"); $("camLessonBtn").textContent = "Usar minha câmera";
+}
+async function lessonCamToggle() {
+  if (state.live && state.live.cam) { stopLive(); state.layers.truth = true; renderLayers(); if (LESSONS[state.lesson].live) startLive(); return; }
+  if (!state.live) startLive();
+  state.layers.truth = false; renderLayers(); // com a câmera não existe mão real para mostrar
+  const L = state.live;
+  L.cam = true; L.chains = {}; L.cur = null; L.t = 0; L.traceA = []; L.mets = null;
+  L.buf = { t: [], truth: [], raw: [], out: { A: [], B: [], C: [] }, ev: [] };
+  $("bend").hidden = true; $("dragHint").hidden = true;
+  $("camPip").appendChild($("camFeed")); $("camPip").hidden = false;
+  $("camLessonBtn").setAttribute("aria-pressed", "true"); $("camLessonBtn").textContent = "Desligar câmera";
+  $("liveBtn").innerHTML = 'Ver<span class="d-label"> demonstração</span> gravada';
+  syncPlayer(); renderMeters(); updateChallenge();
+  const ok = await camOn("aula");
+  if (!ok && state.live && state.live.cam) { stopLive(); state.layers.truth = true; renderLayers(); if (LESSONS[state.lesson].live) startLive(); }
+}
+$("camLessonBtn").addEventListener("click", lessonCamToggle);
+
+/* ---- mão 3D no modo câmera ---- */
+function drawCamHands() {
+  const L = lc.last, norm = lc.norm;
+  drawHand("truth", null, false);
+  drawHand("raw", norm, !!norm);
+  const lmF = norm && L && L.filt ? fk(paramsFromSeries((k) => L.filt[k])) : null;
+  const jA = drawHand("A", lmF, !!lmF);
+  drawHand("B", null, false); drawHand("C", null, false);
+  state.series = lc.sel;
+  setArc("A", jA, lmF ? L.filt[lc.sel] : NaN, !!lmF, null, NaN);
+  setArc("B", null, NaN, false); setArc("C", null, NaN, false);
+}
+function camViewApply() {
+  const st = $("camStage"); st.classList.remove("v-video", "v-both", "v-3d"); st.classList.add("v-" + lc.view);
+  $("camViewSeg").querySelectorAll("[data-v]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.v === lc.view)));
+  resizeArena();
+}
+$("camViewSeg").addEventListener("click", (e) => { const b = e.target.closest("[data-v]"); if (!b) return; lc.view = b.dataset.v; camViewApply(); });
+$("camSideBtn").addEventListener("click", () => { lc.side = lc.side === "auto" ? (isRight() ? "left" : "right") : "auto"; camReset(); camTblT = 0; camTable(); });
+
+$("camStart").addEventListener("click", () => camOn("camera"));
 camTable();
 $("camStop").addEventListener("click", camOff);
 $("camRecBtn").addEventListener("click", () => { if (lc.rec) camRecStop(); else camRecStart(); });
-$("camFlip").addEventListener("click", async () => { lc.facing = lc.facing === "user" ? "environment" : "user"; camOff(); await camOn(); });
+$("camFlip").addEventListener("click", async () => { lc.facing = lc.facing === "user" ? "environment" : "user"; const tg = lc.target; camOff(); await camOn(tg); });
 $("camFilter").addEventListener("click", (e) => {
   const b = e.target.closest("[data-f]"); if (!b) return;
   lc.fkey = b.dataset.f; camReset();
   $("camFilter").querySelectorAll("[data-f]").forEach((x) => x.setAttribute("aria-pressed", String(x.dataset.f === lc.fkey)));
 });
-document.addEventListener("visibilitychange", () => { if (document.hidden && lc.running) camOff(); });
+document.addEventListener("visibilitychange", () => { if (document.hidden && lc.running) { if (lc.target === "aula") stopLive(); else camOff(); } });
+
+/* ============================ ajuda ao toque ============================ */
+// Explicações em linguagem simples. Cada "?" abre uma destas, no computador e no celular.
+const HELP = {
+  treme: ["Treme?", "Com a mão parada, quanto o número ainda pula de um quadro para o outro. É o tremor falso que a câmera inventa.", "Bom: menos de 0,5°. A câmera sem filtro pula uns 2°."],
+  atrasa: ["Atrasa?", "Quanto tempo o filtro chega depois da mão real quando o dedo se move. Todo filtro que suaviza atrasa um pouco.", "Bom: menos de 80 ms. Um piscar de olhos leva uns 100 ms."],
+  erra: ["Erra quanto?", "A diferença típica entre o número do filtro e o ângulo real durante o movimento. Junta o tremor e o atraso numa medida só.", "Bom: menos de 5°."],
+  rmse: ["Erro médio (RMSE)", "A distância típica entre o filtro e a mão real durante o movimento. É a raiz da média dos erros ao quadrado, então os erros grandes pesam mais.", "Bom: abaixo de 5°."],
+  mae: ["Erro absoluto médio (MAE)", "A média dos erros, sem sinal. Diferente do RMSE, não dá peso extra aos erros grandes.", "Quanto menor, melhor. Se o RMSE for bem maior que o MAE, houve poucos erros muito grandes."],
+  nrmse: ["Erro relativo (NRMSE)", "O erro médio dividido pelo tamanho do movimento. Serve para comparar movimentos grandes e pequenos.", "Bom: abaixo de 5% da amplitude."],
+  max: ["Maior erro", "O pior quadro de todos: a maior diferença entre o filtro e a mão real.", "Quanto menor, melhor. Saltos de ponto costumam ser a causa."],
+  amp: ["Erro de amplitude", "Se o filtro mostra o movimento maior (positivo) ou menor (negativo) do que foi. Importa porque a amplitude é o que o clínico anota.", "Bom: perto de zero, menos de 3°."],
+  lag: ["Atraso (correlação)", "Quanto é preciso empurrar a curva do filtro no tempo para ela encaixar melhor na da mão real.", "Bom: menos de 80 ms."],
+  peakLag: ["Atraso no pico", "Em cada repetição, quanto tempo depois da mão real o filtro chega a 90% do fechamento. Mais fácil de imaginar que o atraso por correlação.", "Bom: perto de zero."],
+  overshoot: ["Ultrapassagem", "Quanto o filtro passa do ponto real quando o dedo vira, no fechamento ou na abertura. Filtros que preveem o movimento costumam passar do ponto.", "Bom: perto de zero."],
+  rise: ["Tempo de subida", "No cenário de degrau: quanto o filtro leva para ir de 10% a 90% do salto.", "Quanto menor, mais rápido ele reage."],
+  settle: ["Tempo de acomodação", "No cenário de degrau: quanto tempo até o filtro ficar a menos de 5% do valor final e não sair mais.", "Quanto menor, melhor."],
+  stepOv: ["Ultrapassagem no degrau", "No cenário de degrau: quanto o filtro passa do valor final, em porcentagem do salto.", "Bom: zero."],
+  jitter: ["Tremor parado", "Com a mão parada, quanto o número pula de um quadro para o outro (raiz da média da segunda diferença). É uma medida do lab.", "Bom: abaixo de 0,5°."],
+  sdRest: ["Desvio padrão em repouso", "Quanto o número varia em torno do valor certo com a mão parada. É o 'jitter' mais usado nos artigos.", "Quanto menor, melhor."],
+  sparc: ["SPARC (suavidade)", "Mede a suavidade do movimento pelo formato do espectro da velocidade (Balasubramanian e colegas, 2015). Valores mais perto de zero são mais suaves.", "O melhor filtro é o que fica mais parecido com a mão real: suavizar além disso inventa uma suavidade que o paciente não tem."],
+  ldlj: ["LDLJ (suavidade)", "Mede a suavidade pelo 'tranco' do movimento, a variação da aceleração (Hogan e Sternad, 2009). Valores maiores são mais suaves.", "O melhor é o mais parecido com a mão real. Ruído deixa o valor muito negativo."],
+  bias: ["Viés", "A diferença média entre o filtro e a mão real. Mostra se o filtro tende a marcar a mais ou a menos.", "Bom: perto de zero."],
+  loa: ["Limites de 95%", "A faixa onde caem 95% das diferenças entre o filtro e a mão real (viés ± 1,96 desvio padrão). É a linguagem dos artigos de validação.", "Quanto mais estreita a faixa, mais o filtro concorda com a mão real."],
+  cost: ["Custo", "Quanto tempo o aparelho leva para filtrar cada quadro.", "Compare as cadeias entre si: o número exato depende do aparelho."],
+  v_sinal: ["Como ler: sinal", "O ângulo do dedo ao longo do tempo. A linha tracejada é a mão real, a cinza é a câmera, e cada cor é uma cadeia de filtros.", "Quanto mais a cor colar na linha tracejada, melhor. Toque no gráfico para ir a um momento."],
+  v_freq: ["Como ler: frequência", "Cada movimento é feito de ritmos lentos e rápidos. Em cima: quanto de cada ritmo passa pelo filtro. Embaixo: o atraso em cada ritmo.", "Na faixa verde (movimento de verdade), o ideal é perto de 100%. Nas faixas amarela e vermelha (tremor), quanto mais baixo, melhor."],
+  v_pareto: ["Como ler: Pareto", "Cada ponto é um filtro com um ajuste. Para a esquerda, atrasa menos; para baixo, treme menos. Ninguém chega ao canto de baixo à esquerda: ganhar num lado custa no outro.", "A linha tracejada mostra o melhor possível. Seus anéis A, B e C perto dela estão bem ajustados."],
+  v_ba: ["Como ler: Bland-Altman", "Cada ponto é um quadro. A altura é quanto o filtro errou naquele quadro. A linha do meio é o erro médio (viés), e as tracejadas marcam onde ficam 95% dos erros.", "Quanto mais perto de zero e mais estreita a faixa, melhor. Uma elipse é sinal de atraso."],
+  gonio: ["Goniômetro", "A conta que transforma os 21 pontos da mão em ângulos. Ela separa a flexão da abdução em cada osso, como recomenda a ISB.", "O botão monta mãos com ângulos conhecidos e mostra se a conta acerta cada um."],
+  tamS: ["TAM da sessão", "A medida clínica do movimento total de um dedo (ASSH): soma a maior flexão de cada articulação e tira o quanto ela ficou sem estender.", "Bom é ficar igual ao da mão real; filtros que suavizam demais cortam os picos e diminuem o TAM."],
+  cadeia: ["Cadeia de filtros", "Filtros em sequência: a saída de um entra no próximo. A ordem muda o resultado.", "Teste mediana antes de um suavizador para tirar os saltos primeiro."],
+  sorteio: ["Sorteio do ruído", "O número que decide o ruído simulado. O mesmo número repete exatamente o mesmo ruído, para comparar filtros de forma justa.", "Use 'Novo sorteio' para ver se o resultado se mantém com outro ruído."],
+  problemas: ["Problemas da câmera", "Controles do que pode dar errado na medição: ruído, tremor, saltos de ponto e perda da mão.", "Mude um de cada vez e veja qual filtro resiste melhor."],
+  f_ema: ["Média exponencial", "Mistura a medição nova com o valor anterior. O peso diz quanto da medição nova entra.", "Peso baixo: menos tremor, mais atraso."],
+  f_median: ["Mediana", "Põe os últimos valores em ordem e fica com o do meio. Ignora saltos isolados.", "Janela pequena atrasa pouco; janela grande aguenta saltos maiores."],
+  f_kalman: ["Kalman", "Calcula o peso da medição nova comparando quanto a câmera erra com quanto a mão pode mudar.", "Mais desconfiança da câmera: mais suave e mais atrasado."],
+  f_oneeuro: ["One Euro", "Suaviza muito com a mão parada e pouco quando ela se move, de acordo com a velocidade.", "Aumente a reação ao movimento se ele estiver atrasando."],
+  f_kalmancv: ["Kalman de velocidade", "Estima o ângulo e a velocidade juntos e prevê para onde o dedo vai. Quase não atrasa, mas pode passar do ponto nas viradas.", "Mais 'quanto a velocidade pode mudar': segue melhor e treme mais."],
+  f_ukf: ["UKF", "Versão do Kalman para modelos curvos. Aqui o modelo limita a velocidade máxima do dedo.", "Velocidade máxima baixa demais faz o filtro ficar para trás em movimentos rápidos."],
+  f_butter: ["Butterworth", "Corta os ritmos mais rápidos que a frequência de corte e deixa passar os lentos. É o clássico da biomecânica.", "Corte baixo: mais suave e mais atrasado."],
+};
+const qh = (k) => `<button type="button" class="qhelp" data-help="${k}" aria-label="O que é isto?">?</button>`;
+function openHelp(key, btn) {
+  const h = HELP[key]; if (!h) return;
+  const pop = $("helpPop");
+  pop.innerHTML = `<div class="hp-head"><b>${h[0]}</b><button type="button" class="hp-x" aria-label="Fechar">×</button></div><p>${h[1]}</p><p class="hp-good">${h[2]}</p>`;
+  pop.hidden = false;
+  if (window.innerWidth > 800) {
+    const r = btn.getBoundingClientRect(), pw = 300;
+    pop.style.left = clamp(r.left - pw / 2, 8, window.innerWidth - pw - 8) + "px";
+    const below = r.bottom + 8, ph = pop.offsetHeight;
+    pop.style.top = (below + ph < window.innerHeight - 8 ? below : Math.max(8, r.top - ph - 8)) + "px";
+  } else { pop.style.left = ""; pop.style.top = ""; }
+}
+document.addEventListener("click", (e) => {
+  const b = e.target.closest(".qhelp");
+  if (b) { e.stopPropagation(); openHelp(b.dataset.help, b); return; }
+  if (e.target.closest(".hp-x") || !e.target.closest("#helpPop")) $("helpPop").hidden = true;
+}, true);
+window.addEventListener("scroll", () => { if (window.innerWidth > 800) $("helpPop").hidden = true; }, { passive: true });
+
+/* ---- conferência do goniômetro ---- */
+$("gonioBtn").addEventListener("click", () => {
+  const rows = gonioSelfTest(), keys = (r) => Object.keys(r.exp);
+  $("gonioTbl").innerHTML = `<thead><tr><th>Caso</th><th style="text-align:left">esperado → medido (graus)</th><th>Certo?</th></tr></thead><tbody>` + rows.map((r) =>
+    `<tr><td style="white-space:normal;min-width:130px"><small style="color:var(--fg);font-size:12.5px">${r.name}</small><small>${FINGER_PT[r.finger] || "dedos"}</small></td>
+     <td style="white-space:normal;text-align:left;line-height:1.7">${keys(r).map((k) => `<span style="white-space:nowrap;margin-right:10px">${k} ${nf(r.exp[k], 0)} → ${nf(r.got[k], 1)}</span>`).join(" ")}</td>
+     <td class="${r.ok ? "bom" : "ruim"}">${r.ok ? "sim" : "não"}</td></tr>`).join("") + `</tbody>`;
+  $("gonioOv").hidden = false;
+});
+$("gonioClose").addEventListener("click", () => { $("gonioOv").hidden = true; });
+
+/* ---- menu da vista 3D, cenário do celular e leitura das vistas ---- */
+$("hudMenuBtn").addEventListener("click", () => { const o = $("hudTr").classList.toggle("open"); $("hudMenuBtn").setAttribute("aria-expanded", String(o)); if (o) $("dragHint").hidden = true; });
+$("hudItems").addEventListener("click", (e) => { if (e.target.closest("button")) { $("hudTr").classList.remove("open"); $("hudMenuBtn").setAttribute("aria-expanded", "false"); } });
+function scnText() {
+  const mv = $("movement"), sr = $("series");
+  $("scnTxt").textContent = "Cenário: " + mv.options[mv.selectedIndex].text + " · " + sr.options[sr.selectedIndex].text;
+}
+$("scnBtn").addEventListener("click", () => { const o = document.body.classList.toggle("scn-open"); $("scnBtn").setAttribute("aria-expanded", String(o)); });
+["movement", "series"].forEach((id) => $(id).addEventListener("change", scnText));
+const VIEW_READ = {
+  sinal: "Tracejado: mão real. Cinza: câmera. Cores: suas cadeias. Quanto mais a cor colar no tracejado, melhor.",
+  freq: "Em cima, quanto de cada ritmo passa: na faixa verde (movimento) o ideal é perto de 100%; nas faixas do tremor, mais baixo é melhor. Embaixo, o atraso: mais baixo é melhor.",
+  pareto: "Para a esquerda atrasa menos, para baixo treme menos. A linha tracejada é o melhor possível; seus anéis perto dela estão bem ajustados.",
+  ba: "Cada ponto é um quadro; a altura é o erro. Quanto mais perto de zero e mais estreita a faixa tracejada, melhor.",
+};
+function renderViewRead() { $("viewRead").innerHTML = VIEW_READ[state.lvView] + " " + qh("v_" + state.lvView); }
 
 /* ============================ início ============================ */
 // a altura do palco desconta a doca, para a etapa inteira caber na tela do computador
 new ResizeObserver(() => document.documentElement.style.setProperty("--dockH", $("dock").getBoundingClientRect().height + "px")).observe($("dock"));
 setPlaying(true);
 setMode("aula");
+renderViewRead(); scnText();
 resizeArena(); resizeScope(); resizeChart();
 loadSkins();
 requestAnimationFrame(tick);
