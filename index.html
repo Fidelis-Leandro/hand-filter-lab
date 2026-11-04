@@ -149,12 +149,15 @@ details[open] > summary .ic.chev { transform: rotate(180deg); }
 .sw.ring { background: none !important; border: 2px solid currentColor; border-radius: 50%; }
 .sw.dot { border-radius: 50%; }
 .callout { position: absolute; z-index: 4; display: grid; gap: var(--esp-1); padding: var(--esp-2) var(--esp-3); border-radius: var(--raio-1); border: 1px solid var(--line-forte); background: var(--surface); font-size: var(--t-2); pointer-events: none; min-width: 148px; }
+.callout.strip { position: static; display: flex; flex-wrap: wrap; align-items: center; column-gap: var(--esp-4); row-gap: var(--esp-1); min-width: 0; }
+.callout.strip .ttl { width: 100%; }
+.callout.strip .r { display: inline-flex; gap: var(--esp-2); }
 .callout .ttl { font-size: var(--t-1); color: var(--muted); font-weight: 600; }
 .callout .r { display: grid; grid-template-columns: 12px minmax(0, 1fr) auto; align-items: center; gap: var(--esp-2); white-space: nowrap; }
 .callout .r b { font-weight: 600; text-align: right; }
 .callout .r small { color: var(--muted); font-size: var(--t-1); }
 .leader { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 3; overflow: visible; }
-.formula { position: absolute; left: var(--esp-2); top: var(--esp-2); z-index: 5; max-width: min(460px, calc(100% - var(--alvo) - var(--esp-5))); border: 1px solid var(--line-forte); background: var(--surface); border-radius: var(--raio-1); padding: 0 var(--esp-3) var(--esp-2); }
+.formula { min-width: 0; border: 1px solid var(--line-forte); background: var(--surface); border-radius: var(--raio-1); padding: 0 var(--esp-3) var(--esp-2); }
 .formula > summary { font-weight: 600; font-size: var(--t-2); }
 .formula .fl { display: grid; gap: var(--esp-1); font-size: var(--t-2); line-height: 1.6; }
 .formula .fl > div { display: flex; flex-wrap: wrap; column-gap: var(--esp-3); align-items: baseline; }
@@ -439,7 +442,6 @@ dialog .hp-good { color: var(--good); }
   .d-act .nav { display: none; }
   .m-only { display: inline; }
   .d-only { display: none; }
-  .formula { position: static; max-width: none; }
   .scene-notes { display: grid; gap: var(--esp-2); }
   .scene-notes:not(:has(> :not([hidden]))) { display: none; }
   .scene-notes > * { position: static !important; width: auto; max-width: none; transform: none; }
@@ -5415,6 +5417,7 @@ function parseRoute() {
 }
 let lastHash = location.hash, skipRoute = false;
 function applyRoute() {
+  handBoxS = null; calloutPick = -1;
   if (skipRoute) { skipRoute = false; return; }
   const r = parseRoute();
   // sair da câmera com gravação em andamento pede confirmação
@@ -5929,6 +5932,7 @@ function placeCamera() {
 }
 const VIEW_ORDER = ["dedo", "persp", "palmar"], VIEW_PT = { dedo: "dedo", persp: "mão", palmar: "palma" };
 function setView(name, instant) {
+  handBoxS = null;
   state.view = VIEWS[name] ? name : "persp";
   $("viewBtn").setAttribute("aria-label", "Trocar a vista (agora: " + VIEW_PT[state.view] + ")"); $("viewBtn").title = "Vista: " + VIEW_PT[state.view] + ". Toque para trocar.";
   const v = VIEWS[name] || VIEWS.persp, from = { ...cam }, t0 = performance.now();
@@ -6313,7 +6317,7 @@ function renderScopeLegend() {
 function drawLink() {
   const svg = $("link"); if (state.mode !== "aula") { svg.innerHTML = ""; return; }
   const p = state.pipes.find((q) => pipeShown(q));
-  const row = p && document.querySelector(`#callout:not([hidden]) .r[data-id="${p.id}"]`);
+  const row = p && document.querySelector(`#callout:not([hidden]):not(.strip) .r[data-id="${p.id}"]`);
   if (!row || !isFinite(scope.px) || window.innerWidth <= 800) { svg.innerHTML = ""; return; }
   const sr = $("stage").getBoundingClientRect(), ar = arenaEl.getBoundingClientRect(), cr = scopeEl.getBoundingClientRect(), lr = row.getBoundingClientRect();
   const x1 = lr.right - sr.left, y1 = lr.top + lr.height / 2 - sr.top;
@@ -6834,6 +6838,25 @@ function updateHud(D) {
 /* ---- etiqueta presa à articulação, com linha guia ---- */
 let calloutKey = "";
 function projectLm(p) { tmpV.set(p[0], p[1], p[2]); root.localToWorld(tmpV); tmpV.project(camera); const r = arenaEl.getBoundingClientRect(); return [(tmpV.x + 1) / 2 * r.width, (1 - tmpV.y) / 2 * r.height]; }
+// A etiqueta nunca deve esconder a mão: é a mão que mostra o atraso do filtro.
+// Na tela larga ela procura um canto livre da cena; no celular fica numa faixa logo abaixo da cena.
+let calloutPick = -1, handBoxS = null;
+const CALLOUT_MIN_SCENE = 600;   // px de largura da cena abaixo dos quais a etiqueta sai da cena
+function handBox(D, r) {
+  let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+  for (const k of ["truth", "raw", "A", "B", "C"]) {
+    const lm = D.lm[k]; if (!lm) continue;
+    for (const p of lm) { if (!p) continue; const [px, py] = projectLm(p); if (!isFinite(px)) continue; x0 = Math.min(x0, px); x1 = Math.max(x1, px); y0 = Math.min(y0, py); y1 = Math.max(y1, py); }
+  }
+  // os pontos ficam no centro dos ossos; a malha da mão passa um pouco deles
+  const pad = Math.max(24, Math.max(x1 - x0, y1 - y0) * 0.2);
+  if (!isFinite(x0)) return null;
+  const now = [Math.max(0, x0 - pad), Math.max(0, y0 - pad), Math.min(r.width, x1 + pad), Math.min(r.height, y1 + pad)];
+  // a caixa cresce na hora (para não cobrir um salto) e encolhe devagar (para a etiqueta não tremer junto com o ruído)
+  if (!handBoxS) handBoxS = now;
+  else handBoxS = handBoxS.map((v, i) => { const grow = i < 2 ? now[i] < v : now[i] > v; return grow ? now[i] : v + (now[i] - v) * 0.05; });
+  return handBoxS;
+}
 function renderCallout(D) {
   const el = $("callout"), svg = $("leader"), tri = jointOf(state.series);
   const anchorId = ["truth", "raw", "A", "B", "C"].find((k) => D.lm[k]);
@@ -6845,32 +6868,39 @@ function renderCallout(D) {
   if (html !== calloutKey) { el.innerHTML = html; calloutKey = html; }
   el.hidden = false;
   const [jx, jy] = projectLm(D.lm[anchorId][tri[1]]);
-  const r = arenaEl.getBoundingClientRect(), cw = el.offsetWidth, ch = el.offsetHeight;
-  if (!r.width || !isFinite(jx) || !isFinite(jy)) { el.hidden = true; svg.innerHTML = ""; return; }
-  // Posições candidatas ao redor da articulação; fica a que menos cobre fórmula, ferramentas e cartão de evento.
-  const maxX = Math.max(8, r.width - cw - 60), maxY = Math.max(8, r.height - ch - 60);
+  const r = arenaEl.getBoundingClientRect();
+  if (!r.width || !isFinite(jx) || !isFinite(jy)) { svg.innerHTML = ""; return; }
+  const ring = `<circle cx="${jx}" cy="${jy}" r="5" fill="none" stroke="${T.fg}" stroke-width="1.5"/>`;
+  // Cena estreita (celular, tablet, tela dividida): não sobra canto livre, então a etiqueta vira uma faixa abaixo da cena.
+  const wrap = $("arenaWrap"), strip = r.width < CALLOUT_MIN_SCENE;
+  if (strip && el.parentElement === wrap) { wrap.after(el); calloutPick = -1; }
+  else if (!strip && el.parentElement !== wrap) { wrap.appendChild(el); calloutPick = -1; }
+  el.classList.toggle("strip", strip);
+  if (strip) { svg.innerHTML = ring; return; }
+  const cw = el.offsetWidth, ch = el.offsetHeight, M = 8;
+  const maxX = Math.max(M, r.width - cw - M), maxY = Math.max(M, r.height - ch - M);
   const obs = [];
-  for (const ob of [$("formula"), $("tools3d"), $("evCard"), $("dragHint"), $("layers"), $("bend")]) {
+  const hb = handBox(D, r); if (hb) obs.push([...hb, 12]);   // cobrir a mão custa bem mais que cobrir um painel
+  for (const ob of [$("tools3d"), $("evCard"), $("dragHint"), $("layers"), $("bend"), $("scale"), $("chainbar")]) {
     if (!ob || ob.hidden || !ob.closest("#arenaWrap") || !ob.offsetWidth) continue;
     const fr = ob.getBoundingClientRect();
-    obs.push([fr.left - r.left - 8, fr.top - r.top - 8, fr.right - r.left + 8, fr.bottom - r.top + 8]);
+    obs.push([fr.left - r.left - M, fr.top - r.top - M, fr.right - r.left + M, fr.bottom - r.top + M, 1]);
   }
-  const cover = (x, y) => obs.reduce((a, [x0, y0, x1, y1]) => a + Math.max(0, Math.min(x + cw, x1) - Math.max(x, x0)) * Math.max(0, Math.min(y + ch, y1) - Math.max(y, y0)), 0);
-  const cand = [[jx + 64, jy - ch - 28], [jx - cw - 64, jy - ch - 28], [jx + 64, jy + 28], [jx - cw - 64, jy + 28], [jx + 64, jy - ch / 2], [jx - cw - 64, jy - ch / 2]]
-    .map(([cx, cy]) => [clamp(cx, 8, maxX), clamp(cy, 8, maxY)]);
-  let best = cand[0], bestC = Infinity;
-  for (const [cx, cy] of cand) { const c = cover(cx, cy); if (c < bestC - 1) { best = [cx, cy]; bestC = c; } }
-  const [x, y] = best;
-  // Cena estreita (celular): se não houver lugar livre, a dica de arrastar sai de vez
-  // e, durante um salto, o cartão do evento tem a vez.
-  if (bestC > 0.15 * cw * ch) {
-    const ev = $("evCard"), hint = $("dragHint");
-    if (!ev.hidden) { el.hidden = true; svg.innerHTML = ""; return; }
-    if (!hint.hidden) hint.hidden = true;
-  }
+  const cover = (x, y) => obs.reduce((a, [x0, y0, x1, y1, w]) => a + w * Math.max(0, Math.min(x + cw, x1) - Math.max(x, x0)) * Math.max(0, Math.min(y + ch, y1) - Math.max(y, y0)), 0);
+  // candidatos: ao lado da mão (esquerda e direita, em três alturas) e os quatro cantos da cena
+  const cand = [];
+  if (hb) for (const fy of [0.2, 0.5, 0.8]) { const cy = hb[1] + (hb[3] - hb[1]) * fy - ch / 2; cand.push([hb[2] + M, cy], [hb[0] - cw - M, cy]); }
+  cand.push([M, M], [maxX, M], [M, maxY], [maxX, maxY]);
+  const pts = cand.map(([cx, cy]) => [clamp(cx, M, maxX), clamp(cy, M, maxY)]);
+  const cost = pts.map(([cx, cy]) => cover(cx, cy) + 0.2 * Math.hypot(cx + cw / 2 - jx, cy + ch / 2 - jy) * ch);
+  let k = cost.indexOf(Math.min(...cost));
+  // não pular de lugar a cada quadro: fica onde estava enquanto não for bem pior
+  if (calloutPick >= 0 && calloutPick < pts.length && cost[calloutPick] <= cost[k] * 1.25 + 200) k = calloutPick;
+  calloutPick = k;
+  const x = Math.round(pts[k][0] / 4) * 4, y = Math.round(pts[k][1] / 4) * 4;
   el.style.left = x + "px"; el.style.top = y + "px";
-  const ex = x > jx ? x : x + cw, ey = clamp(jy, y + 8, y + ch - 8);
-  svg.innerHTML = `<line x1="${jx}" y1="${jy}" x2="${ex}" y2="${ey}" stroke="${T["line-forte"]}" stroke-width="1.5"/><circle cx="${jx}" cy="${jy}" r="4" fill="none" stroke="${T.fg}" stroke-width="1.5"/>`;
+  const ex = clamp(jx, x, x + cw), ey = clamp(jy, y, y + ch);   // ponto da etiqueta mais perto da articulação
+  svg.innerHTML = `<line x1="${jx}" y1="${jy}" x2="${ex}" y2="${ey}" stroke="${T["line-forte"]}" stroke-width="1.5" stroke-dasharray="3 3"/>` + ring;
 }
 
 /* ---- grade do quadro atual: o que não está na etiqueta (erros, velocidade, evento) ---- */
@@ -6910,13 +6940,17 @@ function renderNow(D) {
 /* ---- fórmula do filtro com os números deste quadro ---- */
 // No celular a fórmula sai de cima da cena e vai para baixo da barra de controle.
 const narrowMQ = window.matchMedia("(max-width: 800px)");
-// No celular a cena só guarda a mão, a etiqueta, as ferramentas e as camadas;
-// fórmula, cartão de salto, dica de arrastar e escala de erro descem para baixo da barra de controle.
+// A fórmula fica abaixo da barra de controle em qualquer tela, para não cobrir a mão.
+// No celular a cena só guarda a mão, as ferramentas, a alça e as camadas: a etiqueta vira uma faixa logo abaixo
+// da cena, e cartão de salto, dica de arrastar e escala de erro descem para baixo da barra de controle.
 const OVERLAYS_OUT = ["evCard", "dragHint", "scale", "flagDrop"];
 function placeFormula() {
   const f = $("formula"), notes = $("sceneNotes"), wrap = $("arenaWrap");
-  if (narrowMQ.matches) { $("ctrlbar").after(notes); notes.after(f); for (const id of OVERLAYS_OUT) notes.appendChild($(id)); }
-  else { wrap.appendChild(f); for (const id of OVERLAYS_OUT) wrap.appendChild($(id)); }
+  // a fórmula fica sempre fora da cena, logo abaixo da barra de controle
+  $("ctrlbar").after(notes); notes.after(f);
+  if (narrowMQ.matches) for (const id of OVERLAYS_OUT) notes.appendChild($(id));
+  else for (const id of OVERLAYS_OUT) wrap.appendChild($(id));
+  calloutPick = -1; handBoxS = null;
 }
 narrowMQ.addEventListener("change", placeFormula);
 let formulaKey = "";
