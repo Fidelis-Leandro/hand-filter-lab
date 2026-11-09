@@ -186,7 +186,11 @@ details[open] > summary .ic.chev { transform: rotate(180deg); }
 .bend-track { position: relative; margin: var(--esp-5) 0; width: 12px; border-radius: var(--raio-1); background: var(--surface-2); border: 1px solid var(--line-forte); }
 .bend-track i { position: absolute; left: 50%; width: var(--alvo); height: var(--alvo); border-radius: 50%; transform: translate(-50%, -50%); background: var(--fg); border: 4px solid var(--surface); }
 .cam-pip { position: absolute; right: calc(var(--alvo) + var(--esp-4)); top: var(--esp-2); width: 32%; max-width: 240px; aspect-ratio: 4 / 3; z-index: 4; border-radius: var(--raio-1); overflow: hidden; border: 1px solid var(--line-forte); background: var(--scene); pointer-events: none; }
-.cam-pip .cam-hints { display: none; }
+.cam-pip /* avisos que saíram de cima da cena: ficam abaixo da barra de controle */
+.scene-notes { display: grid; gap: var(--esp-2); }
+.scene-notes:not(:has(> :not([hidden]))) { display: none; }
+.scene-notes > * { position: static !important; width: auto; max-width: none; transform: none; }
+.scene-notes > [hidden] { display: none; }
 .cam-toast { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 7; max-width: 340px; padding: var(--esp-3) var(--esp-4); border-radius: var(--raio-2); background: var(--surface); border: 1px solid var(--bad); font-size: var(--t-2); }
 
 /* barra de controle única: mesmo lugar em todas as telas */
@@ -359,7 +363,6 @@ details[open] > summary .ic.chev { transform: rotate(180deg); }
 .cam-feed { position: absolute; inset: 0; }
 .cam-feed video, .cam-feed canvas { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
 .cam-feed.mirror video, .cam-feed.mirror canvas { transform: scaleX(-1); }
-.cam-hints { position: absolute; left: var(--esp-2); right: var(--esp-2); top: var(--esp-6); display: flex; flex-wrap: wrap; gap: var(--esp-1); z-index: 3; pointer-events: none; }
 .hint-chip { font-size: var(--t-2); padding: var(--esp-1) var(--esp-2); border-radius: var(--raio-1); background: var(--surface); border: 1px solid var(--warn); color: var(--warn); }
 .hint-chip.ok { border-color: var(--good); color: var(--good); }
 .slot-cam { position: absolute; z-index: 2; display: none; }
@@ -375,10 +378,14 @@ details[open] > summary .ic.chev { transform: rotate(180deg); }
 .cam-msg { position: absolute; inset: 0; display: grid; place-items: center; padding: var(--esp-5); text-align: center; z-index: 5; background: var(--surface); }
 .cam-msg > div { max-width: 440px; display: grid; gap: var(--esp-3); justify-items: center; }
 .cam-msg h2 { font-size: var(--t-5); font-weight: 600; }
-.cam-hud { position: absolute; top: var(--esp-2); left: var(--esp-2); right: var(--esp-2); display: flex; justify-content: space-between; gap: var(--esp-2); z-index: 3; pointer-events: none; font-size: var(--t-1); }
-.cam-hud span { background: var(--surface); border: 1px solid var(--line-forte); border-radius: var(--raio-1); padding: var(--esp-1) var(--esp-2); }
+.cam-main { display: grid; gap: var(--esp-2); min-width: 0; }
+.cam-status { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--esp-2) var(--esp-4); padding: var(--esp-2) var(--esp-3); border: 1px solid var(--line); border-radius: var(--raio-2); background: var(--surface); }
+.cam-hud { display: flex; flex-wrap: wrap; align-items: center; gap: var(--esp-2); font-size: var(--t-2); color: var(--muted); }
+.cam-hud .rec { padding: var(--esp-1) var(--esp-2); border-radius: var(--raio-1); }
+.cam-hints { flex-basis: 100%; display: flex; flex-wrap: wrap; gap: var(--esp-1); }
+.cam-hints:empty { display: none; }
+.cam-big { display: grid; }
 .cam-hud .rec { color: var(--on-c); background: var(--bad); border-color: var(--bad); font-weight: 600; }
-.cam-big { position: absolute; left: var(--esp-2); bottom: var(--esp-2); z-index: 3; pointer-events: none; background: var(--surface); border: 1px solid var(--line-forte); border-radius: var(--raio-2); padding: var(--esp-2) var(--esp-3); display: grid; }
 .cam-big b { font-size: var(--t-6); font-weight: 600; color: var(--c-A); line-height: 1.1; }
 .cam-big span { font-size: var(--t-1); color: var(--muted); }
 .cam-side { display: grid; gap: 0; min-width: 0; }
@@ -442,10 +449,6 @@ dialog .hp-good { color: var(--good); }
   .d-act .nav { display: none; }
   .m-only { display: inline; }
   .d-only { display: none; }
-  .scene-notes { display: grid; gap: var(--esp-2); }
-  .scene-notes:not(:has(> :not([hidden]))) { display: none; }
-  .scene-notes > * { position: static !important; width: auto; max-width: none; transform: none; }
-  .scene-notes > [hidden] { display: none; }
   .scene-notes .scale .bins span { min-width: 0; flex: 1; }
   .chainbar { display: none !important; }
   .stage .arena-wrap { height: 340px; }
@@ -536,15 +539,13 @@ dialog .hp-good { color: var(--good); }
 
   <!-- ===================== CÂMERA AO VIVO ===================== -->
   <section class="cam cam-only off" id="camView" aria-label="Câmera ao vivo" hidden>
+    <div class="cam-main">
     <div class="cam-stage v-both" id="camStage">
       <div class="cam-feed mirror" id="camFeed">
         <video id="camVideo" playsinline muted></video>
         <canvas id="camCanvas"></canvas>
-        <div class="cam-hints" id="camHints"></div>
       </div>
       <div class="slot-cam slot" id="slotCam"></div>
-      <div class="cam-hud"><span id="camInfo">câmera desligada</span><span class="rec" id="camRec" hidden></span></div>
-      <div class="cam-big" id="camBig" hidden><b id="camBigV">–</b><span id="camBigN"></span></div>
       <div class="cam-msg" id="camMsg"><div>
         <span class="kicker">Nada é instalado</span>
         <h2>Medir a sua mão com a câmera deste aparelho</h2>
@@ -552,6 +553,13 @@ dialog .hp-good { color: var(--good); }
         <button type="button" class="btn primary" id="camStart"><svg class="ic" aria-hidden="true"><use href="#i-power"/></svg>Permitir câmera e começar</button>
         <p class="note" id="camErr"></p>
       </div></div>
+    </div>
+    <!-- retorno da captura: fica abaixo do vídeo para não cobrir a mão nem a mão 3D -->
+    <div class="cam-status cam-live" id="camStatus">
+      <div class="cam-big" id="camBig" hidden><b id="camBigV">–</b><span id="camBigN"></span></div>
+      <div class="cam-hud"><span id="camInfo">câmera desligada</span><span class="rec" id="camRec" hidden></span></div>
+      <div class="cam-hints" id="camHints"></div>
+    </div>
     </div>
     <aside class="panel cam-side">
       <section class="panel-sec">
@@ -6948,6 +6956,7 @@ function placeFormula() {
   const f = $("formula"), notes = $("sceneNotes"), wrap = $("arenaWrap");
   // a fórmula fica sempre fora da cena, logo abaixo da barra de controle
   $("ctrlbar").after(notes); notes.after(f);
+  notes.appendChild($("camToast"));   // aviso da câmera nas aulas: abaixo da cena, nunca sobre a mão
   if (narrowMQ.matches) for (const id of OVERLAYS_OUT) notes.appendChild($(id));
   else for (const id of OVERLAYS_OUT) wrap.appendChild($(id));
   calloutPick = -1; handBoxS = null;
